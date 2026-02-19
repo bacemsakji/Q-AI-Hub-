@@ -103,6 +103,8 @@ export function EventApplicationPage() {
     // Show confetti effect and success state
     setIsSubmitted(true);
 
+    toast.success('Your application was sent successfully. A confirmation email has been sent to your inbox.');
+
     setTimeout(() => {
       localStorage.setItem(`application-${event.id}`, JSON.stringify({
         ...formData,
@@ -322,15 +324,15 @@ export function EventApplicationPage() {
                             </div>
                             <div className="space-y-4 mt-2">
                               <div>
-                                <p className="text-xs text-[#FF4757] mb-1">🔴 Problem</p>
+                                <p className="text-xs text-[#FF4757] mb-1">Problem</p>
                                 <p className="text-sm">{aiPitch.problem}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-white/80 mb-1">🟢 Solution</p>
+                                <p className="text-xs text-white/80 mb-1">Solution</p>
                                 <p className="text-sm">{aiPitch.solution}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-white/70 mb-1">🎯 Target Market</p>
+                                <p className="text-xs text-white/70 mb-1">Target Market</p>
                                 <p className="text-sm">{aiPitch.targetMarket}</p>
                               </div>
                             </div>
@@ -467,7 +469,7 @@ export function EventApplicationPage() {
                         disabled={!formData.acceptTerms}
                         className="text-lg px-8"
                       >
-                        Submit Application 🚀
+                        Submit Application
                       </Button>
                     </div>
                   </motion.div>

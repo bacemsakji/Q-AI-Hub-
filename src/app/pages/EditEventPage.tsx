@@ -100,6 +100,7 @@ export function EditEventPage() {
         setIsSubmitting(true);
         await new Promise(resolve => setTimeout(resolve, 1500));
         toast.success('Event updated successfully!');
+        toast.message('An email has been sent to the organizing team with the updated event details.');
         navigate('/admin');
     };
 
@@ -329,14 +330,14 @@ export function EditEventPage() {
 
                         {/* Actions */}
                         <div className="flex gap-4">
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                fullWidth
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? '✨ Saving Changes...' : '💾 Save Changes'}
-                            </Button>
+                                <Button
+                                  type="submit"
+                                  variant="primary"
+                                  fullWidth
+                                  disabled={isSubmitting}
+                                >
+                                  {isSubmitting ? 'Saving changes...' : 'Save Changes'}
+                                </Button>
                             <Button
                                 type="button"
                                 variant="ghost"

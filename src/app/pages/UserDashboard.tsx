@@ -10,7 +10,15 @@ export function UserDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [applications, setApplications] = useState<any[]>([]);
-  const userName = localStorage.getItem('userName') || 'Student';
+  const [primaryInterest, setPrimaryInterest] = useState('Hybrid Quantum-AI');
+  const [availability, setAvailability] = useState<string[]>(['Weekdays', 'Weekends', 'Evenings']);
+  const [notificationPrefs, setNotificationPrefs] = useState({
+    appStatus: true,
+    newEvents: true,
+    juryFeedback: true,
+  });
+  const storedUserName = localStorage.getItem('userName') || 'Student';
+  const [profileName, setProfileName] = useState(storedUserName);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -29,12 +37,36 @@ export function UserDashboard() {
       }
     }
     setApplications(savedApps);
+
+    // Keep localStorage and profileName in sync on mount
+    if (!localStorage.getItem('userName')) {
+      localStorage.setItem('userName', storedUserName);
+    }
   }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userRole');
     localStorage.removeItem('userName');
+    navigate('/');
+  };
+
+  const handleDeleteAccount = () => {
+    // Remove stored applications
+    const keysToRemove: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('application-')) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+    // Clear basic user session/profile
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+
     navigate('/');
   };
 
@@ -90,18 +122,18 @@ export function UserDashboard() {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-3 px-3 py-2 rounded-full bg-white/5 border border-white/10">
               <img
-                src={`https://ui-avatars.com/api/?name=${userName}&background=00F5A0&color=0A0E1A`}
-                alt={userName}
+                src={`https://ui-avatars.com/api/?name=${profileName}&background=00F5A0&color=0A0E1A`}
+                alt={profileName}
                 className="w-9 h-9 rounded-full"
               />
               <div className="flex flex-col">
-                <span className="text-sm leading-tight truncate max-w-[140px]">{userName}</span>
+                <span className="text-sm leading-tight truncate max-w-[140px]">{profileName}</span>
                 <span className="text-xs text-[#8892A4]">Student</span>
               </div>
             </div>
             <Button
               variant="ghost"
-              className="flex items-center gap-2 px-3 py-2 rounded-full text-sm"
+              className="flex items-center gap-2 px-3 py-2 rounded-full text-sm min-w-[110px] justify-center"
               onClick={handleLogout}
             >
               <LogOut size={16} />
@@ -135,7 +167,7 @@ export function UserDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h1 className="text-4xl mb-2">Welcome back, {userName} 👋</h1>
+                <h1 className="text-4xl mb-2">Welcome back, {profileName}</h1>
                 <p className="text-[#8892A4] mb-8">Track your applications and discover new opportunities</p>
 
                 {/* Stats Cards */}
@@ -150,7 +182,7 @@ export function UserDashboard() {
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center`}>
-                          <stat.icon size={18} className={`bg-gradient-to-r ${stat.color} bg-clip-text`} style={{ color: 'transparent', WebkitBackgroundClip: 'text', background: `linear-gradient(135deg, var(--tw-gradient-stops))` }} />
+                          <stat.icon size={18} className="text-white/90" />
                         </div>
                       </div>
                       <p className={`text-4xl font-bold mb-1 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
@@ -313,38 +345,180 @@ export function UserDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h1 className="text-4xl mb-8">Settings</h1>
-                <div className="space-y-4">
-                  <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                    <h2 className="text-lg mb-1">Profile</h2>
-                    <p className="text-[#8892A4] text-sm mb-5">Manage your personal information</p>
-                    <div className="flex items-center gap-4">
-                      <img src={`https://ui-avatars.com/api/?name=${userName}&background=00F5A0&color=0A0E1A&size=80`}
-                        alt={userName} className="w-16 h-16 rounded-2xl" />
-                      <div>
-                        <p className="font-medium">{userName}</p>
-                        <p className="text-sm text-[#8892A4]">Student · ENICarthage</p>
+                <h1 className="text-4xl mb-2">Settings</h1>
+                <p className="text-[#8892A4] mb-8 text-sm md:text-base">
+                  Tune your profile, study preferences, and notifications for a smoother Q-AI Hub experience.
+                </p>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Profile & study preferences */}
+                  <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1">Profile</h2>
+                      <p className="text-[#8892A4] text-sm mb-5">Review your basic information as a student.</p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${profileName}&background=00F5A0&color=0A0E1A&size=80`}
+                          alt={profileName}
+                          className="w-16 h-16 rounded-2xl"
+                        />
+                        <div className="w-full space-y-3">
+                          <div>
+                            <label className="block text-xs text-[#8892A4] mb-1">Full name</label>
+                            <input
+                              type="text"
+                              value={profileName}
+                              onChange={(e) => {
+                                setProfileName(e.target.value);
+                                localStorage.setItem('userName', e.target.value || 'Student');
+                              }}
+                              className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90 outline-none focus:border-white/40"
+                              placeholder="Your name"
+                            />
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-xs text-[#8892A4] mb-1">Role</label>
+                              <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90">
+                                Student
+                              </div>
+                            </div>
+                            <div>
+                              <label className="block text-xs text-[#8892A4] mb-1">Institution</label>
+                              <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90">
+                                ENICarthage
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1">Study preferences</h2>
+                      <p className="text-[#8892A4] text-sm mb-4">
+                        Indicate what you want to focus on so we can surface more relevant opportunities.
+                      </p>
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-xs text-[#8892A4] mb-2">Primary interest</p>
+                          <div className="flex flex-wrap gap-2">
+                          {['Quantum Computing', 'Artificial Intelligence', 'Hybrid Quantum-AI'].map((area) => {
+                            const isActive = primaryInterest === area;
+                            return (
+                              <button
+                                key={area}
+                                type="button"
+                                onClick={() => setPrimaryInterest(area)}
+                                className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
+                                  isActive
+                                    ? 'bg-white text-[#0A0E1A] border-white'
+                                    : 'border-white/15 text-white/80 hover:border-white/40'
+                                }`}
+                              >
+                                {area}
+                              </button>
+                            );
+                          })}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs text-[#8892A4] mb-2">Availability</p>
+                          <div className="flex flex-wrap gap-2">
+                          {['Weekdays', 'Weekends', 'Evenings'].map((slot) => {
+                            const isSelected = availability.includes(slot);
+                            return (
+                              <button
+                                key={slot}
+                                type="button"
+                                onClick={() =>
+                                  setAvailability((prev) =>
+                                    prev.includes(slot) ? prev.filter((s) => s !== slot) : [...prev, slot]
+                                  )
+                                }
+                                className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
+                                  isSelected
+                                    ? 'border-white/60 bg-white/[0.12] text-white'
+                                    : 'border-white/10 bg-white/[0.03] text-white/75 hover:border-white/30'
+                                }`}
+                              >
+                                {slot}
+                              </button>
+                            );
+                          })}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                    <h2 className="text-lg mb-1">Notifications</h2>
-                    <p className="text-[#8892A4] text-sm mb-4">Control what alerts you receive</p>
-                    {['Application status updates', 'New events & programs', 'Jury feedback'].map(item => (
-                      <div key={item} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
-                        <span className="text-sm">{item}</span>
-                        <div className="w-9 h-5 bg-[#00F5A0]/25 border border-[#00F5A0]/40 rounded-full flex items-center px-0.5">
-                          <span className="w-4 h-4 bg-white rounded-full translate-x-4 transition-transform" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                    <h2 className="text-lg mb-1 text-[#FF4757]">Danger Zone</h2>
-                    <p className="text-[#8892A4] text-sm mb-4">Irreversible actions for your account</p>
-                    <button onClick={handleLogout} className="px-5 py-2.5 rounded-xl border border-[#FF4757]/30 text-[#FF4757] text-sm hover:bg-[#FF4757]/10 transition-all">
-                      Log Out
-                    </button>
+
+                  {/* Notifications & account actions */}
+                  <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1">Notifications</h2>
+                      <p className="text-[#8892A4] text-sm mb-4">Choose what you want to stay informed about.</p>
+                      {[
+                        { key: 'appStatus' as const, label: 'Application status updates' },
+                        { key: 'newEvents' as const, label: 'New events & programs' },
+                        { key: 'juryFeedback' as const, label: 'Jury feedback' },
+                      ].map((item) => {
+                        const isOn = notificationPrefs[item.key];
+                        return (
+                          <button
+                            key={item.key}
+                            type="button"
+                            onClick={() =>
+                              setNotificationPrefs((prev) => ({ ...prev, [item.key]: !prev[item.key] }))
+                            }
+                            className="w-full flex items-center justify-between py-3 border-b border-white/5 last:border-0 text-left"
+                          >
+                            <span className="text-sm">{item.label}</span>
+                            <div
+                              className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors border ${
+                                isOn
+                                  ? 'bg-[#00F5A0]/40 border-[#00F5A0]/60'
+                                  : 'bg-white/5 border-white/15'
+                              }`}
+                            >
+                              <span
+                                className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${
+                                  isOn ? 'translate-x-4' : ''
+                                }`}
+                              />
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1">Session</h2>
+                      <p className="text-[#8892A4] text-sm mb-4">
+                        You are currently signed in on this device.
+                      </p>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-center text-sm"
+                        onClick={handleLogout}
+                      >
+                        Log out
+                      </Button>
+                    </div>
+
+                    <div className="bg-[rgba(20,12,18,0.98)] backdrop-blur-xl border border-[#FF4757]/40 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1 text-[#FF4757]">Delete account</h2>
+                      <p className="text-[#FFCDD2] text-xs md:text-sm mb-4">
+                        This will remove your profile and stored applications from this device. This action cannot be
+                        undone.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={handleDeleteAccount}
+                        className="w-full px-5 py-2.5 rounded-xl border border-[#FF4757]/60 text-[#FFEBEE] text-sm bg-[#FF4757]/20 hover:bg-[#FF4757]/30 transition-all"
+                      >
+                        Delete my account
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

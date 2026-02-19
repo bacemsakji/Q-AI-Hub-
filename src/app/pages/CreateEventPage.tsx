@@ -39,6 +39,7 @@ export function CreateEventPage() {
         setIsSubmitting(true);
         await new Promise(resolve => setTimeout(resolve, 1500));
         toast.success('Event created successfully!');
+        toast.message('An email has been sent to the organizing team confirming the event creation.');
         navigate('/admin');
     };
 
@@ -254,14 +255,14 @@ export function CreateEventPage() {
 
                         {/* Actions */}
                         <div className="flex gap-4">
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                fullWidth
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? '✨ Creating Event...' : '🚀 Create Event'}
-                            </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  fullWidth
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Creating event...' : 'Create Event'}
+                </Button>
                             <Button
                                 type="button"
                                 variant="ghost"

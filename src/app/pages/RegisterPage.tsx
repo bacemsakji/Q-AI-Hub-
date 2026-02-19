@@ -59,9 +59,11 @@ export function RegisterPage() {
 
     if (returnUrl && eventName) {
       toast.success(`Account created! Resuming your application for ${eventName}`);
+      toast.message('A confirmation email has been sent to your inbox with your account details.');
       navigate(returnUrl);
     } else {
       toast.success('Account created successfully!');
+      toast.message('A confirmation email has been sent to your inbox with your account details.');
       navigate('/dashboard');
     }
   };

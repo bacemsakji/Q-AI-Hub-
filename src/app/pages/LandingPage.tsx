@@ -140,55 +140,57 @@ export function LandingPage() {
                 className="w-full"
                 style={{ zIndex: 10 + index }}
               >
-                <Rotating3DCard simple className="h-full min-h-[280px] md:min-h-[340px]">
-                  <div
-                    className="absolute inset-0 opacity-60"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
-                    }}
-                  />
-                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-8 md:p-12 lg:p-14 h-full min-h-[280px] md:min-h-[340px] items-center">
-                    <div className="space-y-4 order-2 md:order-1">
-                      <span className="inline-block h-1 w-20 rounded-full bg-white/30" />
-                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
-                        {program.title}
-                      </h3>
-                      <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
-                        {program.description}
-                      </p>
-                      <div className="flex items-center gap-3 pt-2">
-                        <img
-                          src={program.professor.photo}
-                          alt={program.professor.name}
-                          className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20"
-                        />
-                        <div className="text-sm">
-                          <p className="text-white/95">Prof. {program.professor.name}</p>
-                          <p className="text-xs text-white/60">Program Director</p>
+                <div className="p-px rounded-3xl bg-gradient-to-br from-[#00F5A0]/30 via-white/5 to-[#7B2FFF]/20">
+                  <Rotating3DCard simple className="h-full min-h-[280px] md:min-h-[340px] rounded-[1.5rem]">
+                    <div
+                      className="absolute inset-0 opacity-60"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
+                      }}
+                    />
+                    <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-8 md:p-12 lg:p-14 h-full min-h-[280px] md:min-h-[340px] items-center">
+                      <div className="space-y-4 order-2 md:order-1">
+                        <span className="inline-block h-1 w-20 rounded-full bg-white/30" />
+                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
+                          {program.title}
+                        </h3>
+                        <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+                          {program.description}
+                        </p>
+                        <div className="flex items-center gap-3 pt-2">
+                          <img
+                            src={program.professor.photo}
+                            alt={program.professor.name}
+                            className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20"
+                          />
+                          <div className="text-sm">
+                            <p className="text-white/95">Prof. {program.professor.name}</p>
+                            <p className="text-xs text-white/60">Program Director</p>
+                          </div>
                         </div>
+                        {program.id === 5 ? (
+                          <button
+                            onClick={() => handleProgramClick(program.id, program.title, program.axis)}
+                            className="inline-flex items-center gap-2 text-sm mt-4 text-white/90 hover:text-white transition-colors"
+                          >
+                            Apply to this axis
+                            <ArrowRight size={16} />
+                          </button>
+                        ) : (
+                          <p className="text-xs mt-4 text-white/50">Detailed axis journeys coming soon.</p>
+                        )}
                       </div>
-                      {program.id === 5 ? (
-                        <button
-                          onClick={() => handleProgramClick(program.id, program.title, program.axis)}
-                          className="inline-flex items-center gap-2 text-sm mt-4 text-white/90 hover:text-white transition-colors"
-                        >
-                          Apply to this axis
-                          <ArrowRight size={16} />
-                        </button>
-                      ) : (
-                        <p className="text-xs mt-4 text-white/50">Detailed axis journeys coming soon.</p>
-                      )}
+                      <div className="flex flex-col justify-center text-center md:text-right order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0">
+                        <p className="text-lg md:text-xl lg:text-2xl font-semibold text-white/95 mb-2 tracking-tight">
+                          {program.cardTagline}
+                        </p>
+                        <p className="text-sm md:text-base text-white/70 font-medium tracking-wide">
+                          {program.cardPillar}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col justify-center text-center md:text-right order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0">
-                      <p className="text-lg md:text-xl lg:text-2xl font-semibold text-white/95 mb-2 tracking-tight">
-                        {program.cardTagline}
-                      </p>
-                      <p className="text-sm md:text-base text-white/70 font-medium tracking-wide">
-                        {program.cardPillar}
-                      </p>
-                    </div>
-                  </div>
-                </Rotating3DCard>
+                  </Rotating3DCard>
+                </div>
               </motion.div>
             ))}
           </div>

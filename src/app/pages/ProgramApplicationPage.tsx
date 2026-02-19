@@ -5,6 +5,7 @@ import { GradientButton } from '../components/GradientButton';
 import { GlassCard } from '../components/GlassCard';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { programs } from '../data/mockData';
+import { toast } from 'sonner';
 
 export function ProgramApplicationPage() {
   const { id } = useParams();
@@ -79,6 +80,17 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
     'AgriTech',
     'Cybersecurity',
   ];
+
+  const handleSubmit = () => {
+    if (!formData.agreeToTerms) {
+      toast.error('Please agree to the terms before submitting.');
+      return;
+    }
+
+    toast.success('Your program application was sent successfully.');
+    toast.message('A confirmation email has been sent to your inbox with your application details.');
+    navigate('/dashboard');
+  };
 
   return (
     <div className="min-h-screen relative bg-[#0A0E1A] text-white py-24 px-6">
@@ -465,6 +477,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                   <GradientButton
                     fullWidth
                     disabled={!formData.agreeToTerms}
+                    onClick={handleSubmit}
                     className={`!py-4 ${
                       !formData.agreeToTerms
                         ? 'opacity-50 cursor-not-allowed'

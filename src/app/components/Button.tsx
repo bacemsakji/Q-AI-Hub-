@@ -31,7 +31,7 @@ export function Button({
       className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
       {...props}
     >
-      <span className={ghostTextStyle}>{children}</span>
+      <span className={`${ghostTextStyle} whitespace-nowrap`}>{children}</span>
     </motion.button>
   );
 }
