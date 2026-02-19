@@ -1,0 +1,188 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Q-Ai Hub Color Palette */
+  --mint-green: #00F5A0;
+  --cyan: #00D9F5;
+  --electric-blue: #0061FF;
+  --dark-navy: #0A0E1A;
+  --dark-slate: #0F1628;
+  --input-bg: #1A2035;
+  --accent-purple: #7B2FFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8892A4;
+  --success: #00F5A0;
+  --warning: #FFB800;
+  --danger: #FF4757;
+  
+  /* Tailwind integration */
+  --background: var(--dark-navy);
+  --foreground: var(--text-primary);
+  --card: var(--dark-slate);
+  --card-foreground: var(--text-primary);
+  --popover: var(--dark-slate);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--electric-blue);
+  --primary-foreground: var(--text-primary);
+  --secondary: var(--input-bg);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--input-bg);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--accent-purple);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--text-primary);
+  --border: rgba(255, 255, 255, 0.08);
+  --input: var(--input-bg);
+  --ring: var(--electric-blue);
+  --radius: 0.75rem;
+  
+  /* Font families */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --font-size: 16px;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+
+  /* Frosted glass & blur layers */
+  --glass-bg: rgba(15, 22, 40, 0.4);
+  --glass-bg-strong: rgba(15, 22, 40, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.14);
+  --glass-blur: 20px;
+  --glass-blur-strong: 40px;
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.24);
+  --shadow-soft-lg: 0 24px 64px rgba(0, 0, 0, 0.32);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  --shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* Liquid glass – frosted, soft edges, no neon */
+  --liquid-glass-bg: rgba(255, 255, 255, 0.06);
+  --liquid-glass-bg-hover: rgba(255, 255, 255, 0.1);
+  --liquid-glass-border: rgba(255, 255, 255, 0.12);
+  --liquid-glass-border-hover: rgba(255, 255, 255, 0.2);
+  --liquid-glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --liquid-glass-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h4 {
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  label {
+    font-weight: var(--font-weight-medium);
+  }
+
+  button {
+    font-weight: var(--font-weight-medium);
+  }
+
+  input, textarea, select {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-normal);
+  }
+}
+
+/* Frosted glass utility classes – backdrop-filter + blur layers */
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+  .glass-strong {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur-strong));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong));
+    border: 1px solid var(--glass-border-strong);
+    box-shadow: var(--shadow-soft-lg), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  }
+  .shadow-float {
+    box-shadow: var(--shadow-float);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Liquid glass button / interactive surface */
+  .liquid-glass {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-highlight), var(--liquid-glass-shadow);
+  }
+  .liquid-glass:hover {
+    background: var(--liquid-glass-bg-hover);
+    border-color: var(--liquid-glass-border-hover);
+    box-shadow: var(--liquid-glass-highlight), var(--liquid-glass-shadow-hover);
+  }
+}
