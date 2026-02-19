@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
@@ -13,6 +14,7 @@ import { Rotating3DCard } from '../components/Rotating3DCard';
 import { programs } from '../data/mockData';
 
 export function LandingPage() {
+  const navigate = useNavigate();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState<{ id: number; title: string; axis: string } | null>(null);
   const [stats, setStats] = useState({ startups: 0, members: 0, partners: 0, axes: 0 });
@@ -170,10 +172,10 @@ export function LandingPage() {
                         </div>
                         {program.id === 5 ? (
                           <button
-                            onClick={() => handleProgramClick(program.id, program.title, program.axis)}
+                            onClick={() => navigate('/events')}
                             className="inline-flex items-center gap-2 text-sm mt-4 text-white/90 hover:text-white transition-colors"
                           >
-                            Apply to this axis
+                            Explore Events & Programs
                             <ArrowRight size={16} />
                           </button>
                         ) : (

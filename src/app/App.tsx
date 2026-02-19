@@ -9,6 +9,7 @@ import { UserDashboard } from './pages/UserDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { CreateEventPage } from './pages/CreateEventPage';
 import { EditEventPage } from './pages/EditEventPage';
+import { EventsPage } from './pages/EventsPage';
 import { RequireAuth } from './components/RequireAuth';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id/apply"
             element={

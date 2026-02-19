@@ -27,6 +27,7 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
   const navLinks = [
     { name: 'Vision', href: '/#vision' },
     { name: 'Programs', href: '/#programs' },
+    { name: 'Events', href: '/events' },
     { name: 'Research', href: '/#research' },
     { name: 'About', href: '/#about' },
     { name: 'Partners', href: '/#stats-section' },
@@ -34,11 +35,10 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-        isScrolled
-          ? 'glass-strong border-white/10 shadow-soft'
-          : 'bg-transparent border-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
+        ? 'glass-strong border-white/10 shadow-soft'
+        : 'bg-transparent border-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -49,16 +49,27 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-[#8892A4] hover:text-white transition-colors duration-200 relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.href.startsWith('/#') ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-[#8892A4] hover:text-white transition-colors duration-200 relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover:w-full transition-all duration-300" />
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-[#8892A4] hover:text-white transition-colors duration-200 relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover:w-full transition-all duration-300" />
+                </Link>
+              )
+            )}
           </div>
 
           {/* Auth Buttons */}
@@ -99,16 +110,27 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
             className="md:hidden glass-strong border-t border-white/10"
           >
             <div className="px-6 py-4 space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="block text-[#8892A4] hover:text-white transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.href.startsWith('/#') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="block text-[#8892A4] hover:text-white transition-colors py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="block text-[#8892A4] hover:text-white transition-colors py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                )
+              )}
               <div className="pt-4 space-y-3">
                 {isLoggedIn ? (
                   <Link to={userRole === 'admin' ? '/admin' : '/dashboard'}>
