@@ -99,10 +99,10 @@ export function EventApplicationPage() {
     }
 
     const applicationId = `QAI-${Date.now().toString(36).toUpperCase()}`;
-    
+
     // Show confetti effect and success state
     setIsSubmitted(true);
-    
+
     setTimeout(() => {
       localStorage.setItem(`application-${event.id}`, JSON.stringify({
         ...formData,
@@ -152,29 +152,26 @@ export function EventApplicationPage() {
               <div key={step} className="flex items-center flex-1">
                 <div className="flex items-center gap-3">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      currentStep === step
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep === step
                         ? 'bg-white/20 text-white border border-white/25 scale-110'
                         : currentStep > step
-                        ? 'bg-white/15 text-white border border-white/20'
-                        : 'bg-[#1A2035] text-[#8892A4] border border-white/10'
-                    }`}
+                          ? 'bg-white/15 text-white border border-white/20'
+                          : 'bg-[#1A2035] text-[#8892A4] border border-white/10'
+                      }`}
                   >
                     {currentStep > step ? <Check size={20} /> : step}
                   </div>
                   <span
-                    className={`text-sm ${
-                      currentStep >= step ? 'text-white' : 'text-[#8892A4]'
-                    }`}
+                    className={`text-sm ${currentStep >= step ? 'text-white' : 'text-[#8892A4]'
+                      }`}
                   >
                     {step === 1 ? 'Project Info' : step === 2 ? 'AI Pitch' : 'Submit'}
                   </span>
                 </div>
                 {step < 3 && (
                   <div
-                    className={`flex-1 h-0.5 mx-4 transition-all duration-300 ${
-                      currentStep > step ? 'bg-white/25' : 'bg-[#1A2035]'
-                    }`}
+                    className={`flex-1 h-0.5 mx-4 transition-all duration-300 ${currentStep > step ? 'bg-white/25' : 'bg-[#1A2035]'
+                      }`}
                   />
                 )}
               </div>
@@ -196,7 +193,7 @@ export function EventApplicationPage() {
                     className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-8"
                   >
                     <h2 className="text-2xl mb-6">Project Information</h2>
-                    
+
                     <div className="space-y-6">
                       <Input
                         label="Project Name"
@@ -260,7 +257,7 @@ export function EventApplicationPage() {
                         onClick={() => setCurrentStep(2)}
                         disabled={!formData.projectName || !formData.sector || !formData.tagline}
                       >
-                        Next →
+                        Next
                       </Button>
                     </div>
                   </motion.div>
@@ -355,11 +352,11 @@ export function EventApplicationPage() {
 
                     <div className="flex justify-between mt-8">
                       <Button variant="ghost" onClick={() => setCurrentStep(1)}>
-                        ← Back
+                        Back
                       </Button>
                       {!aiPitch.problem && (
                         <Button variant="ghost" onClick={() => setCurrentStep(3)}>
-                          Skip AI Enhancement →
+                          Skip AI Enhancement
                         </Button>
                       )}
                     </div>
@@ -462,7 +459,7 @@ export function EventApplicationPage() {
 
                     <div className="flex justify-between mt-8">
                       <Button variant="ghost" onClick={() => setCurrentStep(2)}>
-                        ← Back
+                        Back
                       </Button>
                       <Button
                         variant="primary"

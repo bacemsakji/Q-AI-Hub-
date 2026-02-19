@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
 import { toast } from 'sonner';
 
 export function LoginPage() {
@@ -12,26 +11,24 @@ export function LoginPage() {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const returnUrl = (location.state as any)?.returnUrl;
   const eventName = (location.state as any)?.eventName;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simple validation
     const newErrors: { email?: string; password?: string } = {};
     if (!email) newErrors.email = 'Email is required';
     if (!password) newErrors.password = 'Password is required';
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+    setIsLoading(true);
+    await new Promise(r => setTimeout(r, 800));
 
-    // Mock authentication
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userRole', 'student');
     localStorage.setItem('userName', 'Student User');
@@ -49,80 +46,134 @@ export function LoginPage() {
     <div className="min-h-screen relative flex items-center justify-center p-6">
       <ParticleBackground />
 
+      {/* Ambient glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[600px] h-[600px] rounded-full bg-[#00F5A0]/4 blur-[120px]" />
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        initial={{ opacity: 0, scale: 0.95, y: 24 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-md bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-10 shadow-2xl"
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="relative z-10 w-full max-w-md"
       >
-        <div className="flex justify-center mb-8">
-          <Logo size="md" />
-        </div>
+        {/* Gradient border card */}
+        <div className="p-px rounded-3xl bg-gradient-to-br from-[#00F5A0]/30 via-white/5 to-[#7B2FFF]/20">
+          <div className="bg-[rgba(10,14,26,0.97)] backdrop-blur-2xl rounded-3xl p-10 shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl mb-2">Welcome Back</h1>
-          <p className="text-[#8892A4]">
-            Sign in to access your dashboard and applications
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <Input
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={errors.email}
-          />
-
-          <Input
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={errors.password}
-          />
-
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 cursor-pointer text-[#8892A4]">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-white/20 bg-transparent"
-              />
-              Remember me
-            </label>
-
-            <Link to="/forgot-password" className="text-[#8892A4] hover:text-[#00F5A0] transition-colors">
-              Forgot password?
-            </Link>
-          </div>
-
-          <Button type="submit" variant="primary" fullWidth>
-            Log In
-          </Button>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/8" />
+            <div className="flex justify-center mb-8">
+              <Logo size="md" />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-[#0F1628] text-[#8892A4]">or</span>
-            </div>
-          </div>
 
-          <p className="text-center text-sm text-[#8892A4]">
-            Don't have an account?{' '}
-            <Link
-              to="/register"
-              state={{ returnUrl, eventName }}
-              className="text-[#00F5A0] hover:text-[#00D9F5] transition-colors"
-            >
-              Create one →
-            </Link>
-          </p>
-        </form>
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+              <p className="text-[#8892A4] text-sm leading-relaxed">
+                {eventName
+                  ? `Sign in to continue your application for ${eventName}`
+                  : 'Sign in to access your dashboard and applications'}
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email */}
+              <div>
+                <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">Email</label>
+                <div className="relative">
+                  <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: undefined })); }}
+                    placeholder="your@email.com"
+                    className={`w-full pl-11 pr-4 py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors.email ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+                      }`}
+                  />
+                </div>
+                {errors.email && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.email}</p>}
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">Password</label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: undefined })); }}
+                    placeholder="••••••••"
+                    className={`w-full pl-11 pr-12 py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors.password ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+                      }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(p => !p)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+                {errors.password && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.password}</p>}
+              </div>
+
+              {/* Remember / Forgot */}
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <div
+                    onClick={() => setRememberMe(p => !p)}
+                    className={`w-[18px] h-[18px] rounded border flex items-center justify-center flex-shrink-0 transition-all cursor-pointer ${rememberMe ? 'bg-[#00F5A0]/20 border-[#00F5A0]/60' : 'border-white/20 bg-transparent'
+                      }`}
+                  >
+                    {rememberMe && <span className="text-[#00F5A0] text-[10px] font-bold">✓</span>}
+                  </div>
+                  <span className="text-sm text-[#8892A4] group-hover:text-white/70 transition-colors select-none">Remember me</span>
+                </label>
+                <Link to="/forgot-password" className="text-sm text-[#8892A4] hover:text-[#00F5A0] transition-colors">
+                  Forgot password?
+                </Link>
+              </div>
+
+              {/* Submit */}
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#00F5A0] via-[#00D9F5] to-[#0061FF] text-[#0A0E1A] flex items-center justify-center gap-2 shadow-[0_8px_32px_rgba(0,245,160,0.2)] hover:shadow-[0_12px_40px_rgba(0,245,160,0.3)] transition-all disabled:opacity-60 mt-2"
+              >
+                {isLoading ? (
+                  <>
+                    <span className="animate-spin border-2 border-[#0A0E1A] border-t-transparent rounded-full w-4 h-4" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <span>Sign In</span>
+                )}
+              </motion.button>
+
+              {/* Divider */}
+              <div className="relative my-1">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/8" />
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="px-4 bg-[#0A0E1A] text-[#8892A4]">or</span>
+                </div>
+              </div>
+
+              <p className="text-center text-sm text-[#8892A4]">
+                Don't have an account?{' '}
+                <Link
+                  to="/register"
+                  state={{ returnUrl, eventName }}
+                  className="text-[#00F5A0] hover:text-[#00D9F5] transition-colors font-medium"
+                >
+                  Create one →
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

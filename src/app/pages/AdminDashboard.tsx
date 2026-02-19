@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { BarChart3, Calendar, FileText, Scale, Settings, LogOut, TrendingUp, Users, CheckCircle, XCircle, Plus } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
@@ -7,6 +7,7 @@ import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
 
 export function AdminDashboard() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [gradingApp, setGradingApp] = useState<any>(null);
   const [scores, setScores] = useState({ technical: 0, business: 0, softSkills: 0 });
@@ -29,11 +30,17 @@ export function AdminDashboard() {
     { id: 5, startup: 'CyberShield', event: 'Neural Networks Workshop', submitted: '2026-02-11', status: 'Pending' },
   ];
 
-  const mockEvents = [
+  const [events, setEvents] = useState([
     { id: 1, name: 'Quantum AI Hackathon', dates: 'Mar 15-17, 2026', status: true, applications: 24 },
     { id: 2, name: 'Deep Tech Bootcamp', dates: 'Feb 10-14, 2026', status: false, applications: 12 },
     { id: 3, name: 'Neural Networks Workshop', dates: 'Mar 8, 2026', status: true, applications: 18 },
-  ];
+  ]);
+
+  const toggleEventStatus = (id: number) => {
+    setEvents(prev =>
+      prev.map(ev => (ev.id === id ? { ...ev, status: !ev.status } : ev))
+    );
+  };
 
   const statusColors: Record<string, string> = {
     Pending: 'bg-[#FFB800]/20 text-[#FFB800]',
@@ -53,7 +60,7 @@ export function AdminDashboard() {
   const handleGenerateAiFeedback = async () => {
     setIsGeneratingFeedback(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     const totalScore = scores.technical + scores.business + scores.softSkills;
     setAiFeedback(
       `This ${gradingApp?.startup} demonstrates ${totalScore >= 24 ? 'strong' : 'moderate'} potential across key evaluation criteria. ` +
@@ -84,11 +91,10 @@ export function AdminDashboard() {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition-all duration-200 ${
-                activeTab === item.id
-                  ? 'bg-white/10 text-white border-l-4 border-white/30'
-                  : 'text-[#8892A4] hover:text-white hover:bg-white/5'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-2 transition-all duration-200 ${activeTab === item.id
+                ? 'bg-white/10 text-white border-l-4 border-white/30'
+                : 'text-[#8892A4] hover:text-white hover:bg-white/5'
+                }`}
             >
               <item.icon size={20} />
               <span>{item.label}</span>
@@ -151,10 +157,10 @@ export function AdminDashboard() {
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl">Recent Applications</h2>
                   <Button variant="ghost" onClick={() => setActiveTab('grading')}>
-                    Open Grading Interface →
+                    Open Grading Interface
                   </Button>
                 </div>
-                
+
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
@@ -205,8 +211,7 @@ export function AdminDashboard() {
             >
               <div className="flex justify-between items-center mb-8">
                 <h1 className="text-4xl">Event Management</h1>
-                <Button variant="primary">
-                  <Plus size={20} className="mr-2" />
+                <Button variant="primary" onClick={() => navigate('/admin/events/create')}>
                   Create Event
                 </Button>
               </div>
@@ -224,19 +229,31 @@ export function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {mockEvents.map((event) => (
+                      {events.map((event) => (
                         <tr key={event.id} className="border-b border-white/8 hover:bg-white/5">
                           <td className="py-4 px-4">{event.name}</td>
                           <td className="py-4 px-4 text-[#8892A4]">{event.dates}</td>
                           <td className="py-4 px-4">{event.applications}</td>
                           <td className="py-4 px-4">
-                            <label className="relative inline-flex items-center cursor-pointer">
-                              <input type="checkbox" checked={event.status} className="sr-only peer" readOnly />
-                              <div className="w-11 h-6 bg-[#1A2035] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white/25 peer-checked:border-white/20" />
-                            </label>
+                            <button
+                              type="button"
+                              onClick={() => toggleEventStatus(event.id)}
+                              className={`relative inline-flex items-center w-11 h-6 rounded-full transition-all duration-300 focus:outline-none ${event.status ? 'bg-[#00F5A0]/30 border border-[#00F5A0]/50' : 'bg-[#1A2035] border border-white/10'
+                                }`}
+                              title={event.status ? 'Active – click to deactivate' : 'Inactive – click to activate'}
+                            >
+                              <span
+                                className={`inline-block w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 ${event.status ? 'translate-x-6' : 'translate-x-1'
+                                  }`}
+                              />
+                            </button>
                           </td>
                           <td className="py-4 px-4">
-                            <Button variant="ghost" className="text-sm py-2">
+                            <Button
+                              variant="ghost"
+                              className="text-sm py-2"
+                              onClick={() => navigate(`/admin/events/${event.id}/edit`)}
+                            >
                               Edit
                             </Button>
                           </td>
@@ -254,9 +271,54 @@ export function AdminDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h1 className="text-4xl mb-8">All Applications</h1>
+              <div className="flex justify-between items-center mb-8">
+                <h1 className="text-4xl">All Applications</h1>
+                <div className="flex gap-2">
+                  {['All', 'Pending', 'Under Review', 'Accepted', 'Rejected'].map(f => (
+                    <button key={f}
+                      className="px-3 py-1.5 rounded-full text-xs border border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white transition-all">
+                      {f}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                <p className="text-[#8892A4]">Applications list view...</p>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/8">
+                        <th className="text-left py-3 px-4 text-[#8892A4] text-sm">Startup</th>
+                        <th className="text-left py-3 px-4 text-[#8892A4] text-sm">Event</th>
+                        <th className="text-left py-3 px-4 text-[#8892A4] text-sm">Submitted</th>
+                        <th className="text-left py-3 px-4 text-[#8892A4] text-sm">Status</th>
+                        <th className="text-left py-3 px-4 text-[#8892A4] text-sm">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mockApplications.map((app) => (
+                        <tr key={app.id} className="border-b border-white/8 hover:bg-white/5 transition-colors">
+                          <td className="py-4 px-4 font-medium">{app.startup}</td>
+                          <td className="py-4 px-4 text-[#8892A4]">{app.event}</td>
+                          <td className="py-4 px-4 text-[#8892A4]">{app.submitted}</td>
+                          <td className="py-4 px-4">
+                            <span className={`px-3 py-1 rounded-full text-xs ${statusColors[app.status]}`}>
+                              {app.status}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <Button
+                              variant="ghost"
+                              className="text-sm py-2"
+                              onClick={() => { setGradingApp(app); setActiveTab('grading'); }}
+                            >
+                              Review
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </motion.div>
           )}
@@ -379,8 +441,42 @@ export function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
             >
               <h1 className="text-4xl mb-8">Settings</h1>
-              <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                <p className="text-[#8892A4]">Settings page coming soon...</p>
+              <div className="space-y-5">
+                <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                  <h2 className="text-lg mb-1">Platform</h2>
+                  <p className="text-[#8892A4] text-sm mb-5">General platform configuration</p>
+                  {[
+                    { label: 'Allow public registrations', on: true },
+                    { label: 'Require email verification', on: true },
+                    { label: 'Show applications to other jury members', on: false },
+                  ].map(s => (
+                    <div key={s.label} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
+                      <span className="text-sm">{s.label}</span>
+                      <div className={`w-9 h-5 rounded-full flex items-center px-0.5 border transition-all ${s.on ? 'bg-[#00F5A0]/20 border-[#00F5A0]/40' : 'bg-[#1A2035] border-white/10'}`}>
+                        <span className={`w-4 h-4 bg-white rounded-full transition-transform ${s.on ? 'translate-x-4' : 'translate-x-0'}`} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                  <h2 className="text-lg mb-1">Admin Profile</h2>
+                  <p className="text-[#8892A4] text-sm mb-5">Manage your administrator account</p>
+                  <div className="flex items-center gap-4">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=7B2FFF&color=fff&size=80"
+                      alt="Admin" className="w-16 h-16 rounded-2xl" />
+                    <div>
+                      <p className="font-medium">Admin User</p>
+                      <p className="text-sm text-[#8892A4]">Jury Member · Q-AI Hub</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                  <h2 className="text-lg mb-1 text-[#FF4757]">Danger Zone</h2>
+                  <p className="text-[#8892A4] text-sm mb-4">Destructive platform actions</p>
+                  <button className="px-5 py-2.5 rounded-xl border border-[#FF4757]/30 text-[#FF4757] text-sm hover:bg-[#FF4757]/10 transition-all">
+                    Reset All Scores
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}

@@ -7,6 +7,8 @@ import { EventApplicationPage } from './pages/EventApplicationPage';
 import { ProgramApplicationPage } from './pages/ProgramApplicationPage';
 import { UserDashboard } from './pages/UserDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { CreateEventPage } from './pages/CreateEventPage';
+import { EditEventPage } from './pages/EditEventPage';
 import { RequireAuth } from './components/RequireAuth';
 
 function App() {
@@ -43,10 +45,12 @@ function App() {
           />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/events/create" element={<CreateEventPage />} />
+          <Route path="/admin/events/:id/edit" element={<EditEventPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        
-        <Toaster 
+
+        <Toaster
           position="bottom-right"
           toastOptions={{
             style: {
