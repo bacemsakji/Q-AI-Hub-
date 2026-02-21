@@ -1,10 +1,104 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Home, FileText, Bell, Settings, LogOut, Rocket, Calendar, BellRing } from 'lucide-react';
+import { Home, FileText, Bell, Settings, LogOut, Rocket, Calendar, BellRing, Lock, Eye, EyeOff, Check, Users } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
+
+function PasswordChangeForm() {
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess(false);
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setError('All fields are required.');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setError('New password must be at least 8 characters.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    // Simulate password update
+    setSuccess(true);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setTimeout(() => setSuccess(false), 3000);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Current Password */}
+      <div>
+        <label className="block text-xs text-[#8892A4] mb-1">Current password</label>
+        <div className="relative">
+          <input
+            type={showCurrent ? 'text' : 'password'}
+            value={currentPassword}
+            onChange={e => setCurrentPassword(e.target.value)}
+            placeholder="Enter current password"
+            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 pr-10 placeholder:text-white/20 transition-all"
+          />
+          <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+            {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+      </div>
+      {/* New Password */}
+      <div>
+        <label className="block text-xs text-[#8892A4] mb-1">New password</label>
+        <div className="relative">
+          <input
+            type={showNew ? 'text' : 'password'}
+            value={newPassword}
+            onChange={e => setNewPassword(e.target.value)}
+            placeholder="At least 8 characters"
+            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 pr-10 placeholder:text-white/20 transition-all"
+          />
+          <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+            {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+      </div>
+      {/* Confirm Password */}
+      <div>
+        <label className="block text-xs text-[#8892A4] mb-1">Confirm new password</label>
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+          placeholder="Re-enter new password"
+          className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 placeholder:text-white/20 transition-all"
+        />
+      </div>
+      {error && <p className="text-sm text-[#FF4757] flex items-center gap-1.5">{error}</p>}
+      {success && (
+        <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-[#00F5A0] flex items-center gap-1.5">
+          <Check size={14} /> Password updated successfully
+        </motion.p>
+      )}
+      <button
+        type="submit"
+        className="w-full px-4 py-2.5 rounded-xl bg-[#00D9F5]/15 border border-[#00D9F5]/25 text-[#00D9F5] text-sm font-medium hover:bg-[#00D9F5]/25 transition-all"
+      >
+        Update Password
+      </button>
+    </form>
+  );
+}
 
 export function UserDashboard() {
   const navigate = useNavigate();
@@ -108,8 +202,8 @@ export function UserDashboard() {
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all ${activeTab === item.id
-                    ? 'bg-white/15 text-white border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
-                    : 'text-[#8892A4] hover:text-white hover:bg-white/10'
+                  ? 'bg-white/15 text-white border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
+                  : 'text-[#8892A4] hover:text-white hover:bg-white/10'
                   }`}
               >
                 <item.icon size={16} />
@@ -133,7 +227,7 @@ export function UserDashboard() {
             </div>
             <Button
               variant="ghost"
-              className="flex items-center gap-2 px-3 py-2 rounded-full text-sm min-w-[110px] justify-center"
+              className="flex items-center gap-2 px-3 py-2 rounded-full text-sm whitespace-nowrap justify-center"
               onClick={handleLogout}
             >
               <LogOut size={16} />
@@ -149,8 +243,8 @@ export function UserDashboard() {
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs whitespace-nowrap transition-all ${activeTab === item.id
-                  ? 'bg-white/15 text-white border border-white/20'
-                  : 'bg-white/5 text-[#8892A4]'
+                ? 'bg-white/15 text-white border border-white/20'
+                : 'bg-white/5 text-[#8892A4]'
                 }`}
             >
               <item.icon size={14} />
@@ -354,43 +448,92 @@ export function UserDashboard() {
                   {/* Profile & study preferences */}
                   <div className="lg:col-span-2 space-y-6">
                     <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
-                      <h2 className="text-lg mb-1">Profile</h2>
-                      <p className="text-[#8892A4] text-sm mb-5">Review your basic information as a student.</p>
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${profileName}&background=00F5A0&color=0A0E1A&size=80`}
-                          alt={profileName}
-                          className="w-16 h-16 rounded-2xl"
-                        />
-                        <div className="w-full space-y-3">
-                          <div>
-                            <label className="block text-xs text-[#8892A4] mb-1">Full name</label>
-                            <input
-                              type="text"
-                              value={profileName}
-                              onChange={(e) => {
-                                setProfileName(e.target.value);
-                                localStorage.setItem('userName', e.target.value || 'Student');
-                              }}
-                              className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90 outline-none focus:border-white/40"
-                              placeholder="Your name"
+                      <h2 className="text-lg mb-1 flex items-center gap-2">
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[#00F5A0]/10"><Users size={12} className="text-[#00F5A0]" /></span>
+                        Profile
+                      </h2>
+                      <p className="text-[#8892A4] text-sm mb-5">Manage your personal information and public profile.</p>
+
+                      {/* Avatar + Name */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-5">
+                        <div className="relative group">
+                          <div className="rounded-2xl p-[2px] bg-gradient-to-br from-[#00F5A0] to-[#00D9F5]">
+                            <img
+                              src={`https://ui-avatars.com/api/?name=${profileName}&background=0F1628&color=00F5A0&size=96&bold=true`}
+                              alt={profileName}
+                              className="w-20 h-20 rounded-[14px]"
                             />
                           </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                              <label className="block text-xs text-[#8892A4] mb-1">Role</label>
-                              <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90">
-                                Student
-                              </div>
+                          <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-[#00FFC2] border-2 border-[#0F1628] flex items-center justify-center">
+                            <Check size={10} className="text-[#0A0E1A]" />
+                          </div>
+                        </div>
+                        <div className="flex-1 w-full">
+                          <p className="text-sm font-semibold text-white mb-0.5">{profileName || 'Student'}</p>
+                          <p className="text-xs text-[#8892A4] mb-3">Student · ENICarthage</p>
+                          <div className="flex gap-2">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] bg-[#00F5A0]/10 text-[#00F5A0] border border-[#00F5A0]/20">Active</span>
+                            <span className="px-2.5 py-1 rounded-full text-[10px] bg-[#00D9F5]/10 text-[#00D9F5] border border-[#00D9F5]/20">Verified</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        {/* Full Name */}
+                        <div>
+                          <label className="block text-xs text-[#8892A4] mb-1.5">Full name</label>
+                          <input
+                            type="text"
+                            value={profileName}
+                            onChange={(e) => {
+                              setProfileName(e.target.value);
+                              localStorage.setItem('userName', e.target.value || 'Student');
+                            }}
+                            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3.5 py-2.5 text-sm text-white/90 outline-none focus:border-[#00F5A0]/40 focus:ring-1 focus:ring-[#00F5A0]/15 transition-all"
+                            placeholder="Your name"
+                          />
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                          <label className="block text-xs text-[#8892A4] mb-1.5">Email address</label>
+                          <input
+                            type="email"
+                            defaultValue="student@eni.tn"
+                            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3.5 py-2.5 text-sm text-white/90 outline-none focus:border-[#00F5A0]/40 focus:ring-1 focus:ring-[#00F5A0]/15 transition-all"
+                            placeholder="your@email.com"
+                          />
+                        </div>
+
+                        {/* Role + Institution */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs text-[#8892A4] mb-1.5">Role</label>
+                            <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3.5 py-2.5 text-sm text-white/60">
+                              Student
                             </div>
-                            <div>
-                              <label className="block text-xs text-[#8892A4] mb-1">Institution</label>
-                              <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2 text-sm text-white/90">
-                                ENICarthage
-                              </div>
+                          </div>
+                          <div>
+                            <label className="block text-xs text-[#8892A4] mb-1.5">Institution</label>
+                            <div className="w-full rounded-xl bg-[#111729] border border-white/10 px-3.5 py-2.5 text-sm text-white/60">
+                              ENICarthage
                             </div>
                           </div>
                         </div>
+
+                        {/* Bio */}
+                        <div>
+                          <label className="block text-xs text-[#8892A4] mb-1.5">Bio</label>
+                          <textarea
+                            defaultValue=""
+                            placeholder="Tell us a bit about yourself, your interests and goals..."
+                            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3.5 py-2.5 text-sm text-white/90 outline-none focus:border-[#00F5A0]/40 focus:ring-1 focus:ring-[#00F5A0]/15 min-h-[80px] resize-none placeholder:text-white/20 transition-all"
+                          />
+                        </div>
+
+                        <button type="button" className="w-full px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#00F5A0]/15 to-[#00D9F5]/15 border border-[#00F5A0]/20 text-[#00F5A0] text-sm font-medium hover:from-[#00F5A0]/25 hover:to-[#00D9F5]/25 transition-all">
+                          Save Profile
+                        </button>
                       </div>
                     </div>
 
@@ -403,52 +546,57 @@ export function UserDashboard() {
                         <div>
                           <p className="text-xs text-[#8892A4] mb-2">Primary interest</p>
                           <div className="flex flex-wrap gap-2">
-                          {['Quantum Computing', 'Artificial Intelligence', 'Hybrid Quantum-AI'].map((area) => {
-                            const isActive = primaryInterest === area;
-                            return (
-                              <button
-                                key={area}
-                                type="button"
-                                onClick={() => setPrimaryInterest(area)}
-                                className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
-                                  isActive
+                            {['Quantum Computing', 'Artificial Intelligence', 'Hybrid Quantum-AI'].map((area) => {
+                              const isActive = primaryInterest === area;
+                              return (
+                                <button
+                                  key={area}
+                                  type="button"
+                                  onClick={() => setPrimaryInterest(area)}
+                                  className={`px-3 py-1.5 rounded-full text-xs border transition-all ${isActive
                                     ? 'bg-white text-[#0A0E1A] border-white'
                                     : 'border-white/15 text-white/80 hover:border-white/40'
-                                }`}
-                              >
-                                {area}
-                              </button>
-                            );
-                          })}
+                                    }`}
+                                >
+                                  {area}
+                                </button>
+                              );
+                            })}
                           </div>
                         </div>
                         <div>
                           <p className="text-xs text-[#8892A4] mb-2">Availability</p>
                           <div className="flex flex-wrap gap-2">
-                          {['Weekdays', 'Weekends', 'Evenings'].map((slot) => {
-                            const isSelected = availability.includes(slot);
-                            return (
-                              <button
-                                key={slot}
-                                type="button"
-                                onClick={() =>
-                                  setAvailability((prev) =>
-                                    prev.includes(slot) ? prev.filter((s) => s !== slot) : [...prev, slot]
-                                  )
-                                }
-                                className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
-                                  isSelected
+                            {['Weekdays', 'Weekends', 'Evenings'].map((slot) => {
+                              const isSelected = availability.includes(slot);
+                              return (
+                                <button
+                                  key={slot}
+                                  type="button"
+                                  onClick={() =>
+                                    setAvailability((prev) =>
+                                      prev.includes(slot) ? prev.filter((s) => s !== slot) : [...prev, slot]
+                                    )
+                                  }
+                                  className={`px-3 py-1.5 rounded-full text-xs border transition-all ${isSelected
                                     ? 'border-white/60 bg-white/[0.12] text-white'
                                     : 'border-white/10 bg-white/[0.03] text-white/75 hover:border-white/30'
-                                }`}
-                              >
-                                {slot}
-                              </button>
-                            );
-                          })}
+                                    }`}
+                                >
+                                  {slot}
+                                </button>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Change Password */}
+                    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                      <h2 className="text-lg mb-1 flex items-center gap-2"><Lock size={18} className="text-[#00D9F5]" /> Change Password</h2>
+                      <p className="text-[#8892A4] text-sm mb-5">Update your password to keep your account secure.</p>
+                      <PasswordChangeForm />
                     </div>
                   </div>
 
@@ -474,16 +622,14 @@ export function UserDashboard() {
                           >
                             <span className="text-sm">{item.label}</span>
                             <div
-                              className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors border ${
-                                isOn
-                                  ? 'bg-[#00F5A0]/40 border-[#00F5A0]/60'
-                                  : 'bg-white/5 border-white/15'
-                              }`}
+                              className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors border ${isOn
+                                ? 'bg-[#00F5A0]/40 border-[#00F5A0]/60'
+                                : 'bg-white/5 border-white/15'
+                                }`}
                             >
                               <span
-                                className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${
-                                  isOn ? 'translate-x-4' : ''
-                                }`}
+                                className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isOn ? 'translate-x-4' : ''
+                                  }`}
                               />
                             </div>
                           </button>

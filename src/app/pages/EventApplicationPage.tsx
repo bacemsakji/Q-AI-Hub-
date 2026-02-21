@@ -155,10 +155,10 @@ export function EventApplicationPage() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep === step
-                        ? 'bg-white/20 text-white border border-white/25 scale-110'
-                        : currentStep > step
-                          ? 'bg-white/15 text-white border border-white/20'
-                          : 'bg-[#1A2035] text-[#8892A4] border border-white/10'
+                      ? 'bg-white/20 text-white border border-white/25 scale-110'
+                      : currentStep > step
+                        ? 'bg-white/15 text-white border border-white/20'
+                        : 'bg-[#1A2035] text-[#8892A4] border border-white/10'
                       }`}
                   >
                     {currentStep > step ? <Check size={20} /> : step}
@@ -396,6 +396,39 @@ export function EventApplicationPage() {
                         />
                       </div>
 
+                      {/* Team Member Email Invitations */}
+                      {formData.teamSize > 1 && (
+                        <div className="bg-[#0F1628] border border-white/8 rounded-xl p-5">
+                          <div className="flex items-center gap-2 mb-4">
+                            <svg className="h-4 w-4 text-[#00F5A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            <p className="text-sm font-medium text-white">Invite Team Members</p>
+                          </div>
+                          <p className="text-xs text-[#8892A4] mb-4">
+                            Send email invitations to your {formData.teamSize - 1} teammate{formData.teamSize > 2 ? 's' : ''} to join your application.
+                          </p>
+                          <div className="space-y-3">
+                            {Array.from({ length: Math.min(formData.teamSize - 1, 5) }, (_, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/15 to-[#7B2FFF]/15 text-xs font-bold text-[#00E5FF]">
+                                  {i + 1}
+                                </div>
+                                <input
+                                  type="email"
+                                  placeholder={`teammate${i + 1}@email.com`}
+                                  className="flex-1 px-3 py-2.5 bg-[#1A2035] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
+                                />
+                                <button
+                                  type="button"
+                                  className="px-3 py-2.5 rounded-lg bg-[#00F5A0]/10 border border-[#00F5A0]/20 text-[#00F5A0] text-xs font-medium hover:bg-[#00F5A0]/20 transition-all whitespace-nowrap"
+                                >
+                                  Invite
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div>
                         <label className="block text-sm text-[#8892A4] mb-2">Tech Stack</label>
                         <input
@@ -503,9 +536,11 @@ export function EventApplicationPage() {
                   </p>
                 </div>
 
-                <Button variant="ghost" onClick={() => navigate('/dashboard')}>
-                  Track your application
-                </Button>
+                <div className="mt-6">
+                  <Button variant="ghost" onClick={() => navigate('/dashboard')}>
+                    Track your application
+                  </Button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

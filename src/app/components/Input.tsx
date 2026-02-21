@@ -6,22 +6,24 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export function Input({ label, error, type, className = '', ...props }: InputProps) {
+export function Input({ label, error, type, className = '', placeholder, ...props }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const inputType = type === 'password' && showPassword ? 'text' : type;
+  const isFloating = isFocused || hasValue || !!props.value;
 
   return (
     <div className={`relative ${className}`}>
       <div className="relative">
         <input
           type={inputType}
-          className={`w-full px-4 pt-6 pb-2 bg-[#1A2035] rounded-xl border transition-all duration-300 outline-none text-white
-            ${error 
-              ? 'border-[#FF4757] animate-shake' 
-              : isFocused 
+          placeholder={isFloating ? placeholder : ''}
+          className={`w-full px-4 pt-7 pb-2.5 bg-[#1A2035] rounded-xl border transition-all duration-300 outline-none text-sm text-white
+            ${error
+              ? 'border-[#FF4757] animate-shake'
+              : isFocused
                 ? 'border-white/20 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.06)]'
                 : 'border-white/8'
             }
@@ -37,12 +39,12 @@ export function Input({ label, error, type, className = '', ...props }: InputPro
         {isFocused && !error && (
           <div className="absolute inset-0 bg-[#1A2035] rounded-xl -z-10 m-[1px]" />
         )}
-        
+
         <label
-          className={`absolute left-4 transition-all duration-200 pointer-events-none
-            ${isFocused || hasValue || props.value
-              ? 'top-2 text-xs text-[#8892A4]'
-              : 'top-1/2 -translate-y-1/2 text-base text-[#8892A4]'
+          className={`absolute left-4 transition-all duration-200 pointer-events-none leading-none
+            ${isFloating
+              ? 'top-2.5 text-[11px] text-[#8892A4]'
+              : 'top-1/2 -translate-y-1/2 text-sm text-[#8892A4]'
             }
           `}
         >
@@ -66,3 +68,4 @@ export function Input({ label, error, type, className = '', ...props }: InputPro
     </div>
   );
 }
+
