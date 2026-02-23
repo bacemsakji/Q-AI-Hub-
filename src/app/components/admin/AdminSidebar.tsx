@@ -60,8 +60,8 @@ export function AdminSidebar({ activeSection, onNavigate }: AdminSidebarProps) {
                                 <button
                                     onClick={() => onNavigate(item.id)}
                                     className={`group relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
-                                            ? 'bg-[#00E5FF]/[0.12] text-[#00E5FF]'
-                                            : 'text-white/50 hover:bg-white/[0.04] hover:text-white/80'
+                                        ? 'bg-[#00E5FF]/[0.12] text-[#00E5FF]'
+                                        : 'text-white/50 hover:bg-white/[0.04] hover:text-white/80'
                                         }`}
                                 >
                                     {/* Active indicator glow */}

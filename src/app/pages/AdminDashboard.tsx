@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
@@ -162,7 +162,9 @@ function SettingsSection() {
 }
 
 export function AdminDashboard() {
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [searchParams] = useSearchParams();
+  const initialSection = searchParams.get('section') || 'dashboard';
+  const [activeSection, setActiveSection] = useState(initialSection);
 
   const renderContent = () => {
     switch (activeSection) {

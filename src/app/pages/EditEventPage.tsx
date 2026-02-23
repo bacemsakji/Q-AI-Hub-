@@ -204,8 +204,8 @@ export function EditEventPage() {
                                                 type="button"
                                                 onClick={() => handleChange('category', cat)}
                                                 className={`px-4 py-2 rounded-full text-sm border transition-all ${form.category === cat
-                                                        ? 'bg-white/15 border-white/30 text-white'
-                                                        : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
+                                                    ? 'bg-white/15 border-white/30 text-white'
+                                                    : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
                                                     }`}
                                             >
                                                 {cat}
@@ -316,8 +316,8 @@ export function EditEventPage() {
                                                 type="button"
                                                 onClick={() => handleChange('status', opt.value)}
                                                 className={`px-5 py-2.5 rounded-full text-sm border transition-all ${form.status === opt.value
-                                                        ? `bg-white/10 border-white/25 ${opt.color}`
-                                                        : 'bg-transparent border-white/8 text-[#8892A4] hover:border-white/15'
+                                                    ? `bg-white/10 border-white/25 ${opt.color}`
+                                                    : 'bg-transparent border-white/8 text-[#8892A4] hover:border-white/15'
                                                     }`}
                                             >
                                                 {opt.label}
@@ -330,14 +330,14 @@ export function EditEventPage() {
 
                         {/* Actions */}
                         <div className="flex gap-4">
-                                <Button
-                                  type="submit"
-                                  variant="primary"
-                                  fullWidth
-                                  disabled={isSubmitting}
-                                >
-                                  {isSubmitting ? 'Saving changes...' : 'Save Changes'}
-                                </Button>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                fullWidth
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Saving changes...' : 'Save Changes'}
+                            </Button>
                             <Button
                                 type="button"
                                 variant="ghost"

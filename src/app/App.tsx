@@ -9,6 +9,7 @@ import { UserDashboard } from './pages/UserDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { CreateEventPage } from './pages/CreateEventPage';
 import { EditEventPage } from './pages/EditEventPage';
+import { InviteUserPage } from './pages/InviteUserPage';
 import { EventsPage } from './pages/EventsPage';
 import { RequireAuth } from './components/RequireAuth';
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/events/create" element={<CreateEventPage />} />
           <Route path="/admin/events/:id/edit" element={<EditEventPage />} />
+          <Route path="/admin/users/invite" element={<InviteUserPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 

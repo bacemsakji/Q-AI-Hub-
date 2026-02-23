@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Plus, MapPin, CalendarDays, Users, ArrowRight, Filter, X, ArrowLeft, Eye, Clock, FileText, Download, ExternalLink, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { adminEvents as initialEvents, applicantsByEvent, type AdminEvent, type Applicant } from '../../data/adminData';
@@ -166,6 +167,7 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
 }
 
 export function EventsManager() {
+    const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
     const [selectedEvent, setSelectedEvent] = useState<AdminEvent | null>(null);
@@ -188,6 +190,7 @@ export function EventsManager() {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
                 <div><h2 className="text-2xl font-bold text-white">Events Manager</h2><p className="mt-1 text-sm text-[#8892A4]">Manage and monitor all incubator events</p></div>
                 <motion.button whileHover={{ scale: 1.03, boxShadow: '0 0 25px rgba(0,229,255,0.35)' }} whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/admin/events/create')}
                     className="flex items-center gap-2 rounded-xl bg-[#00E5FF] px-5 py-2.5 text-sm font-semibold text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20">
                     <Plus className="h-4 w-4" />Create New Event
                 </motion.button>

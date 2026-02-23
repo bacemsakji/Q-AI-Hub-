@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, UserPlus, Mail, Phone, Calendar, X, ExternalLink, ArrowRight, Shield, MessageCircle, Ban, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { adminUsers as allUsers, type AdminUser } from '../../data/adminData';
@@ -127,6 +128,7 @@ export function UsersSection() {
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
     const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
+    const navigate = useNavigate();
 
     const filtered = allUsers.filter(u => {
         const matchSearch = u.name.toLowerCase().includes(search.toLowerCase()) || u.startup.toLowerCase().includes(search.toLowerCase());
@@ -139,6 +141,7 @@ export function UsersSection() {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
                 <div><h2 className="text-2xl font-bold text-white">Users Directory</h2><p className="mt-1 text-sm text-[#8892A4]">Manage startup founders and team members</p></div>
                 <motion.button whileHover={{ scale: 1.03, boxShadow: '0 0 25px rgba(0,229,255,0.35)' }} whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/admin/users/invite')}
                     className="flex items-center gap-2 rounded-xl bg-[#00E5FF] px-5 py-2.5 text-sm font-semibold text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20"><UserPlus className="h-4 w-4" />Invite User</motion.button>
             </motion.div>
 
