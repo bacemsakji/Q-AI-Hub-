@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Send } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { toast } from 'sonner';
 
-export function InviteUserPage() {
+import { DashboardHeader } from '../components/DashboardHeader';
+
+export function InviteTeammatePage() {
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [form, setForm] = useState({
         email: '',
         message: '',
     });
+    const profileName = localStorage.getItem('userName') || 'Founder';
 
     const handleChange = (field: string, value: string) => {
         setForm(prev => ({ ...prev, [field]: value }));
@@ -36,29 +40,13 @@ export function InviteUserPage() {
         await new Promise(resolve => setTimeout(resolve, 1500));
         toast.success('Invitation sent successfully!');
         toast.message(`An invitation email has been sent to ${form.email}.`);
-        navigate('/admin');
+        navigate(`/startup/${id}`);
     };
 
     return (
         <div className="min-h-screen relative">
             <ParticleBackground />
-
-            {/* Header */}
-            <div className="relative z-10 border-b border-border bg-card/80 backdrop-blur-xl">
-                <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-6">
-                    <Link to="/admin">
-                        <Logo size="sm" />
-                    </Link>
-                    <div className="h-6 w-px bg-foreground/10" />
-                    <button
-                        onClick={() => navigate('/admin')}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        <ArrowLeft size={18} />
-                        <span className="text-sm">Back to Dashboard</span>
-                    </button>
-                </div>
-            </div>
+            <DashboardHeader activeTab="applications" profileName={profileName} />
 
             {/* Content */}
             <div className="relative z-10 max-w-3xl mx-auto px-6 py-12">
@@ -69,8 +57,8 @@ export function InviteUserPage() {
                 >
                     {/* Page Title */}
                     <div className="mb-10">
-                        <h1 className="text-4xl mb-2">Invite New User</h1>
-                        <p className="text-muted-foreground">Send an invitation to join the Q-AI Hub platform as a startup founder or team member.</p>
+                        <h1 className="text-4xl mb-2">Invite Teammate</h1>
+                        <p className="text-muted-foreground">Send an invitation to join your startup team on Q-AI Hub.</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -86,7 +74,7 @@ export function InviteUserPage() {
                                     type="email"
                                     value={form.email}
                                     onChange={e => handleChange('email', e.target.value)}
-                                    placeholder="john.doe@example.com"
+                                    placeholder="teammate@example.com"
                                     className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors placeholder:text-muted-foreground/40"
                                 />
                             </div>
@@ -102,7 +90,7 @@ export function InviteUserPage() {
                                 <textarea
                                     value={form.message}
                                     onChange={e => handleChange('message', e.target.value)}
-                                    placeholder="Welcome to Q-AI Hub! We're excited to have you join our community of innovators..."
+                                    placeholder="Hey! Join our startup team on Q-AI Hub. We're building something amazing..."
                                     rows={4}
                                     className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors placeholder:text-muted-foreground/40 resize-none"
                                 />

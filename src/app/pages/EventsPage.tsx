@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, MapPin, ArrowRight, Bell, Lock, Sparkles } from 'lucide-react';
 import { Navigation } from '../components/Navigation';
+import { DashboardHeader } from '../components/DashboardHeader';
 import { Footer } from '../components/Footer';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { FadeInSection } from '../components/FadeInSection';
@@ -25,9 +27,22 @@ const statusConfig: Record<string, { label: string; color: string; glow: string 
 };
 
 export function EventsPage() {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const isPublicView = searchParams.get('view') === 'public';
+
     const [activeFilter, setActiveFilter] = useState<FilterType>('All');
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<{ id: number; title: string; date: string } | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [profileName, setProfileName] = useState('Founder');
+
+    useEffect(() => {
+        // Only set logged in true if NOT forced by public view
+        const actuallyLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        setIsLoggedIn(isPublicView ? false : actuallyLoggedIn);
+        setProfileName(localStorage.getItem('userName') || 'Founder');
+    }, [isPublicView]);
 
     const filters: FilterType[] = ['All', 'Hackathon', 'Workshop', 'Talk'];
 
@@ -36,8 +51,12 @@ export function EventsPage() {
         : events.filter((e) => e.type === activeFilter);
 
     const handleApply = (event: typeof events[0]) => {
-        setSelectedEvent({ id: event.id, title: event.title, date: event.date });
-        setAuthModalOpen(true);
+        if (isLoggedIn) {
+            navigate(`/events/${event.id}/apply`);
+        } else {
+            setSelectedEvent({ id: event.id, title: event.title, date: event.date });
+            setAuthModalOpen(true);
+        }
     };
 
     const handleNotify = (event: typeof events[0]) => {
@@ -49,28 +68,33 @@ export function EventsPage() {
     return (
         <div className="min-h-screen relative">
             <ParticleBackground />
-            <Navigation />
+            {isLoggedIn ? (
+                <DashboardHeader activeTab="events" profileName={profileName} />
+            ) : (
+                <Navigation />
+            )}
 
-            {/* Hero Section */}
-            <section className="relative z-10 pt-32 pb-16 px-6">
-                <div className="max-w-6xl mx-auto text-center">
-                    <FadeInSection variant="fade-up">
-                        <p className="uppercase tracking-[0.25em] text-xs text-[#8892A4] mb-4 font-medium">
-                            Q-AI Hub Events
-                        </p>
-                        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-                            Upcoming Events & Programs
-                        </h1>
-                        <p className="text-lg text-[#8892A4] max-w-2xl mx-auto">
-                            Explore hackathons, workshops, and talks. Apply to events that match
-                            your interests and accelerate your journey.
-                        </p>
-                    </FadeInSection>
-                </div>
-            </section>
+            {!isLoggedIn && (
+                <section className="relative z-10 pt-32 pb-16 px-6">
+                    <div className="max-w-6xl mx-auto text-center">
+                        <FadeInSection variant="fade-up">
+                            <p className="uppercase tracking-[0.25em] text-xs text-[#8892A4] mb-4 font-medium">
+                                Q-AI Hub Events
+                            </p>
+                            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+                                Upcoming Events & Programs
+                            </h1>
+                            <p className="text-lg text-[#8892A4] max-w-2xl mx-auto">
+                                Explore hackathons, workshops, and talks. Apply to events that match
+                                your interests and accelerate your journey.
+                            </p>
+                        </FadeInSection>
+                    </div>
+                </section>
+            )}
 
             {/* Filter Tabs */}
-            <section className="relative z-10 px-6 pb-8">
+            <section className={`relative z-10 px-6 ${isLoggedIn ? 'pt-24 pb-8' : 'pb-8'}`}>
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-wrap justify-center gap-3">
                         {filters.map((filter) => (
@@ -80,8 +104,8 @@ export function EventsPage() {
                                 whileTap={{ scale: 0.97 }}
                                 onClick={() => setActiveFilter(filter)}
                                 className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-300 ${activeFilter === filter
-                                        ? 'bg-white/10 border-white/30 text-white shadow-[0_4px_20px_rgba(255,255,255,0.08)]'
-                                        : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
+                                    ? 'bg-white/10 border-white/30 text-white shadow-[0_4px_20px_rgba(255,255,255,0.08)]'
+                                    : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
                                     }`}
                             >
                                 {filter}

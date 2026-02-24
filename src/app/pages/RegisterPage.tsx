@@ -122,7 +122,7 @@ export function RegisterPage() {
             </div>
 
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Join Q-Ai Hub</h1>
+              <h1 className="text-3xl font-bold mb-2">Join Q-AI Hub</h1>
               <p className="text-[#8892A4] text-sm leading-relaxed">
                 Start your Quantum-AI entrepreneurship journey
               </p>

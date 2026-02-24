@@ -20,12 +20,12 @@ export function Input({ label, error, type, className = '', placeholder, ...prop
         <input
           type={inputType}
           placeholder={isFloating ? placeholder : ''}
-          className={`w-full px-4 pt-7 pb-2.5 bg-[#1A2035] rounded-xl border transition-all duration-300 outline-none text-sm text-white
+          className={`w-full px-4 pt-7 pb-2.5 bg-card rounded-xl border transition-all duration-300 outline-none text-sm text-foreground
             ${error
               ? 'border-[#FF4757] animate-shake'
               : isFocused
-                ? 'border-white/20 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.06)]'
-                : 'border-white/8'
+                ? 'border-border bg-foreground/5 shadow-[0_0_0_1px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.06)]'
+                : 'border-border'
             }
           `}
           onFocus={() => setIsFocused(true)}
@@ -37,14 +37,14 @@ export function Input({ label, error, type, className = '', placeholder, ...prop
           {...props}
         />
         {isFocused && !error && (
-          <div className="absolute inset-0 bg-[#1A2035] rounded-xl -z-10 m-[1px]" />
+          <div className="absolute inset-0 bg-card rounded-xl -z-10 m-[1px]" />
         )}
 
         <label
           className={`absolute left-4 transition-all duration-200 pointer-events-none leading-none
             ${isFloating
-              ? 'top-2.5 text-[11px] text-[#8892A4]'
-              : 'top-1/2 -translate-y-1/2 text-sm text-[#8892A4]'
+              ? 'top-2.5 text-[11px] text-muted-foreground'
+              : 'top-1/2 -translate-y-1/2 text-sm text-muted-foreground'
             }
           `}
         >
@@ -55,7 +55,7 @@ export function Input({ label, error, type, className = '', placeholder, ...prop
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -63,7 +63,7 @@ export function Input({ label, error, type, className = '', placeholder, ...prop
       </div>
 
       {error && (
-        <p className="mt-2 text-sm text-[#FF4757]">{error}</p>
+        <p className="mt-2 text-sm text-destructive dark:text-[#FF4757]">{error}</p>
       )}
     </div>
   );

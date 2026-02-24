@@ -79,7 +79,7 @@ function DonutChart({ segments, size = 160 }: { segments: { label: string; value
                 {paths.map((p, i) => (
                     <div key={i} className="flex items-center gap-2">
                         <div className="h-2.5 w-2.5 rounded-full" style={{ background: p.color }} />
-                        <span className="text-xs text-white/70 w-20">{p.label}</span>
+                        <span className="text-xs text-foreground/70 w-20">{p.label}</span>
                         <span className="text-xs font-semibold tabular-nums" style={{ color: p.color }}>{p.pct}%</span>
                     </div>
                 ))}
@@ -144,10 +144,10 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
         <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-6">
             {/* Welcome */}
             <motion.div variants={item}>
-                <h2 className="text-3xl font-bold text-white">
+                <h2 className="text-3xl font-bold text-foreground">
                     Welcome back, <span className="bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] bg-clip-text text-transparent">Admin</span>
                 </h2>
-                <p className="mt-1 text-sm text-[#8892A4]">Here's what's happening across Q-Ai Hub today</p>
+                <p className="mt-1 text-sm text-muted-foreground">Here's what's happening across Q-AI Hub today</p>
             </motion.div>
 
             {/* Stats */}
@@ -159,14 +159,14 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: 0.15 + i * 0.08, type: 'spring' as const, stiffness: 200, damping: 20 }}
                         whileHover={{ y: -4, boxShadow: `0 8px 30px ${stat.glow}` }}
-                        className="group relative overflow-hidden bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 transition-colors hover:border-white/[0.12] cursor-pointer"
+                        className="group relative overflow-hidden bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5 transition-colors hover:border-white/[0.12] cursor-pointer"
                     >
                         <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${stat.gradient}`} style={{ opacity: 0.03 }} />
                         <div className="relative">
                             <div className="flex items-center justify-between">
-                                <p className="text-xs font-medium tracking-wide text-[#8892A4] uppercase">{stat.label}</p>
-                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.04] group-hover:bg-white/[0.08] transition-colors">
-                                    <stat.icon className="h-4 w-4 text-white/40 group-hover:text-white/60 transition-colors" />
+                                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{stat.label}</p>
+                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground/5 group-hover:bg-white/[0.08] transition-colors">
+                                    <stat.icon className="h-4 w-4 text-muted-foreground/80 group-hover:text-foreground/60 transition-colors" />
                                 </div>
                             </div>
                             <p className={`mt-3 text-4xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>
@@ -191,15 +191,15 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                     <motion.div key={chart.title}
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + ci * 0.1 }}
                         whileHover={{ y: -3, borderColor: 'rgba(255,255,255,0.1)' }}
-                        className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 transition-all">
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5 transition-all">
                         <div className="flex items-center justify-between mb-1">
-                            <p className="text-sm font-semibold text-white">{chart.title}</p>
+                            <p className="text-sm font-semibold text-foreground">{chart.title}</p>
                             <span className="text-xs font-medium text-[#00FFC2]">{chart.change}</span>
                         </div>
                         <p className="text-2xl font-bold mb-3" style={{ color: chart.color }}>{chart.latest}</p>
                         <MiniLineChart data={chart.data} color={chart.color} height={80} />
                         <div className="flex justify-between mt-2">
-                            {years.map(y => <span key={y} className="text-[9px] text-[#8892A4]/60">{y}</span>)}
+                            {years.map(y => <span key={y} className="text-[9px] text-muted-foreground/60">{y}</span>)}
                         </div>
                     </motion.div>
                 ))}
@@ -211,19 +211,19 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                 <motion.div variants={item} className="lg:col-span-2">
                     <div className="flex items-center gap-2 mb-4">
                         <DollarSign className="h-5 w-5 text-[#00FFC2]" />
-                        <h3 className="text-base font-bold text-white">Funding & Economic Impact</h3>
+                        <h3 className="text-base font-bold text-foreground">Funding & Economic Impact</h3>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {fundingStats.map((fs, fi) => (
                             <motion.div key={fs.label}
                                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 + fi * 0.08 }}
                                 whileHover={{ y: -3, boxShadow: `0 8px 24px ${fs.glow}` }}
-                                className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-xl p-5 hover:border-white/[0.12] transition-all cursor-default">
+                                className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-5 hover:border-white/[0.12] transition-all cursor-default">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.04]">
-                                        <fs.icon className="h-4 w-4 text-white/50" />
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/5">
+                                        <fs.icon className="h-4 w-4 text-muted-foreground" />
                                     </div>
-                                    <p className="text-xs text-[#8892A4]">{fs.label}</p>
+                                    <p className="text-xs text-muted-foreground">{fs.label}</p>
                                 </div>
                                 <p className={`text-2xl font-bold bg-gradient-to-r ${fs.gradient} bg-clip-text text-transparent`}>
                                     {fs.value}
@@ -234,10 +234,10 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                 </motion.div>
 
                 {/* Sector Pie Chart */}
-                <motion.div variants={item} className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5">
+                <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-5">
-                        <PieChart className="h-5 w-5 text-[#7B2FFF]" />
-                        <h3 className="text-base font-bold text-white">Sector Focus</h3>
+                        <PieChart className="h-5 w-5 text-purple-600 dark:text-[#7B2FFF]" />
+                        <h3 className="text-base font-bold text-foreground">Sector Focus</h3>
                     </div>
                     <DonutChart segments={sectorData} />
                 </motion.div>
@@ -245,13 +245,13 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
 
             {/* Activity + Quick Actions */}
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                <motion.div variants={item} className="lg:col-span-2 bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6">
+                <motion.div variants={item} className="lg:col-span-2 bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
                     <div className="flex items-center justify-between mb-5">
                         <div className="flex items-center gap-2">
                             <Activity className="h-5 w-5 text-[#00E5FF]" />
-                            <h3 className="text-base font-bold text-white">Recent Activity</h3>
+                            <h3 className="text-base font-bold text-foreground">Recent Activity</h3>
                         </div>
-                        <span className="text-xs text-[#8892A4]">Last 7 days</span>
+                        <span className="text-xs text-muted-foreground">Last 7 days</span>
                     </div>
                     <div className="flex flex-col gap-1">
                         {recentActivity.map((activity, i) => (
@@ -265,19 +265,19 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                             >
                                 <div className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${activity.dotColor} ${activity.glowColor}`} />
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium text-white/90">{activity.action}</p>
-                                    <p className="text-xs text-[#8892A4]">{activity.detail}</p>
+                                    <p className="text-sm font-medium text-foreground/90">{activity.action}</p>
+                                    <p className="text-xs text-muted-foreground">{activity.detail}</p>
                                 </div>
-                                <p className="shrink-0 text-[11px] text-[#8892A4]/70">{activity.time}</p>
+                                <p className="shrink-0 text-[11px] text-muted-foreground/70">{activity.time}</p>
                             </motion.div>
                         ))}
                     </div>
                 </motion.div>
 
-                <motion.div variants={item} className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6">
+                <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
                     <div className="flex items-center gap-2 mb-5">
-                        <Zap className="h-5 w-5 text-[#FFB800]" />
-                        <h3 className="text-base font-bold text-white">Quick Actions</h3>
+                        <Zap className="h-5 w-5 text-amber-600 dark:text-[#FFB800]" />
+                        <h3 className="text-base font-bold text-foreground">Quick Actions</h3>
                     </div>
                     <div className="flex flex-col gap-2">
                         {quickActions.map((action, i) => (
@@ -289,14 +289,14 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                                 whileHover={{ scale: 1.02, x: 2 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => action.nav === 'create-event' ? navigate('/admin/events/create') : onNavigate(action.nav)}
-                                className="flex items-center gap-3 rounded-xl bg-white/[0.03] p-3.5 text-left transition-all hover:bg-white/[0.06] border border-transparent hover:border-white/[0.06]"
+                                className="flex items-center gap-3 rounded-xl bg-muted p-3.5 text-left transition-all hover:bg-foreground/5 border border-transparent hover:border-border"
                             >
                                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00E5FF]/10">
                                     <action.icon className="h-4 w-4 text-[#00E5FF]" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-white/90">{action.label}</p>
-                                    <p className="text-[11px] text-[#8892A4]">{action.desc}</p>
+                                    <p className="text-sm font-medium text-foreground/90">{action.label}</p>
+                                    <p className="text-[11px] text-muted-foreground">{action.desc}</p>
                                 </div>
                             </motion.button>
                         ))}
@@ -305,11 +305,11 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
             </div>
 
             {/* Upcoming Events */}
-            <motion.div variants={item} className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6">
+            <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2">
                         <Calendar className="h-5 w-5 text-[#00E5FF]" />
-                        <h3 className="text-base font-bold text-white">Upcoming Events</h3>
+                        <h3 className="text-base font-bold text-foreground">Upcoming Events</h3>
                     </div>
                     <button onClick={() => onNavigate('events')} className="text-xs font-medium text-[#00E5FF] hover:text-[#00E5FF]/80 transition-colors">View all →</button>
                 </div>
@@ -321,17 +321,17 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 + i * 0.1 }}
                             whileHover={{ y: -2, borderColor: 'rgba(0,229,255,0.15)' }}
-                            className="rounded-xl border border-white/[0.06] p-4 transition-all hover:bg-white/[0.02] cursor-pointer"
+                            className="rounded-xl border border-border p-4 transition-all hover:bg-white/[0.02] cursor-pointer"
                         >
                             <div className="flex items-center justify-between">
                                 <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${event.status === 'Open' ? 'bg-[#00FFC2]/15 text-[#00FFC2]' : 'bg-[#00E5FF]/10 text-[#00E5FF]'
                                     }`}>{event.status}</span>
-                                <span className="text-xs text-[#8892A4]">{event.applicants} applicants</span>
+                                <span className="text-xs text-muted-foreground">{event.applicants} applicants</span>
                             </div>
-                            <h4 className="mt-3 text-sm font-semibold text-white">{event.title}</h4>
-                            <p className="mt-0.5 text-xs text-[#8892A4]">{event.date}</p>
+                            <h4 className="mt-3 text-sm font-semibold text-foreground">{event.title}</h4>
+                            <p className="mt-0.5 text-xs text-muted-foreground">{event.date}</p>
                             <div className="mt-3 flex items-center gap-2">
-                                <div className="flex-1 h-1 overflow-hidden rounded-full bg-white/[0.06]">
+                                <div className="flex-1 h-1 overflow-hidden rounded-full bg-foreground/5">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${Math.min((event.applicants / event.capacity) * 100, 100)}%` }}
@@ -339,7 +339,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                                         className="h-full rounded-full bg-gradient-to-r from-[#00E5FF] to-[#00FFC2]"
                                     />
                                 </div>
-                                <span className="text-[10px] text-[#8892A4]">{Math.round((event.applicants / event.capacity) * 100)}%</span>
+                                <span className="text-[10px] text-muted-foreground">{Math.round((event.applicants / event.capacity) * 100)}%</span>
                             </div>
                         </motion.div>
                     ))}

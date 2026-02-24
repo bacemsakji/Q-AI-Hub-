@@ -56,10 +56,10 @@ export function Logo({ size = 'md', showText = true }: LogoProps) {
       
       {showText && (
         <span
-          className={`${sizes[size].text} font-bold text-white`}
+          className={`${sizes[size].text} font-bold text-foreground`}
           style={{ fontFamily: 'var(--font-heading)', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
         >
-          Q-Ai Hub
+          Q-AI Hub
         </span>
       )}
     </div>

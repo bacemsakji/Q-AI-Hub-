@@ -34,31 +34,31 @@ function AdminPasswordForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-xs text-[#8892A4] mb-1">Current password</label>
+        <label className="block text-xs text-muted-foreground mb-1">Current password</label>
         <div className="relative">
           <input type={showCurrent ? 'text' : 'password'} value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="Enter current password"
-            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 pr-10 placeholder:text-white/20 transition-all" />
-          <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+            className="w-full rounded-xl bg-input border border-border px-3 py-2.5 text-sm text-foreground/90 outline-none focus:border-border pr-10 placeholder:text-muted-foreground/40 transition-all dark:bg-[#111729]" />
+          <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
             {showCurrent ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
       </div>
       <div>
-        <label className="block text-xs text-[#8892A4] mb-1">New password</label>
+        <label className="block text-xs text-muted-foreground mb-1">New password</label>
         <div className="relative">
           <input type={showNew ? 'text' : 'password'} value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="At least 8 characters"
-            className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 pr-10 placeholder:text-white/20 transition-all" />
-          <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+            className="w-full rounded-xl bg-input border border-border px-3 py-2.5 text-sm text-foreground/90 outline-none focus:border-border pr-10 placeholder:text-muted-foreground/40 transition-all dark:bg-[#111729]" />
+          <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
             {showNew ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
       </div>
       <div>
-        <label className="block text-xs text-[#8892A4] mb-1">Confirm new password</label>
+        <label className="block text-xs text-muted-foreground mb-1">Confirm new password</label>
         <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Re-enter new password"
-          className="w-full rounded-xl bg-[#111729] border border-white/10 px-3 py-2.5 text-sm text-white/90 outline-none focus:border-white/40 placeholder:text-white/20 transition-all" />
+          className="w-full rounded-xl bg-input border border-border px-3 py-2.5 text-sm text-foreground/90 outline-none focus:border-white/40 placeholder:text-muted-foreground/40 transition-all" />
       </div>
-      {error && <p className="text-sm text-[#FF4757]">{error}</p>}
+      {error && <p className="text-sm text-destructive dark:text-[#FF4757]">{error}</p>}
       {success && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-[#00FFC2] flex items-center gap-1.5"><Check className="h-3.5 w-3.5" /> Password updated successfully</motion.p>}
       <button type="submit" className="w-full px-4 py-2.5 rounded-xl bg-[#00E5FF]/15 border border-[#00E5FF]/25 text-[#00E5FF] text-sm font-medium hover:bg-[#00E5FF]/25 transition-all">Update Password</button>
     </form>
@@ -80,17 +80,17 @@ function SettingsSection() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-bold text-white">Settings</h2>
-        <p className="mt-1 text-sm text-[#8892A4]">Configure platform behavior, permissions, and data exports</p>
+        <h2 className="text-2xl font-bold text-foreground">Settings</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Configure platform behavior, permissions, and data exports</p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Left Column: Platform Settings + Change Password */}
         <div className="space-y-6">
-          <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-xl p-6">
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Shield className="h-5 w-5 text-[#00E5FF]" />
-              <h3 className="text-lg font-bold text-white">Platform Settings</h3>
+              <h3 className="text-lg font-bold text-foreground">Platform Settings</h3>
             </div>
             {([
               { key: 'allowPublicRegistrations' as const, label: 'Allow public registrations', desc: 'Anyone can create an account' },
@@ -101,12 +101,12 @@ function SettingsSection() {
               const isOn = platformSettings[item.key];
               return (
                 <button key={item.key} type="button" onClick={() => toggleSetting(item.key)}
-                  className="w-full flex items-center justify-between py-4 border-b border-white/5 last:border-0 text-left">
+                  className="w-full flex items-center justify-between py-4 border-b border-border last:border-0 text-left">
                   <div>
-                    <p className="text-sm font-medium text-white">{item.label}</p>
-                    <p className="text-xs text-[#8892A4]">{item.desc}</p>
+                    <p className="text-sm font-medium text-foreground">{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
                   </div>
-                  <div className={`w-11 h-6 rounded-full flex items-center px-0.5 border transition-all ${isOn ? 'bg-[#00FFC2]/20 border-[#00FFC2]/40' : 'bg-[#1A2035] border-white/10'}`}>
+                  <div className={`w-11 h-6 rounded-full flex items-center px-0.5 border transition-all ${isOn ? 'bg-[#00FFC2]/20 border-[#00FFC2]/40' : 'bg-card border-border'}`}>
                     <span className={`w-4 h-4 bg-white rounded-full transition-transform ${isOn ? 'translate-x-5' : 'translate-x-0.5'}`} />
                   </div>
                 </button>
@@ -115,10 +115,10 @@ function SettingsSection() {
           </div>
 
           {/* Change Password */}
-          <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-xl p-6">
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Lock className="h-5 w-5 text-[#00E5FF]" />
-              <h3 className="text-lg font-bold text-white">Change Password</h3>
+              <h3 className="text-lg font-bold text-foreground">Change Password</h3>
             </div>
             <AdminPasswordForm />
           </div>
@@ -126,31 +126,31 @@ function SettingsSection() {
 
         {/* Right Column: Admin Profile + Data & Exports */}
         <div className="space-y-6">
-          <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-xl p-6">
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Globe className="h-5 w-5 text-[#00E5FF]" />
-              <h3 className="text-lg font-bold text-white">Admin Profile</h3>
+              <h3 className="text-lg font-bold text-foreground">Admin Profile</h3>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#00E5FF]/20 text-lg font-bold text-[#00E5FF]">AD</div>
               <div>
-                <p className="font-medium text-white">Admin User</p>
-                <p className="text-sm text-[#8892A4]">Super Admin · Q-AI Hub</p>
-                <p className="mt-0.5 text-xs text-[#8892A4]">Last sign-in: 2 hours ago</p>
+                <p className="font-medium text-foreground">Admin User</p>
+                <p className="text-sm text-muted-foreground">Super Admin · Q-AI Hub</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">Last sign-in: 2 hours ago</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-xl p-6">
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <Database className="h-5 w-5 text-[#00E5FF]" />
-              <h3 className="text-lg font-bold text-white">Data & Exports</h3>
+              <h3 className="text-lg font-bold text-foreground">Data & Exports</h3>
             </div>
             <div className="space-y-2">
               {['Download applications CSV', 'Download jury scores CSV', 'Export event list'].map(label => (
                 <button key={label} type="button"
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg border border-white/10 bg-[#1A2035] text-sm text-white hover:border-white/20 hover:bg-white/5 transition-all">
-                  <Download className="h-4 w-4 text-[#8892A4]" />{label}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-border hover:bg-foreground/5 transition-all">
+                  <Download className="h-4 w-4 text-muted-foreground" />{label}
                 </button>
               ))}
             </div>

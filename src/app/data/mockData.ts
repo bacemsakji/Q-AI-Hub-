@@ -28,7 +28,7 @@ export const programs: Program[] = [
     id: 1,
     axis: 'Axe 01',
     title: 'Strategic Vision & Ecosystem Development',
-    description: 'Building the strategic roadmap for Q-Ai Hub, fostering partnerships with industry leaders, and creating a sustainable innovation ecosystem that bridges academia and entrepreneurship.',
+    description: 'Building the strategic roadmap for Q-AI Hub, fostering partnerships with industry leaders, and creating a sustainable innovation ecosystem that bridges academia and entrepreneurship.',
     professor: {
       name: 'Dr. Amira Ben Salah',
       photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop',
@@ -134,7 +134,7 @@ export const events: Event[] = [
     type: 'Workshop',
     status: 'Closed',
     date: 'February 10-14, 2026',
-    location: 'Q-Ai Hub Space',
+    location: 'Q-AI Hub Space',
     description: 'Intensive 5-day program on building scalable deep tech products from ideation to MVP.',
   },
   {

@@ -14,7 +14,7 @@ export function GlassCard({ children, gradient = false, className = '', strong =
     : 'glass rounded-3xl shadow-soft min-h-0';
 
   const gradientStyles = gradient
-    ? 'bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-white/[0.06] border-white/20'
+    ? 'bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-white/[0.06] border-border'
     : '';
 
   return (

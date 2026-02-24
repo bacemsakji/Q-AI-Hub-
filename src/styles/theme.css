@@ -1,7 +1,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Q-Ai Hub Color Palette */
+  /* Q-AI Hub Color Palette */
   --mint-green: #00F5A0;
   --cyan: #00D9F5;
   --electric-blue: #0061FF;
@@ -14,7 +14,7 @@
   --success: #00F5A0;
   --warning: #FFB800;
   --danger: #FF4757;
-  
+
   /* Tailwind integration */
   --background: var(--dark-navy);
   --foreground: var(--text-primary);
@@ -36,12 +36,12 @@
   --input: var(--input-bg);
   --ring: var(--electric-blue);
   --radius: 0.75rem;
-  
+
   /* Font families */
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  
+
   --font-size: 16px;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
@@ -110,7 +110,12 @@
     font-size: var(--font-size);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
     letter-spacing: 0.02em;
   }
@@ -143,7 +148,9 @@
     font-weight: var(--font-weight-medium);
   }
 
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-family: var(--font-body);
     font-weight: var(--font-weight-normal);
   }
@@ -158,6 +165,7 @@
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-glass);
   }
+
   .glass-strong {
     background: var(--glass-bg-strong);
     backdrop-filter: blur(var(--glass-blur-strong));
@@ -165,9 +173,11 @@
     border: 1px solid var(--glass-border-strong);
     box-shadow: var(--shadow-soft-lg), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
   }
+
   .shadow-float {
     box-shadow: var(--shadow-float);
   }
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
@@ -180,6 +190,7 @@
     border: 1px solid var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-highlight), var(--liquid-glass-shadow);
   }
+
   .liquid-glass:hover {
     background: var(--liquid-glass-bg-hover);
     border-color: var(--liquid-glass-border-hover);

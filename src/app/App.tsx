@@ -11,11 +11,15 @@ import { CreateEventPage } from './pages/CreateEventPage';
 import { EditEventPage } from './pages/EditEventPage';
 import { InviteUserPage } from './pages/InviteUserPage';
 import { EventsPage } from './pages/EventsPage';
+import { StartupDetailPage } from './pages/StartupDetailPage';
+import { InviteTeammatePage } from './pages/InviteTeammatePage';
 import { RequireAuth } from './components/RequireAuth';
+import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#0A0E1A] text-white">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -47,6 +51,8 @@ function App() {
             }
           />
           <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/startup/:id" element={<StartupDetailPage />} />
+          <Route path="/startup/:id/invite" element={<InviteTeammatePage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/events/create" element={<CreateEventPage />} />
           <Route path="/admin/events/:id/edit" element={<EditEventPage />} />

@@ -67,7 +67,7 @@ export function LoginPage() {
 
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-              <p className="text-[#8892A4] text-sm leading-relaxed">
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {eventName
                   ? `Sign in to continue your application for ${eventName}`
                   : 'Sign in to access your dashboard and applications'}
@@ -77,43 +77,43 @@ export function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
               <div>
-                <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">Email</label>
+                <label className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Email</label>
                 <div className="relative">
-                  <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+                  <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="email"
                     value={email}
                     onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: undefined })); }}
                     placeholder="your@email.com"
-                    className={`w-full pl-11 pr-4 py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors.email ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+                    className={`w-full pl-11 pr-4 py-3.5 bg-card rounded-xl border text-foreground text-sm outline-none transition-all placeholder:text-muted-foreground/40 ${errors.email ? 'border-[#FF4757]/60' : 'border-border focus:border-[#00F5A0]/50'
                       }`}
                   />
                 </div>
-                {errors.email && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.email}</p>}
+                {errors.email && <p className="mt-1.5 text-xs text-destructive dark:text-[#FF4757]">{errors.email}</p>}
               </div>
 
               {/* Password */}
               <div>
-                <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">Password</label>
+                <label className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Password</label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: undefined })); }}
                     placeholder="••••••••"
-                    className={`w-full pl-11 pr-12 py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors.password ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+                    className={`w-full pl-11 pr-12 py-3.5 bg-card rounded-xl border text-foreground text-sm outline-none transition-all placeholder:text-muted-foreground/40 ${errors.password ? 'border-[#FF4757]/60' : 'border-border focus:border-[#00F5A0]/50'
                       }`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(p => !p)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                {errors.password && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.password}</p>}
+                {errors.password && <p className="mt-1.5 text-xs text-destructive dark:text-[#FF4757]">{errors.password}</p>}
               </div>
 
               {/* Remember / Forgot */}
@@ -121,14 +121,14 @@ export function LoginPage() {
                 <label className="flex items-center gap-2.5 cursor-pointer group">
                   <div
                     onClick={() => setRememberMe(p => !p)}
-                    className={`w-[18px] h-[18px] rounded border flex items-center justify-center flex-shrink-0 transition-all cursor-pointer ${rememberMe ? 'bg-[#00F5A0]/20 border-[#00F5A0]/60' : 'border-white/20 bg-transparent'
+                    className={`w-[18px] h-[18px] rounded border flex items-center justify-center flex-shrink-0 transition-all cursor-pointer ${rememberMe ? 'bg-[#00F5A0]/20 border-[#00F5A0]/60' : 'border-border bg-transparent'
                       }`}
                   >
-                    {rememberMe && <span className="text-[#00F5A0] text-[10px] font-bold">✓</span>}
+                    {rememberMe && <span className="text-emerald-600 dark:text-[#00F5A0] text-[10px] font-bold">✓</span>}
                   </div>
-                  <span className="text-sm text-[#8892A4] group-hover:text-white/70 transition-colors select-none">Remember me</span>
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-colors select-none">Remember me</span>
                 </label>
-                <Link to="/forgot-password" className="text-sm text-[#8892A4] hover:text-[#00F5A0] transition-colors">
+                <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-emerald-600 dark:text-[#00F5A0] transition-colors">
                   Forgot password?
                 </Link>
               </div>
@@ -154,19 +154,19 @@ export function LoginPage() {
               {/* Divider */}
               <div className="relative my-1">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/8" />
+                  <div className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-4 bg-[#0A0E1A] text-[#8892A4]">or</span>
+                  <span className="px-4 bg-background text-muted-foreground">or</span>
                 </div>
               </div>
 
-              <p className="text-center text-sm text-[#8892A4]">
+              <p className="text-center text-sm text-muted-foreground">
                 Don't have an account?{' '}
                 <Link
                   to="/register"
                   state={{ returnUrl, eventName }}
-                  className="text-[#00F5A0] hover:text-[#00D9F5] transition-colors font-medium"
+                  className="text-emerald-600 dark:text-[#00F5A0] hover:text-cyan-600 dark:text-[#00D9F5] transition-colors font-medium"
                 >
                   Create one →
                 </Link>

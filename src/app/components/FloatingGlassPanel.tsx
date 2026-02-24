@@ -17,7 +17,7 @@ const depthStyles = {
 export function FloatingGlassPanel({ children, className = '', depth = 'md' }: FloatingGlassPanelProps) {
   return (
     <motion.div
-      className={`glass-strong rounded-3xl border border-white/10 transition-shadow duration-300 ${depthStyles[depth]} ${className}`}
+      className={`glass-strong rounded-3xl border border-border transition-shadow duration-300 ${depthStyles[depth]} ${className}`}
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}

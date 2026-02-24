@@ -9,9 +9,9 @@ const cardItem = { hidden: { opacity: 0, y: 24, scale: 0.96 }, show: { opacity: 
 function StageBadge({ stage }: { stage: string }) {
     const s: Record<string, string> = {
         Idea: 'bg-[#8b5cf6]/15 text-[#8b5cf6] border-[#8b5cf6]/20', 'Pre-Seed': 'bg-[#00E5FF]/10 text-[#00E5FF] border-[#00E5FF]/20',
-        Seed: 'bg-[#00FFC2]/10 text-[#00FFC2] border-[#00FFC2]/20', 'Series A': 'bg-[#FFB800]/15 text-[#FFB800] border-[#FFB800]/20',
+        Seed: 'bg-[#00FFC2]/10 text-[#00FFC2] border-[#00FFC2]/20', 'Series A': 'bg-[#FFB800]/15 text-amber-600 dark:text-[#FFB800] border-[#FFB800]/20',
     };
-    return <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${s[stage] || 'bg-white/10 text-white/70 border-white/10'}`}>{stage}</span>;
+    return <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${s[stage] || 'bg-foreground/10 text-foreground/70 border-border'}`}>{stage}</span>;
 }
 
 function StatusDot({ status }: { status: string }) {
@@ -21,13 +21,13 @@ function StatusDot({ status }: { status: string }) {
         Graduated: { dot: 'bg-[#00E5FF]', glow: 'shadow-[0_0_6px_rgba(0,229,255,0.5)]' },
     };
     const style = c[status] || { dot: 'bg-white/30', glow: '' };
-    return <div className="flex items-center gap-1.5"><div className={`h-2 w-2 rounded-full ${style.dot} ${style.glow}`} /><span className="text-xs text-[#8892A4]">{status}</span></div>;
+    return <div className="flex items-center gap-1.5"><div className={`h-2 w-2 rounded-full ${style.dot} ${style.glow}`} /><span className="text-xs text-muted-foreground">{status}</span></div>;
 }
 
 function MilestoneIcon({ status }: { status: string }) {
     if (status === 'completed') return <CheckCircle className="h-4 w-4 text-[#00FFC2]" />;
-    if (status === 'in-progress') return <Clock className="h-4 w-4 text-[#FFB800]" />;
-    return <div className="h-4 w-4 rounded-full border-2 border-white/20" />;
+    if (status === 'in-progress') return <Clock className="h-4 w-4 text-amber-600 dark:text-[#FFB800]" />;
+    return <div className="h-4 w-4 rounded-full border-2 border-border" />;
 }
 
 function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: () => void }) {
@@ -37,76 +37,76 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 520, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-[520px] flex-col border-l border-white/[0.06] bg-[#070B14]/95 backdrop-blur-xl shadow-2xl shadow-black/50"
+            className="fixed inset-y-0 right-0 z-50 flex w-[520px] flex-col border-l border-border bg-card/95 backdrop-blur-xl shadow-2xl shadow-black/50"
         >
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-4">
-                <h3 className="text-base font-bold text-white">Startup Details</h3>
-                <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white transition-all"><X className="h-4 w-4" /></button>
+            <div className="flex items-center justify-between border-b border-border px-6 py-4">
+                <h3 className="text-base font-bold text-foreground">Startup Details</h3>
+                <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-all"><X className="h-4 w-4" /></button>
             </div>
             <div className="flex-1 overflow-y-auto">
-                <div className="border-b border-white/[0.06] bg-gradient-to-br from-[#00E5FF]/[0.04] to-[#7B2FFF]/[0.02] p-6">
+                <div className="border-b border-border bg-gradient-to-br from-[#00E5FF]/[0.04] to-[#7B2FFF]/[0.02] p-6">
                     <div className="flex items-start gap-4">
                         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00E5FF]/25 to-[#7B2FFF]/25 text-xl font-bold text-[#00E5FF] ring-2 ring-[#00E5FF]/15">{startup.logo}</div>
                         <div className="flex-1">
-                            <div className="flex items-center gap-2"><h4 className="text-xl font-bold text-white">{startup.name}</h4><StageBadge stage={startup.stage} /></div>
-                            <p className="text-sm text-[#8892A4]">{startup.industry}</p>
+                            <div className="flex items-center gap-2"><h4 className="text-xl font-bold text-foreground">{startup.name}</h4><StageBadge stage={startup.stage} /></div>
+                            <p className="text-sm text-muted-foreground">{startup.industry}</p>
                             <StatusDot status={startup.status} />
                         </div>
                     </div>
-                    <p className="mt-4 text-sm leading-relaxed text-white/70">{startup.description}</p>
+                    <p className="mt-4 text-sm leading-relaxed text-foreground/70">{startup.description}</p>
                 </div>
 
-                <div className="border-b border-white/[0.06] p-6">
-                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-[#8892A4] uppercase">Key Metrics</h5>
+                <div className="border-b border-border p-6">
+                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Key Metrics</h5>
                     <div className="grid grid-cols-2 gap-3">
                         {startup.metrics.map((m, i) => (
                             <motion.div key={m.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 + i * 0.06 }}
-                                className="rounded-xl bg-white/[0.03] p-3 border border-white/[0.04]"><p className="text-[11px] text-[#8892A4]">{m.label}</p><p className="text-base font-bold text-white">{m.value}</p></motion.div>
+                                className="rounded-xl bg-muted p-3 border border-border"><p className="text-[11px] text-muted-foreground">{m.label}</p><p className="text-base font-bold text-foreground">{m.value}</p></motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div className="border-b border-white/[0.06] p-6">
-                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-[#8892A4] uppercase">Progress</h5>
+                <div className="border-b border-border p-6">
+                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Progress</h5>
                     <div className="flex items-center gap-3">
-                        <div className="flex-1 h-2.5 overflow-hidden rounded-full bg-white/[0.06]">
+                        <div className="flex-1 h-2.5 overflow-hidden rounded-full bg-foreground/5">
                             <motion.div initial={{ width: 0 }} animate={{ width: `${startup.progress}%` }} transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
                                 className="h-full rounded-full bg-gradient-to-r from-[#00E5FF] to-[#00FFC2]" />
                         </div>
-                        <span className="text-sm font-bold text-white">{startup.progress}%</span>
+                        <span className="text-sm font-bold text-foreground">{startup.progress}%</span>
                     </div>
                 </div>
 
-                <div className="border-b border-white/[0.06] p-6">
-                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-[#8892A4] uppercase">Milestones</h5>
+                <div className="border-b border-border p-6">
+                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Milestones</h5>
                     <div className="flex flex-col gap-3">
                         {startup.milestones.map((m, i) => (
                             <motion.div key={m.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.08 }}
                                 className="flex items-start gap-3 rounded-xl p-2 hover:bg-white/[0.02] transition-colors">
                                 <MilestoneIcon status={m.status} />
-                                <div className="flex-1"><p className={`text-sm font-medium ${m.status === 'completed' ? 'text-white/60 line-through' : 'text-white'}`}>{m.title}</p><p className="text-xs text-[#8892A4]">{m.description}</p><p className="mt-0.5 text-[10px] text-[#8892A4]/60">{m.date}</p></div>
+                                <div className="flex-1"><p className={`text-sm font-medium ${m.status === 'completed' ? 'text-foreground/60 line-through' : 'text-foreground'}`}>{m.title}</p><p className="text-xs text-muted-foreground">{m.description}</p><p className="mt-0.5 text-[10px] text-muted-foreground/60">{m.date}</p></div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
                 <div className="p-6">
-                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-[#8892A4] uppercase">Team ({startup.teamSize})</h5>
+                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Team ({startup.teamSize})</h5>
                     <div className="flex flex-col gap-2">
                         {startup.members.map((m, i) => (
                             <motion.div key={m.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.06 }}
-                                className="flex items-center gap-3 rounded-xl bg-white/[0.03] p-3 border border-white/[0.04] hover:bg-white/[0.05] transition-colors">
+                                className="flex items-center gap-3 rounded-xl bg-muted p-3 border border-border hover:bg-white/[0.05] transition-colors">
                                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#00E5FF]/10 text-xs font-bold text-[#00E5FF]">{m.avatar}</div>
-                                <div><p className="text-sm font-medium text-white">{m.name}</p><p className="text-xs text-[#8892A4]">{m.role}</p></div>
+                                <div><p className="text-sm font-medium text-foreground">{m.name}</p><p className="text-xs text-muted-foreground">{m.role}</p></div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div className="border-t border-white/[0.06] p-6">
+                <div className="border-t border-border p-6">
                     <div className="grid grid-cols-3 gap-3">
                         {[{ l: 'Founded', v: startup.foundedDate, c: '#00E5FF' }, { l: 'Funding', v: startup.funding, c: '#00FFC2' }, { l: 'Team Size', v: startup.teamSize, c: '#7B2FFF' }].map(s => (
-                            <div key={s.l} className="rounded-xl bg-white/[0.03] p-3 text-center border border-white/[0.04]"><p className="text-base font-bold" style={{ color: s.c }}>{s.v}</p><p className="text-[10px] text-[#8892A4]">{s.l}</p></div>
+                            <div key={s.l} className="rounded-xl bg-muted p-3 text-center border border-border"><p className="text-base font-bold" style={{ color: s.c }}>{s.v}</p><p className="text-[10px] text-muted-foreground">{s.l}</p></div>
                         ))}
                     </div>
                 </div>
@@ -129,8 +129,8 @@ export function StartupsSection() {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="text-2xl font-bold text-white">Startup Portfolio</h2>
-                <p className="mt-1 text-sm text-[#8892A4]">Track and manage incubated startups</p>
+                <h2 className="text-2xl font-bold text-foreground">Startup Portfolio</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Track and manage incubated startups</p>
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -142,9 +142,9 @@ export function StartupsSection() {
                 ].map((stat, i) => (
                     <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.06 }}
                         whileHover={{ y: -3 }}
-                        className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 transition-colors hover:border-white/[0.1]">
-                        <div className="flex items-center justify-between"><p className="text-xs font-medium tracking-wide text-[#8892A4] uppercase">{stat.label}</p>
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.04]"><stat.icon className="h-4 w-4 text-white/40" /></div>
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5 transition-colors hover:border-white/[0.1]">
+                        <div className="flex items-center justify-between"><p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{stat.label}</p>
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground/5"><stat.icon className="h-4 w-4 text-muted-foreground/80" /></div>
                         </div>
                         <p className={`mt-2 text-3xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>{stat.value}</p>
                     </motion.div>
@@ -152,15 +152,15 @@ export function StartupsSection() {
             </div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex items-center gap-3">
-                <div className="relative flex-1"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8892A4]" />
+                <div className="relative flex-1"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <input type="text" placeholder="Search startups..." value={search} onChange={e => setSearch(e.target.value)}
-                        className="h-10 w-full rounded-xl border border-white/[0.08] bg-[#0F1628] pl-10 pr-4 text-sm text-white placeholder:text-[#8892A4]/60 outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 transition-all" />
+                        className="h-10 w-full rounded-xl border border-white/[0.08] bg-card pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 transition-all" />
                 </div>
-                <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-[#0F1628] p-1">
-                    <Filter className="ml-2 h-4 w-4 text-[#8892A4]" />
+                <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-card p-1">
+                    <Filter className="ml-2 h-4 w-4 text-muted-foreground" />
                     {['All', 'Idea', 'Pre-Seed', 'Seed', 'Series A'].map(s => (
                         <button key={s} onClick={() => setStageFilter(s)}
-                            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-200 ${stageFilter === s ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-sm shadow-[#00E5FF]/30' : 'text-[#8892A4] hover:bg-white/5 hover:text-white'}`}>{s}</button>
+                            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-200 ${stageFilter === s ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-sm shadow-[#00E5FF]/30' : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground'}`}>{s}</button>
                     ))}
                 </div>
             </motion.div>
@@ -169,28 +169,28 @@ export function StartupsSection() {
                 {filtered.map(startup => (
                     <motion.div key={startup.id} variants={cardItem}
                         whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(0,229,255,0.06)' }}
-                        className="group overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(15,22,40,0.95)] transition-colors hover:border-white/[0.1]">
+                        className="group overflow-hidden rounded-2xl border border-border bg-card/95 transition-colors hover:border-white/[0.1]">
                         <div className="flex items-start gap-4 p-5">
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-[#00E5FF] ring-2 ring-[#00E5FF]/10 group-hover:ring-[#00E5FF]/25 transition-all">{startup.logo}</div>
                             <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2"><h3 className="truncate text-base font-bold text-white">{startup.name}</h3><StageBadge stage={startup.stage} /></div>
-                                <p className="text-sm text-[#8892A4]">{startup.industry}</p>
-                                <div className="mt-1 flex items-center gap-3"><StatusDot status={startup.status} /><span className="text-xs text-[#8892A4]/60">by {startup.founderName}</span></div>
+                                <div className="flex items-center gap-2"><h3 className="truncate text-base font-bold text-foreground">{startup.name}</h3><StageBadge stage={startup.stage} /></div>
+                                <p className="text-sm text-muted-foreground">{startup.industry}</p>
+                                <div className="mt-1 flex items-center gap-3"><StatusDot status={startup.status} /><span className="text-xs text-muted-foreground/60">by {startup.founderName}</span></div>
                             </div>
                         </div>
                         <div className="mx-5 mb-4">
-                            <div className="flex items-center justify-between mb-1.5"><span className="text-xs text-[#8892A4]">Progress</span><span className="text-xs font-semibold text-white">{startup.progress}%</span></div>
-                            <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]"><div className="h-full rounded-full bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] transition-all duration-700" style={{ width: `${startup.progress}%` }} /></div>
+                            <div className="flex items-center justify-between mb-1.5"><span className="text-xs text-muted-foreground">Progress</span><span className="text-xs font-semibold text-foreground">{startup.progress}%</span></div>
+                            <div className="h-1.5 overflow-hidden rounded-full bg-foreground/5"><div className="h-full rounded-full bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] transition-all duration-700" style={{ width: `${startup.progress}%` }} /></div>
                         </div>
                         <div className="mx-5 mb-4 grid grid-cols-4 gap-2">
                             {startup.metrics.map(m => (
-                                <div key={m.label} className="rounded-xl bg-white/[0.03] p-2 text-center border border-white/[0.04]"><p className="text-xs font-bold text-white">{m.value}</p><p className="text-[9px] text-[#8892A4]">{m.label}</p></div>
+                                <div key={m.label} className="rounded-xl bg-muted p-2 text-center border border-border"><p className="text-xs font-bold text-foreground">{m.value}</p><p className="text-[9px] text-muted-foreground">{m.label}</p></div>
                             ))}
                         </div>
-                        <div className="border-t border-white/[0.04] px-5 py-3 flex items-center justify-between">
-                            <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-[#8892A4]" /><span className="text-xs text-[#8892A4]">{startup.teamSize} members</span></div>
+                        <div className="border-t border-border px-5 py-3 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-muted-foreground" /><span className="text-xs text-muted-foreground">{startup.teamSize} members</span></div>
                             <motion.button whileHover={{ x: 3 }} onClick={() => setSelectedStartup(startup)}
-                                className="flex items-center gap-1 text-xs font-semibold text-[#00E5FF] hover:text-white transition-colors">
+                                className="flex items-center gap-1 text-xs font-semibold text-[#00E5FF] hover:text-foreground transition-colors">
                                 Details<ChevronRight className="h-3.5 w-3.5" />
                             </motion.button>
                         </div>

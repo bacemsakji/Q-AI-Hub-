@@ -46,12 +46,12 @@ export function AuthInterceptModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-8 shadow-2xl"
+            className="relative w-full max-w-md bg-card/95 backdrop-blur-xl border border-border rounded-3xl p-8 shadow-2xl"
           >
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 text-[#8892A4] hover:text-white transition-colors"
+              className="absolute top-6 right-6 text-muted-foreground hover:text-foreground transition-colors"
             >
               <X size={24} />
             </button>
@@ -60,9 +60,9 @@ export function AuthInterceptModal({
             <div className="text-center space-y-6">
               {/* Icon */}
               <div className="flex justify-center">
-                <div className="w-16 h-16 rounded-full border-2 border-white/20 bg-white/10 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
+                <div className="w-16 h-16 rounded-full border-2 border-border bg-foreground/10 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
                   <div className="w-full h-full rounded-full flex items-center justify-center">
-                    <Lock className="text-white/90" size={28} />
+                    <Lock className="text-foreground/90" size={28} />
                   </div>
                 </div>
               </div>
@@ -70,17 +70,17 @@ export function AuthInterceptModal({
               {/* Title */}
               <div>
                 <h3 className="text-2xl mb-2">Sign in to Apply</h3>
-                <p className="text-[#8892A4]">
+                <p className="text-muted-foreground">
                   Log in or create your account to submit your application and track your progress.
                 </p>
               </div>
 
               {/* Event Context */}
               {eventName && (
-                <div className="bg-[#1A2035] rounded-xl p-4 border border-white/8">
-                  <p className="text-sm text-[#8892A4] mb-1">Applying to</p>
-                  <p className="text-white">{eventName}</p>
-                  {eventDate && <p className="text-xs text-[#8892A4] mt-1">{eventDate}</p>}
+                <div className="bg-card rounded-xl p-4 border border-border">
+                  <p className="text-sm text-muted-foreground mb-1">Applying to</p>
+                  <p className="text-foreground">{eventName}</p>
+                  {eventDate && <p className="text-xs text-muted-foreground mt-1">{eventDate}</p>}
                 </div>
               )}
 
@@ -95,7 +95,7 @@ export function AuthInterceptModal({
               </div>
 
               {/* Helper text */}
-              <p className="text-xs text-[#8892A4]">
+              <p className="text-xs text-muted-foreground">
                 Your application will resume after login
               </p>
             </div>

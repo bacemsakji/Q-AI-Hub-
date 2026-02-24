@@ -130,7 +130,7 @@ export const adminEvents: AdminEvent[] = [
         id: '1',
         title: 'Quantum Hackathon 2026',
         date: 'March 15-17, 2026',
-        location: 'Q-Ai Innovation Lab, Algiers',
+        location: 'Q-AI Innovation Lab, Tunis',
         category: 'Quantum Computing',
         status: 'Open',
         applicants: 45,
@@ -147,7 +147,7 @@ export const adminEvents: AdminEvent[] = [
         id: '2',
         title: 'AI Workshop Series',
         date: 'April 5-7, 2026',
-        location: 'TechHub Campus, Oran',
+        location: 'TechHub Campus, Sousse',
         category: 'Artificial Intelligence',
         status: 'Open',
         applicants: 78,
@@ -164,7 +164,7 @@ export const adminEvents: AdminEvent[] = [
         id: '3',
         title: 'Robotics Innovation Showcase',
         date: 'May 10, 2026',
-        location: 'National Science Center, Constantine',
+        location: 'National Science Center, Sfax',
         category: 'Robotics',
         status: 'Upcoming',
         applicants: 32,
@@ -180,7 +180,7 @@ export const adminEvents: AdminEvent[] = [
         id: '4',
         title: 'Blockchain & Web3 Summit',
         date: 'June 20-21, 2026',
-        location: 'Digital Innovation Park, Algiers',
+        location: 'Digital Innovation Park, Ariana',
         category: 'Blockchain',
         status: 'Upcoming',
         applicants: 56,
@@ -197,7 +197,7 @@ export const adminEvents: AdminEvent[] = [
         id: '5',
         title: 'BioTech Innovation Lab',
         date: 'February 1-3, 2026',
-        location: 'Medical Research Institute, Annaba',
+        location: 'Medical Research Institute, Monastir',
         category: 'BioTech',
         status: 'Closed',
         applicants: 41,
@@ -213,7 +213,7 @@ export const adminEvents: AdminEvent[] = [
         id: '6',
         title: 'Cybersecurity CTF Challenge',
         date: 'July 8-9, 2026',
-        location: 'CyberArena, Algiers',
+        location: 'CyberArena, Bizerte',
         category: 'Cybersecurity',
         status: 'Open',
         applicants: 63,
@@ -233,7 +233,7 @@ export const adminUsers: AdminUser[] = [
         startup: 'NeuroQuant Solutions', startupId: 's1', avatar: 'AB', status: 'Active',
         bio: 'Quantum computing researcher turned entrepreneur. Building hybrid quantum-neural networks for drug discovery.',
         skills: ['Quantum Computing', 'Machine Learning', 'Python', 'Qiskit'],
-        applied: 4, accepted: 3, joinDate: 'Jan 2025', phone: '+213 555 0101',
+        applied: 4, accepted: 3, joinDate: 'Jan 2025', phone: '+216 555 0101',
         linkedin: 'linkedin.com/in/aminebenali', github: 'github.com/aminebenali',
         applications: [
             { eventTitle: 'Quantum Hackathon 2026', eventId: '1', date: 'Feb 28, 2026', status: 'Accepted', score: 9.2 },
@@ -244,10 +244,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u2', name: 'Sara Meziane', email: 'sara.mez@mail.com', role: 'CTO',
-        startup: 'VisionAI Labs', startupId: 's2', avatar: 'SM', status: 'Active',
+        startup: 'Carthage Vision', startupId: 's2', avatar: 'SM', status: 'Active',
         bio: 'Computer vision specialist with 5 years of experience in autonomous systems.',
         skills: ['Computer Vision', 'PyTorch', 'CUDA', 'Edge Computing'],
-        applied: 3, accepted: 2, joinDate: 'Mar 2025', phone: '+213 555 0202',
+        applied: 3, accepted: 2, joinDate: 'Mar 2025', phone: '+216 555 0202',
         linkedin: 'linkedin.com/in/sarameziane', github: 'github.com/saramez',
         applications: [
             { eventTitle: 'AI Workshop Series', eventId: '2', date: 'Mar 12, 2026', status: 'Accepted', score: 9.5 },
@@ -260,7 +260,7 @@ export const adminUsers: AdminUser[] = [
         startup: 'ChainSecure', startupId: 's3', avatar: 'YK', status: 'Active',
         bio: 'Blockchain security expert specializing in smart contract auditing and DeFi protocol design.',
         skills: ['Solidity', 'Rust', 'Smart Contracts', 'Cryptography'],
-        applied: 2, accepted: 2, joinDate: 'Jun 2025', phone: '+213 555 0303',
+        applied: 2, accepted: 2, joinDate: 'Jun 2025', phone: '+216 555 0303',
         linkedin: 'linkedin.com/in/youcefkrim', github: 'github.com/youcefkrim',
         applications: [
             { eventTitle: 'Blockchain & Web3 Summit', eventId: '4', date: 'May 25, 2026', status: 'Accepted', score: 9.8 },
@@ -269,10 +269,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com', role: 'Research Lead',
-        startup: 'GenomicAI', startupId: 's4', avatar: 'LH', status: 'Active',
+        startup: 'BioData TN', startupId: 's4', avatar: 'LH', status: 'Active',
         bio: 'Bioinformatics researcher combining AI with genomic analysis to accelerate personalized medicine.',
         skills: ['Bioinformatics', 'R', 'TensorFlow', 'Genomics'],
-        applied: 3, accepted: 3, joinDate: 'Feb 2025', phone: '+213 555 0404',
+        applied: 3, accepted: 3, joinDate: 'Feb 2025', phone: '+216 555 0404',
         linkedin: 'linkedin.com/in/linahadj', github: 'github.com/linahadj',
         applications: [
             { eventTitle: 'BioTech Innovation Lab', eventId: '5', date: 'Jan 12, 2026', status: 'Accepted', score: 9.6 },
@@ -282,10 +282,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u5', name: 'Karim Bouzid', email: 'karim.b@mail.com', role: 'Product Manager',
-        startup: 'RoboFleet', startupId: 's5', avatar: 'KB', status: 'Pending',
+        startup: 'AgriDrones Carthage', startupId: 's5', avatar: 'KB', status: 'Pending',
         bio: 'Building autonomous drone fleets for agricultural monitoring.',
         skills: ['Drone Tech', 'Product Strategy', 'Agile', 'Sensors'],
-        applied: 2, accepted: 1, joinDate: 'Aug 2025', phone: '+213 555 0505',
+        applied: 2, accepted: 1, joinDate: 'Aug 2025', phone: '+216 555 0505',
         linkedin: 'linkedin.com/in/karimbouzid', github: 'github.com/karimbouzid',
         applications: [
             { eventTitle: 'Robotics Innovation Showcase', eventId: '3', date: 'Apr 18, 2026', status: 'Accepted', score: 8.4 },
@@ -294,10 +294,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u6', name: 'Nadia Ferhat', email: 'nadia.f@mail.com', role: 'ML Engineer',
-        startup: 'LangBridge', startupId: 's6', avatar: 'NF', status: 'Active',
+        startup: 'Fusha AI', startupId: 's6', avatar: 'NF', status: 'Active',
         bio: 'NLP specialist building multilingual AI models for Arabic dialects.',
         skills: ['NLP', 'Transformers', 'Arabic NLP', 'HuggingFace'],
-        applied: 3, accepted: 2, joinDate: 'Apr 2025', phone: '+213 555 0606',
+        applied: 3, accepted: 2, joinDate: 'Apr 2025', phone: '+216 555 0606',
         linkedin: 'linkedin.com/in/nadiaferhat', github: 'github.com/nadiaferhat',
         applications: [
             { eventTitle: 'AI Workshop Series', eventId: '2', date: 'Mar 9, 2026', status: 'Accepted', score: 9.3 },
@@ -307,10 +307,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u7', name: 'Omar Tazi', email: 'omar.tazi@mail.com', role: 'Hardware Engineer',
-        startup: 'NanoSense', startupId: 's7', avatar: 'OT', status: 'Active',
+        startup: 'Tunis Sensors', startupId: 's7', avatar: 'OT', status: 'Active',
         bio: 'Nanotechnology researcher designing next-gen biosensors for environmental monitoring.',
         skills: ['Nanotechnology', 'MEMS', 'Embedded C', 'Sensors'],
-        applied: 2, accepted: 1, joinDate: 'May 2025', phone: '+213 555 0707',
+        applied: 2, accepted: 1, joinDate: 'May 2025', phone: '+216 555 0707',
         linkedin: 'linkedin.com/in/omartazi', github: 'github.com/omartazi',
         applications: [
             { eventTitle: 'BioTech Innovation Lab', eventId: '5', date: 'Jan 14, 2026', status: 'Accepted', score: 8.6 },
@@ -319,10 +319,10 @@ export const adminUsers: AdminUser[] = [
     },
     {
         id: 'u8', name: 'Amira Slimani', email: 'amira.s@mail.com', role: 'Data Scientist',
-        startup: 'CyberShield DZ', startupId: 's8', avatar: 'AS', status: 'Suspended',
+        startup: 'CyberShield TN', startupId: 's8', avatar: 'AS', status: 'Suspended',
         bio: 'Cybersecurity data scientist developing AI-powered threat detection systems.',
         skills: ['Cybersecurity', 'Data Science', 'Network Security', 'Python'],
-        applied: 1, accepted: 0, joinDate: 'Sep 2025', phone: '+213 555 0808',
+        applied: 1, accepted: 0, joinDate: 'Sep 2025', phone: '+216 555 0808',
         linkedin: 'linkedin.com/in/amiraslimani', github: 'github.com/amiraslimani',
         applications: [
             { eventTitle: 'Cybersecurity CTF Challenge', eventId: '6', date: 'Jun 21, 2026', status: 'Rejected' },
@@ -353,7 +353,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's2', name: 'VisionAI Labs', founderId: 'u2', founderName: 'Sara Meziane',
+        id: 's2', name: 'Carthage Vision', founderId: 'u2', founderName: 'Sara Meziane',
         logo: 'VA', industry: 'Computer Vision / Safety', stage: 'Pre-Seed', status: 'Active',
         description: 'Real-time object detection system for industrial safety.',
         foundedDate: 'Mar 2025', teamSize: 3, funding: '$45K', progress: 48,
@@ -394,7 +394,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's4', name: 'GenomicAI', founderId: 'u4', founderName: 'Lina Hadj',
+        id: 's4', name: 'BioData TN', founderId: 'u4', founderName: 'Lina Hadj',
         logo: 'GA', industry: 'BioTech / Genomics', stage: 'Pre-Seed', status: 'Active',
         description: 'AI-powered genomic analysis platform enabling real-time variant calling.',
         foundedDate: 'Feb 2025', teamSize: 3, funding: '$60K', progress: 55,
@@ -414,7 +414,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's5', name: 'RoboFleet', founderId: 'u5', founderName: 'Karim Bouzid',
+        id: 's5', name: 'AgriDrones Carthage', founderId: 'u5', founderName: 'Karim Bouzid',
         logo: 'RF', industry: 'AgriTech / Drones', stage: 'Idea', status: 'Active',
         description: 'Autonomous drone fleets for precision agriculture.',
         foundedDate: 'Aug 2025', teamSize: 2, funding: '$10K', progress: 25,
@@ -432,7 +432,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's6', name: 'LangBridge', founderId: 'u6', founderName: 'Nadia Ferhat',
+        id: 's6', name: 'Fusha AI', founderId: 'u6', founderName: 'Nadia Ferhat',
         logo: 'LB', industry: 'EdTech / NLP', stage: 'Pre-Seed', status: 'Active',
         description: 'Multilingual AI models for Arabic dialects, building language tools that bridge education gaps.',
         foundedDate: 'Apr 2025', teamSize: 4, funding: '$80K', progress: 60,
@@ -452,7 +452,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's7', name: 'NanoSense', founderId: 'u7', founderName: 'Omar Tazi',
+        id: 's7', name: 'Tunis Sensors', founderId: 'u7', founderName: 'Omar Tazi',
         logo: 'NS', industry: 'CleanTech / Sensors', stage: 'Idea', status: 'On Hold',
         description: 'Next-gen biosensors for environmental monitoring.',
         foundedDate: 'May 2025', teamSize: 2, funding: '$5K', progress: 15,
@@ -470,7 +470,7 @@ export const startups: Startup[] = [
         ],
     },
     {
-        id: 's8', name: 'CyberShield DZ', founderId: 'u8', founderName: 'Amira Slimani',
+        id: 's8', name: 'CyberShield TN', founderId: 'u8', founderName: 'Amira Slimani',
         logo: 'CD', industry: 'Cybersecurity', stage: 'Idea', status: 'On Hold',
         description: 'AI-powered threat detection system designed for North African enterprises.',
         foundedDate: 'Sep 2025', teamSize: 1, funding: '$0', progress: 10,
@@ -501,18 +501,18 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a4', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
-            startup: 'GenomicAI', avatar: 'LH', status: 'Accepted', submittedAt: 'Feb 27, 2026',
+            startup: 'BioData TN', avatar: 'LH', status: 'Accepted', submittedAt: 'Feb 27, 2026',
             answers: [
-                { question: 'Describe your innovation and how it uses quantum computing.', answer: 'GenomicAI applies quantum machine learning to genomic sequence analysis.', type: 'text' },
+                { question: 'Describe your innovation and how it uses quantum computing.', answer: 'BioData TN applies quantum machine learning to genomic sequence analysis.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'genomicai_pitch.pdf', type: 'file' },
                 { question: 'Link to your GitHub repository.', answer: 'https://github.com/genomicai/quantum-genomics', type: 'url' },
             ],
         },
         {
             id: 'a6', userId: 'u6', name: 'Nadia Ferhat', email: 'nadia.f@mail.com',
-            startup: 'LangBridge', avatar: 'NF', status: 'Accepted', submittedAt: 'Feb 26, 2026',
+            startup: 'Fusha AI', avatar: 'NF', status: 'Accepted', submittedAt: 'Feb 26, 2026',
             answers: [
-                { question: 'Describe your innovation and how it uses quantum computing.', answer: 'LangBridge explores quantum natural language processing for Arabic dialects.', type: 'text' },
+                { question: 'Describe your innovation and how it uses quantum computing.', answer: 'Fusha AI explores quantum natural language processing for Arabic dialects.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'langbridge_deck.pdf', type: 'file' },
             ],
         },
@@ -520,7 +520,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
     '2': [
         {
             id: 'a2', userId: 'u2', name: 'Sara Meziane', email: 'sara.mez@mail.com',
-            startup: 'VisionAI Labs', avatar: 'SM', status: 'Accepted', submittedAt: 'Mar 12, 2026',
+            startup: 'Carthage Vision', avatar: 'SM', status: 'Accepted', submittedAt: 'Mar 12, 2026',
             answers: [
                 { question: 'What is your experience with machine learning?', answer: '5 years of experience in computer vision and deep learning.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'sara_cv.pdf', type: 'file' },
@@ -528,7 +528,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a4b', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
-            startup: 'GenomicAI', avatar: 'LH', status: 'Accepted', submittedAt: 'Mar 11, 2026',
+            startup: 'BioData TN', avatar: 'LH', status: 'Accepted', submittedAt: 'Mar 11, 2026',
             answers: [
                 { question: 'What is your experience with machine learning?', answer: 'PhD-level expertise in bioinformatics and AI.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'lina_cv.pdf', type: 'file' },
@@ -536,7 +536,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a6b', userId: 'u6', name: 'Nadia Ferhat', email: 'nadia.f@mail.com',
-            startup: 'LangBridge', avatar: 'NF', status: 'Accepted', submittedAt: 'Mar 9, 2026',
+            startup: 'Fusha AI', avatar: 'NF', status: 'Accepted', submittedAt: 'Mar 9, 2026',
             answers: [
                 { question: 'What is your experience with machine learning?', answer: 'NLP specialist with 4 years experience.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'nadia_cv.pdf', type: 'file' },
@@ -544,7 +544,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a5b', userId: 'u5', name: 'Karim Bouzid', email: 'karim.b@mail.com',
-            startup: 'RoboFleet', avatar: 'KB', status: 'Under Review', submittedAt: 'Mar 14, 2026',
+            startup: 'AgriDrones Carthage', avatar: 'KB', status: 'Under Review', submittedAt: 'Mar 14, 2026',
             answers: [
                 { question: 'What is your experience with machine learning?', answer: 'Applied ML for drone path optimization.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'karim_cv.pdf', type: 'file' },
@@ -554,7 +554,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
     '3': [
         {
             id: 'a2c', userId: 'u2', name: 'Sara Meziane', email: 'sara.mez@mail.com',
-            startup: 'VisionAI Labs', avatar: 'SM', status: 'Accepted', submittedAt: 'Apr 15, 2026',
+            startup: 'Carthage Vision', avatar: 'SM', status: 'Accepted', submittedAt: 'Apr 15, 2026',
             answers: [
                 { question: 'Describe your robotics project.', answer: 'Real-time object detection system for industrial safety environments.', type: 'text' },
                 { question: 'Upload a video demo or presentation.', answer: 'visionai_demo.mp4', type: 'file' },
@@ -562,7 +562,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a5c', userId: 'u5', name: 'Karim Bouzid', email: 'karim.b@mail.com',
-            startup: 'RoboFleet', avatar: 'KB', status: 'Accepted', submittedAt: 'Apr 18, 2026',
+            startup: 'AgriDrones Carthage', avatar: 'KB', status: 'Accepted', submittedAt: 'Apr 18, 2026',
             answers: [
                 { question: 'Describe your robotics project.', answer: 'Autonomous drone fleet for precision agriculture.', type: 'text' },
                 { question: 'Upload a video demo or presentation.', answer: 'robofleet_demo.mp4', type: 'file' },
@@ -590,7 +590,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a4e', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
-            startup: 'GenomicAI', avatar: 'LH', status: 'Accepted', submittedAt: 'Jan 12, 2026',
+            startup: 'BioData TN', avatar: 'LH', status: 'Accepted', submittedAt: 'Jan 12, 2026',
             answers: [
                 { question: 'What is your background in biotech or life sciences?', answer: 'PhD-level bioinformatics researcher with 12 publications.', type: 'text' },
                 { question: 'Upload your research proposal.', answer: 'genomicai_proposal.pdf', type: 'file' },
@@ -598,7 +598,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a7e', userId: 'u7', name: 'Omar Tazi', email: 'omar.tazi@mail.com',
-            startup: 'NanoSense', avatar: 'OT', status: 'Accepted', submittedAt: 'Jan 14, 2026',
+            startup: 'Tunis Sensors', avatar: 'OT', status: 'Accepted', submittedAt: 'Jan 14, 2026',
             answers: [
                 { question: 'What is your background in biotech or life sciences?', answer: 'Nanotechnology researcher designing biosensors.', type: 'text' },
                 { question: 'Upload your research proposal.', answer: 'nanosense_proposal.pdf', type: 'file' },
@@ -616,7 +616,7 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
         },
         {
             id: 'a8f', userId: 'u8', name: 'Amira Slimani', email: 'amira.s@mail.com',
-            startup: 'CyberShield DZ', avatar: 'AS', status: 'Rejected', submittedAt: 'Jun 21, 2026',
+            startup: 'CyberShield TN', avatar: 'AS', status: 'Rejected', submittedAt: 'Jun 21, 2026',
             answers: [
                 { question: 'Describe your cybersecurity skills and certifications.', answer: 'Data scientist with focus on AI-powered threat detection.', type: 'text' },
             ],

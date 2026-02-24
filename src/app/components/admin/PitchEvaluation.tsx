@@ -27,8 +27,8 @@ function EventsList({ onSelectEvent }: { onSelectEvent: (event: AdminEvent) => v
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="text-2xl font-bold text-white">Pitch Evaluation</h2>
-                <p className="mt-1 text-sm text-[#8892A4]">Select an event to evaluate accepted startups</p>
+                <h2 className="text-2xl font-bold text-foreground">Pitch Evaluation</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Select an event to evaluate accepted startups</p>
             </motion.div>
             <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {eventsWithStartups.map(event => {
@@ -37,16 +37,16 @@ function EventsList({ onSelectEvent }: { onSelectEvent: (event: AdminEvent) => v
                         <motion.button key={event.id} variants={cardItem}
                             whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,229,255,0.08)' }}
                             onClick={() => onSelectEvent(event)}
-                            className="group overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(15,22,40,0.95)] text-left transition-colors hover:border-white/[0.12]">
+                            className="group overflow-hidden rounded-2xl border border-border bg-card/95 text-left transition-colors hover:border-white/[0.12]">
                             <div className="relative h-32 overflow-hidden">
                                 <img src={event.image} alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" crossOrigin="anonymous" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E1A] via-[#0A0E1A]/40 to-transparent" />
-                                <div className="absolute bottom-3 left-3"><h3 className="text-sm font-bold text-white drop-shadow-lg">{event.title}</h3></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-[#0A0E1A]/40 to-transparent" />
+                                <div className="absolute bottom-3 left-3"><h3 className="text-sm font-bold text-foreground drop-shadow-lg">{event.title}</h3></div>
                             </div>
                             <div className="p-4">
-                                <div className="flex items-center gap-3 text-xs text-[#8892A4] mb-3"><Calendar className="h-3 w-3 text-[#00E5FF]/50" />{event.date}<MapPin className="h-3 w-3 ml-1 text-[#00E5FF]/50" />{event.location}</div>
+                                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3"><Calendar className="h-3 w-3 text-[#00E5FF]/50" />{event.date}<MapPin className="h-3 w-3 ml-1 text-[#00E5FF]/50" />{event.location}</div>
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-[#00FFC2]" /><span className="text-sm font-semibold text-white">{eventStartups.length}</span><span className="text-xs text-[#8892A4]">{eventStartups.length === 1 ? 'startup' : 'startups'}</span></div>
+                                    <div className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-[#00FFC2]" /><span className="text-sm font-semibold text-foreground">{eventStartups.length}</span><span className="text-xs text-muted-foreground">{eventStartups.length === 1 ? 'startup' : 'startups'}</span></div>
                                     <span className="text-xs font-semibold text-[#00E5FF] group-hover:translate-x-1 transition-transform">Evaluate →</span>
                                 </div>
                             </div>
@@ -63,30 +63,30 @@ function StartupsList({ event, onSelectStartup, onBack }: { event: AdminEvent; o
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
             <div>
-                <button onClick={onBack} className="mb-3 flex items-center gap-2 text-sm font-medium text-[#8892A4] hover:text-white transition-colors group"><ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />Back to Events</button>
-                <h2 className="text-2xl font-bold text-white">{event.title}</h2>
-                <p className="mt-1 text-sm text-[#8892A4]">Select a startup to evaluate their pitch</p>
+                <button onClick={onBack} className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"><ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />Back to Events</button>
+                <h2 className="text-2xl font-bold text-foreground">{event.title}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Select a startup to evaluate their pitch</p>
             </div>
             <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {eventStartups.map(s => (
                     <motion.button key={s.startupName} variants={cardItem}
                         whileHover={{ y: -3, boxShadow: '0 12px 30px rgba(0,229,255,0.06)' }}
                         onClick={() => onSelectStartup(s)}
-                        className="rounded-2xl border border-white/[0.06] bg-[rgba(15,22,40,0.95)] p-5 text-left hover:border-white/[0.12] transition-all">
+                        className="rounded-2xl border border-border bg-card/95 p-5 text-left hover:border-white/[0.12] transition-all">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-[#00E5FF] ring-2 ring-[#00E5FF]/15">
                                 {s.startup?.logo || s.startupName.slice(0, 2).toUpperCase()}
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-base font-bold text-white">{s.startupName}</h3>
-                                {s.startup && <p className="text-xs text-[#8892A4]">{s.startup.industry} · {s.startup.stage}</p>}
+                                <h3 className="text-base font-bold text-foreground">{s.startupName}</h3>
+                                {s.startup && <p className="text-xs text-muted-foreground">{s.startup.industry} · {s.startup.stage}</p>}
                             </div>
                             <span className="text-xs font-semibold text-[#00E5FF]">Evaluate →</span>
                         </div>
                         {/* Team Members */}
                         <div className="flex items-center gap-2">
-                            <Users className="h-3.5 w-3.5 text-[#8892A4]" />
-                            <span className="text-xs text-[#8892A4]">Team:</span>
+                            <Users className="h-3.5 w-3.5 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground">Team:</span>
                             <div className="flex -space-x-2">
                                 {s.members.map((m, i) => (
                                     <div key={i} className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-[10px] font-bold text-[#00E5FF] ring-2 ring-[#0F1628]">
@@ -94,7 +94,7 @@ function StartupsList({ event, onSelectStartup, onBack }: { event: AdminEvent; o
                                     </div>
                                 ))}
                             </div>
-                            <span className="text-xs text-white/60 ml-1">{s.members.map(m => m.name.split(' ')[0]).join(', ')}</span>
+                            <span className="text-xs text-foreground/60 ml-1">{s.members.map(m => m.name.split(' ')[0]).join(', ')}</span>
                         </div>
                     </motion.button>
                 ))}
@@ -143,21 +143,21 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
             <div>
-                <button onClick={onBack} className="mb-3 flex items-center gap-2 text-sm font-medium text-[#8892A4] hover:text-white transition-colors group"><ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />Back to Startups</button>
+                <button onClick={onBack} className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"><ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />Back to Startups</button>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF]/25 to-[#7B2FFF]/25 text-lg font-bold text-[#00E5FF] ring-2 ring-[#00E5FF]/20">
                             {startupInfo.startup?.logo || startupInfo.startupName.slice(0, 2).toUpperCase()}
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-white">{startupInfo.startupName}</h2>
+                            <h2 className="text-2xl font-bold text-foreground">{startupInfo.startupName}</h2>
                             {startupInfo.startup && <p className="text-sm text-[#00E5FF]">{startupInfo.startup.industry} · {startupInfo.startup.stage}</p>}
-                            <p className="text-xs text-[#8892A4]">Event: {event.title}</p>
+                            <p className="text-xs text-muted-foreground">Event: {event.title}</p>
                         </div>
                     </div>
                     <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                         onClick={() => setTimerActive(!timerActive)}
-                        className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${timerActive ? 'bg-[#FF4757]/15 text-[#FF4757] border border-[#FF4757]/25 shadow-[0_0_15px_rgba(255,71,87,0.1)]' : 'bg-white/[0.04] text-white border border-white/[0.08]'}`}>
+                        className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${timerActive ? 'bg-[#FF4757]/15 text-destructive dark:text-[#FF4757] border border-[#FF4757]/25 shadow-[0_0_15px_rgba(255,71,87,0.1)]' : 'bg-foreground/5 text-foreground border border-white/[0.08]'}`}>
                         <Timer className="h-4 w-4" />{formatTime(timer)}{timerActive ? ' ■ Stop' : ' ▶ Start'}
                     </motion.button>
                 </div>
@@ -165,18 +165,18 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
 
             {/* Team Members Card */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5">
+                className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5">
                 <div className="flex items-center gap-2 mb-4">
                     <Users className="h-4 w-4 text-[#00FFC2]" />
-                    <h3 className="text-sm font-bold text-white">Team Members ({startupInfo.members.length})</h3>
+                    <h3 className="text-sm font-bold text-foreground">Team Members ({startupInfo.members.length})</h3>
                 </div>
                 <div className="flex flex-wrap gap-3">
                     {startupInfo.members.map((m, i) => (
-                        <div key={i} className="flex items-center gap-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] px-3 py-2">
+                        <div key={i} className="flex items-center gap-2.5 rounded-xl bg-muted border border-border px-3 py-2">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-xs font-bold text-[#00E5FF]">{m.avatar}</div>
                             <div>
-                                <p className="text-sm font-medium text-white">{m.name}</p>
-                                <p className="text-[10px] text-[#8892A4]">{m.email}</p>
+                                <p className="text-sm font-medium text-foreground">{m.name}</p>
+                                <p className="text-[10px] text-muted-foreground">{m.email}</p>
                             </div>
                         </div>
                     ))}
@@ -187,10 +187,10 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                 <div className="lg:col-span-2 space-y-6">
                     {/* Scoring */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                        className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6">
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
                         <div className="flex items-center gap-2 mb-5">
                             <Sparkles className="h-5 w-5 text-[#00E5FF]" />
-                            <h3 className="text-lg font-bold text-white">Evaluation Criteria</h3>
+                            <h3 className="text-lg font-bold text-foreground">Evaluation Criteria</h3>
                         </div>
                         <div className="space-y-6">
                             {evaluationCriteria.map((criterion, i) => {
@@ -200,10 +200,10 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                                         <div className="flex items-center justify-between mb-2">
                                             <div>
                                                 <p className="text-sm font-semibold" style={{ color: criterion.color }}>{criterion.label}</p>
-                                                <p className="text-xs text-[#8892A4]">{criterion.description}</p>
+                                                <p className="text-xs text-muted-foreground">{criterion.description}</p>
                                             </div>
                                             <motion.span key={score} initial={{ scale: 1.3 }} animate={{ scale: 1 }} className="text-2xl font-bold tabular-nums" style={{ color: criterion.color }}>
-                                                {score}<span className="text-sm text-[#8892A4]">/10</span>
+                                                {score}<span className="text-sm text-muted-foreground">/10</span>
                                             </motion.span>
                                         </div>
                                         <input type="range" min="0" max="10" value={score}
@@ -223,10 +223,10 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
 
                     {/* Notes */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-                        className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6">
-                        <label className="block text-sm font-semibold text-white mb-2">Evaluator Notes</label>
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                        <label className="block text-sm font-semibold text-foreground mb-2">Evaluator Notes</label>
                         <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Capture observations about the startup, team strengths, risks, or follow-up questions..."
-                            className="w-full px-4 py-3 bg-[#0F1628] rounded-xl border border-white/[0.08] text-white text-sm leading-relaxed outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 min-h-[120px] resize-none placeholder:text-[#8892A4]/40 transition-all" />
+                            className="w-full px-4 py-3 bg-card rounded-xl border border-white/[0.08] text-foreground text-sm leading-relaxed outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 min-h-[120px] resize-none placeholder:text-muted-foreground/40 transition-all" />
                     </motion.div>
                 </div>
 
@@ -234,22 +234,22 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                 <div className="space-y-6">
                     {/* Score Summary */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-                        className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-6 text-center">
-                        <p className="text-xs text-[#8892A4] mb-2 uppercase tracking-wider">Total Score</p>
-                        <motion.p key={totalScore} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="text-5xl font-bold text-white tabular-nums">
-                            {totalScore}<span className="text-xl text-[#8892A4]">/{maxScore}</span>
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 text-center">
+                        <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wider">Total Score</p>
+                        <motion.p key={totalScore} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="text-5xl font-bold text-foreground tabular-nums">
+                            {totalScore}<span className="text-xl text-muted-foreground">/{maxScore}</span>
                         </motion.p>
-                        <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                        <div className="mt-3 h-2 overflow-hidden rounded-full bg-foreground/5">
                             <motion.div animate={{ width: `${percentage}%` }} transition={{ type: 'spring', stiffness: 100, damping: 15 }}
                                 className="h-full rounded-full" style={{ background: percentage >= 70 ? 'linear-gradient(to right, #00E5FF, #00FFC2)' : percentage >= 50 ? 'linear-gradient(to right, #FFB800, #FF8800)' : 'linear-gradient(to right, #FF4757, #FF3344)' }} />
                         </div>
                         <p className="mt-2 text-lg font-bold" style={{ color: percentage >= 70 ? '#00FFC2' : percentage >= 50 ? '#FFB800' : '#FF4757' }}>{percentage}%</p>
-                        <p className="mt-1 text-xs text-[#8892A4]">{percentage >= 70 ? 'Strong startup for advancement' : percentage >= 50 ? 'Promising — consider mentorship' : 'Needs significant improvement'}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">{percentage >= 70 ? 'Strong startup for advancement' : percentage >= 50 ? 'Promising — consider mentorship' : 'Needs significant improvement'}</p>
                     </motion.div>
 
                     {/* AI Feedback — Premium */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-                        className="relative overflow-hidden bg-[rgba(15,22,40,0.95)] backdrop-blur-xl rounded-2xl p-6"
+                        className="relative overflow-hidden bg-card/95 backdrop-blur-xl rounded-2xl p-6"
                         style={{ border: '1px solid transparent', backgroundClip: 'padding-box', backgroundImage: 'linear-gradient(rgba(15,22,40,0.95), rgba(15,22,40,0.95)), linear-gradient(135deg, #00E5FF40, #7B2FFF40, #00FFC240)', backgroundOrigin: 'border-box' }}>
                         <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-gradient-to-br from-[#00E5FF]/10 to-[#7B2FFF]/10 blur-2xl pointer-events-none" />
                         <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-gradient-to-tr from-[#7B2FFF]/8 to-[#00FFC2]/8 blur-xl pointer-events-none" />
@@ -260,14 +260,14 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                                     <Brain className="h-4 w-4 text-[#00E5FF]" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-white">AI Analysis</p>
-                                    <p className="text-[10px] text-[#8892A4]">Powered by Q-AI Engine</p>
+                                    <p className="text-sm font-bold text-foreground">AI Analysis</p>
+                                    <p className="text-[10px] text-muted-foreground">Powered by Q-AI Engine</p>
                                 </div>
                             </div>
 
                             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                                 onClick={handleGenerate} disabled={isGenerating}
-                                className="w-full relative overflow-hidden flex items-center justify-center gap-2.5 rounded-xl px-4 py-3.5 text-sm font-semibold text-white disabled:opacity-50 mb-5 group"
+                                className="w-full relative overflow-hidden flex items-center justify-center gap-2.5 rounded-xl px-4 py-3.5 text-sm font-semibold text-foreground disabled:opacity-50 mb-5 group"
                                 style={{ background: 'linear-gradient(135deg, #00E5FF, #7B2FFF, #00FFC2)', backgroundSize: '200% 200%' }}>
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                                 <Sparkles className="h-4 w-4" />
@@ -277,14 +277,14 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                             <AnimatePresence mode="wait">
                                 {isGenerating && (
                                     <motion.div key="loading" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                                        className="space-y-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                                        className="space-y-3 p-4 rounded-xl bg-white/[0.02] border border-border">
                                         {[1, 0.9, 0.75, 0.6].map((w, i) => (
                                             <div key={i} className="h-2.5 rounded-full overflow-hidden" style={{ width: `${w * 100}%`, background: '#1A2035' }}>
                                                 <motion.div animate={{ x: ['0%', '100%'] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.15, ease: 'easeInOut' }}
                                                     className="h-full w-1/3 bg-gradient-to-r from-transparent via-[#00E5FF]/20 to-transparent" />
                                             </div>
                                         ))}
-                                        <p className="text-[10px] text-[#8892A4] text-center mt-2">Processing startup evaluation…</p>
+                                        <p className="text-[10px] text-muted-foreground text-center mt-2">Processing startup evaluation…</p>
                                     </motion.div>
                                 )}
                                 {aiFeedback && !isGenerating && (
@@ -302,7 +302,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                                                     <span className="text-[9px] text-[#00FFC2]">Live</span>
                                                 </div>
                                             </div>
-                                            <p className="text-[13px] text-white/75 leading-[1.7]">{aiFeedback}</p>
+                                            <p className="text-[13px] text-foreground/75 leading-[1.7]">{aiFeedback}</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -315,9 +315,9 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                         <motion.button whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(0,255,194,0.25)' }} whileTap={{ scale: 0.98 }}
                             className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#00FFC2] px-4 py-3 text-sm font-bold text-[#0A0E1A] shadow-lg shadow-[#00FFC2]/20"><CheckCircle className="h-4 w-4" />Pass Startup</motion.button>
                         <motion.button whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(255,71,87,0.25)' }} whileTap={{ scale: 0.98 }}
-                            className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#FF4757] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#FF4757]/20"><XCircle className="h-4 w-4" />Fail Startup</motion.button>
+                            className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#FF4757] px-4 py-3 text-sm font-bold text-foreground shadow-lg shadow-[#FF4757]/20"><XCircle className="h-4 w-4" />Fail Startup</motion.button>
                         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                            className="w-full rounded-xl border border-white/[0.08] px-4 py-3 text-sm font-medium text-white hover:bg-white/[0.04] transition-colors"><Star className="inline h-4 w-4 mr-1.5 text-[#FFB800]" />Save Draft</motion.button>
+                            className="w-full rounded-xl border border-white/[0.08] px-4 py-3 text-sm font-medium text-foreground hover:bg-foreground/5 transition-colors"><Star className="inline h-4 w-4 mr-1.5 text-amber-600 dark:text-[#FFB800]" />Save Draft</motion.button>
                     </motion.div>
                 </div>
             </div>

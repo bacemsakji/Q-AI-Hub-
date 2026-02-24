@@ -143,8 +143,8 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
               <div key={step} className="relative z-10 flex flex-col items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${currentStep >= step
-                      ? 'bg-white/20 text-white border border-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
-                      : 'bg-[#0F1628] text-white/40 border border-white/10'
+                    ? 'bg-white/20 text-white border border-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
+                    : 'bg-[#0F1628] text-white/40 border border-white/10'
                     }`}
                 >
                   {currentStep > step ? <Check size={20} /> : step}
@@ -498,7 +498,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                       htmlFor="program-terms"
                       className="text-sm text-white/90"
                     >
-                      I agree to the terms and conditions. I understand that Q-Ai
+                      I agree to the terms and conditions. I understand that Q-AI
                       Hub provides IP protection and confidentiality for all
                       submissions.
                     </label>
@@ -509,8 +509,8 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                     disabled={!formData.agreeToTerms}
                     onClick={handleSubmit}
                     className={`!py-4 ${!formData.agreeToTerms
-                        ? 'opacity-50 cursor-not-allowed'
-                        : ''
+                      ? 'opacity-50 cursor-not-allowed'
+                      : ''
                       }`}
                   >
                     Submit Application

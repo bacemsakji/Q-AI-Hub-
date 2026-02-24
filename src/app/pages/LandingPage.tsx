@@ -81,7 +81,7 @@ export function LandingPage() {
             <Logo size="lg" showText={false} />
           </motion.div>
           <motion.h1
-            className="text-6xl md:text-8xl font-extrabold mt-12 mb-8 tracking-tight text-white leading-[1.1] drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
+            className="text-6xl md:text-8xl font-extrabold mt-12 mb-8 tracking-tight text-foreground leading-[1.1] drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -89,7 +89,7 @@ export function LandingPage() {
             The Gateway to Tech Ventures
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-[#8892A4] mb-16 max-w-2xl mx-auto font-medium"
+            className="text-xl md:text-2xl text-muted-foreground mb-16 max-w-2xl mx-auto font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -123,8 +123,8 @@ export function LandingPage() {
       <section id="programs" className="relative z-10 py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <FadeInSection variant="fade-up" className="text-center mb-16">
-            <p className="uppercase tracking-[0.25em] text-xs text-[#8892A4] mb-4 font-medium">
-              Q-Ai Hub Programs
+            <p className="uppercase tracking-[0.25em] text-xs text-muted-foreground mb-4 font-medium">
+              Q-AI Hub Programs
             </p>
             <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
               5 Axes. One Vision.
@@ -153,10 +153,10 @@ export function LandingPage() {
                     <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-8 md:p-12 lg:p-14 h-full min-h-[280px] md:min-h-[340px] items-center">
                       <div className="space-y-4 order-2 md:order-1">
                         <span className="inline-block h-1 w-20 rounded-full bg-white/30" />
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
+                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground">
                           {program.title}
                         </h3>
-                        <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+                        <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-xl">
                           {program.description}
                         </p>
                         <div className="flex items-center gap-3 pt-2">
@@ -166,27 +166,27 @@ export function LandingPage() {
                             className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20"
                           />
                           <div className="text-sm">
-                            <p className="text-white/95">Prof. {program.professor.name}</p>
-                            <p className="text-xs text-white/60">Program Director</p>
+                            <p className="text-foreground/95">Prof. {program.professor.name}</p>
+                            <p className="text-xs text-foreground/60">Program Director</p>
                           </div>
                         </div>
                         {program.id === 5 ? (
                           <button
-                            onClick={() => navigate('/events')}
-                            className="inline-flex items-center gap-2 text-sm mt-4 text-white/90 hover:text-white transition-colors"
+                            onClick={() => navigate('/events?view=public')}
+                            className="inline-flex items-center gap-2 text-sm mt-4 text-foreground/90 hover:text-foreground transition-colors"
                           >
                             Explore Events & Programs
                             <ArrowRight size={16} />
                           </button>
                         ) : (
-                          <p className="text-xs mt-4 text-white/50">Detailed axis journeys coming soon.</p>
+                          <p className="text-xs mt-4 text-muted-foreground">Detailed axis journeys coming soon.</p>
                         )}
                       </div>
-                      <div className="flex flex-col justify-center text-center md:text-right order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0">
-                        <p className="text-lg md:text-xl lg:text-2xl font-semibold text-white/95 mb-2 tracking-tight">
+                      <div className="flex flex-col justify-center text-center md:text-right order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0">
+                        <p className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground/95 mb-2 tracking-tight">
                           {program.cardTagline}
                         </p>
-                        <p className="text-sm md:text-base text-white/70 font-medium tracking-wide">
+                        <p className="text-sm md:text-base text-foreground/70 font-medium tracking-wide">
                           {program.cardPillar}
                         </p>
                       </div>
@@ -203,14 +203,14 @@ export function LandingPage() {
       <section id="about" className="relative z-10 py-24 md:py-32 px-6">
         <div className="max-w-3xl mx-auto">
           <FadeInSection variant="fade-up" className="text-center mb-12">
-            <p className="uppercase tracking-[0.25em] text-xs text-[#8892A4] mb-4 font-medium">
+            <p className="uppercase tracking-[0.25em] text-xs text-muted-foreground mb-4 font-medium">
               About
             </p>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-10 text-white">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-10 text-foreground">
               The Q-AI Hub
             </h2>
           </FadeInSection>
-          <div className="space-y-6 text-[#8892A4] text-base md:text-lg leading-relaxed">
+          <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
             <p>
               The Q-AI Hub is a pioneering research and innovation initiative hosted at ENICarthage, University of Carthage, Tunisia, positioned at the forefront of the convergence between Quantum Computing and Artificial Intelligence.
             </p>
@@ -243,10 +243,10 @@ export function LandingPage() {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  <div className="text-5xl md:text-7xl font-extrabold mb-2 text-white tracking-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.2)]">
+                  <div className="text-5xl md:text-7xl font-extrabold mb-2 text-foreground tracking-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.2)]">
                     {stat.value}{stat.suffix}
                   </div>
-                  <div className="text-[#8892A4] font-medium">{stat.label}</div>
+                  <div className="text-muted-foreground font-medium">{stat.label}</div>
                 </motion.div>
               ))}
             </div>

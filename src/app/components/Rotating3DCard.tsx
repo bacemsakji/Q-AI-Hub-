@@ -50,7 +50,7 @@ export function Rotating3DCard({ children, className = '', simple = false }: Rot
         whileHover={{ scale: 1.02, y: -2 }}
         transition={{ duration: 0.2 }}
       >
-        <div className="relative w-full h-full min-h-[280px] rounded-3xl overflow-hidden border border-white/10 glass-strong shadow-float">
+        <div className="relative w-full h-full min-h-[280px] rounded-3xl overflow-hidden border border-border glass-strong shadow-float">
           {cardContent}
         </div>
       </motion.div>
@@ -71,7 +71,7 @@ export function Rotating3DCard({ children, className = '', simple = false }: Rot
       }}
     >
       <motion.div
-        className="relative w-full h-full min-h-[320px] rounded-3xl overflow-hidden border border-white/10 glass-strong shadow-float"
+        className="relative w-full h-full min-h-[320px] rounded-3xl overflow-hidden border border-border glass-strong shadow-float"
         style={{ transform: 'translateZ(24px)' }}
         transition={{ duration: 0.3 }}
         whileHover={{ scale: isHovering ? 1.02 : 1 }}
