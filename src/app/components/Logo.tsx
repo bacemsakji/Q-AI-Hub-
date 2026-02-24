@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import logoImg from '../../assets/logo.png';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -24,36 +25,13 @@ export function Logo({ size = 'md', showText = true }: LogoProps) {
           height: iconSize,
         }}
       >
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full"
-        >
-          {/* Q head - circular with concentric rings */}
-          <circle cx="50" cy="30" r="18" fill="url(#quantumGradient)" />
-          <circle cx="50" cy="30" r="14" fill="none" stroke="url(#quantumGradient)" strokeWidth="1" opacity="0.6" />
-          <circle cx="50" cy="30" r="10" fill="none" stroke="url(#quantumGradient)" strokeWidth="1" opacity="0.4" />
-          <circle cx="50" cy="30" r="6" fill="none" stroke="url(#quantumGradient)" strokeWidth="1" opacity="0.3" />
-          
-          {/* A body - wide-spread legs */}
-          <path
-            d="M 50 48 L 35 85 L 42 85 L 50 65 L 58 85 L 65 85 Z"
-            fill="url(#quantumGradient)"
-          />
-          {/* A crossbar */}
-          <rect x="42" y="70" width="16" height="3" fill="#0A0E1A" />
-          
-          <defs>
-            <linearGradient id="quantumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-              <stop offset="50%" stopColor="rgba(255,255,255,0.85)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.75)" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <img
+          src={logoImg}
+          alt="Q-AI Hub Logo"
+          className="w-full h-full object-contain"
+        />
       </motion.div>
-      
+
       {showText && (
         <span
           className={`${sizes[size].text} font-bold text-foreground`}

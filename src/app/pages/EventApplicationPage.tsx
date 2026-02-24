@@ -27,6 +27,8 @@ export function EventApplicationPage() {
     pitchEnhanced: '',
     githubUrl: '',
     teamSize: 1,
+    userRole: '',
+    teammates: [] as { email: string; role: string }[],
     techStack: [] as string[],
     pitchDeck: null as File | null,
     acceptTerms: false,
@@ -118,6 +120,20 @@ export function EventApplicationPage() {
   };
 
   const sectors = ['HealthTech', 'FinTech', 'EdTech', 'GreenTech', 'DeepTech'];
+
+  const commonRoles = [
+    'CEO (Chief Executive Officer)',
+    'CTO (Chief Technology Officer)',
+    'COO (Chief Operating Officer)',
+    'Accountant',
+    'Software Engineer',
+    'Product Designer',
+    'Marketing Manager',
+    'Sales Representative',
+    'Legal Counsel',
+    'Data Scientist',
+    'AI Researcher',
+  ];
 
   return (
     <div className="min-h-screen relative">
@@ -384,16 +400,53 @@ export function EventApplicationPage() {
                         placeholder="https://github.com/..."
                       />
 
-                      <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Team Size</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="6"
-                          value={formData.teamSize}
-                          onChange={(e) => setFormData({ ...formData, teamSize: Number(e.target.value) })}
-                          className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
-                        />
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm text-[#8892A4] mb-2">Team Size</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="6"
+                            value={formData.teamSize}
+                            onChange={(e) => {
+                              const size = Number(e.target.value);
+                              const newTeammates = [...formData.teammates];
+
+                              if (size > 1) {
+                                // Adjust teammates array based on new size
+                                const diff = size - 1 - newTeammates.length;
+                                if (diff > 0) {
+                                  for (let i = 0; i < diff; i++) {
+                                    newTeammates.push({ email: '', role: '' });
+                                  }
+                                } else if (diff < 0) {
+                                  newTeammates.splice(size - 1);
+                                }
+                              } else {
+                                newTeammates.splice(0);
+                              }
+
+                              setFormData({ ...formData, teamSize: size, teammates: newTeammates });
+                            }}
+                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#8892A4] mb-2">Your Role *</label>
+                          <select
+                            value={formData.userRole}
+                            onChange={(e) =>
+                              setFormData({ ...formData, userRole: e.target.value })
+                            }
+                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                          >
+                            <option value="">Select your role</option>
+                            {commonRoles.map((role) => (
+                              <option key={role} value={role}>{role}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
 
                       {/* Team Member Email Invitations */}
@@ -406,23 +459,41 @@ export function EventApplicationPage() {
                           <p className="text-xs text-[#8892A4] mb-4">
                             Send email invitations to your {formData.teamSize - 1} teammate{formData.teamSize > 2 ? 's' : ''} to join your application.
                           </p>
-                          <div className="space-y-3">
-                            {Array.from({ length: Math.min(formData.teamSize - 1, 5) }, (_, i) => (
-                              <div key={i} className="flex items-center gap-2">
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/15 to-[#7B2FFF]/15 text-xs font-bold text-[#00E5FF]">
-                                  {i + 1}
+                          <div className="space-y-4">
+                            {formData.teammates.map((teammate, i) => (
+                              <div key={i} className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/15 to-[#7B2FFF]/15 text-xs font-bold text-[#00E5FF]">
+                                    {i + 1}
+                                  </div>
+                                  <input
+                                    type="email"
+                                    value={teammate.email}
+                                    onChange={(e) => {
+                                      const newTeammates = [...formData.teammates];
+                                      newTeammates[i].email = e.target.value;
+                                      setFormData({ ...formData, teammates: newTeammates });
+                                    }}
+                                    placeholder={`teammate${i + 1}@email.com`}
+                                    className="flex-1 px-3 py-2.5 bg-[#1A2035] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
+                                  />
                                 </div>
-                                <input
-                                  type="email"
-                                  placeholder={`teammate${i + 1}@email.com`}
-                                  className="flex-1 px-3 py-2.5 bg-[#1A2035] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
-                                />
-                                <button
-                                  type="button"
-                                  className="px-3 py-2.5 rounded-lg bg-[#00F5A0]/10 border border-[#00F5A0]/20 text-[#00F5A0] text-xs font-medium hover:bg-[#00F5A0]/20 transition-all whitespace-nowrap"
-                                >
-                                  Invite
-                                </button>
+                                <div className="pl-10">
+                                  <select
+                                    value={teammate.role}
+                                    onChange={(e) => {
+                                      const newTeammates = [...formData.teammates];
+                                      newTeammates[i].role = e.target.value;
+                                      setFormData({ ...formData, teammates: newTeammates });
+                                    }}
+                                    className="w-full px-3 py-2.5 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00F5A0] focus:outline-none transition-colors text-sm text-white"
+                                  >
+                                    <option value="">Select teammate role</option>
+                                    {commonRoles.map((role) => (
+                                      <option key={role} value={role}>{role}</option>
+                                    ))}
+                                  </select>
+                                </div>
                               </div>
                             ))}
                           </div>

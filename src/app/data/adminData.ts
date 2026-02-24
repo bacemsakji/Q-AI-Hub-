@@ -76,7 +76,8 @@ export interface Startup {
     logo: string;
     industry: string;
     stage: 'Idea' | 'Pre-Seed' | 'Seed' | 'Series A';
-    status: 'Active' | 'On Hold' | 'Graduated';
+    status: 'Active' | 'On Hold' | 'Graduated' | 'Pending' | 'Rejected';
+    pitchDate?: string;
     description: string;
     foundedDate: string;
     teamSize: number;
@@ -484,6 +485,34 @@ export const startups: Startup[] = [
         ],
         members: [
             { name: 'Amira Slimani', role: 'Data Scientist', avatar: 'AS' },
+        ],
+    },
+    {
+        id: 's9', name: 'Quantum Leap Labs', founderId: 'u9', founderName: 'Sami Khelil',
+        logo: 'QL', industry: 'Quantum Computing', stage: 'Seed', status: 'Pending',
+        description: 'Developing error-correction algorithms for near-term quantum devices.',
+        foundedDate: 'Jan 2026', teamSize: 5, funding: '$0', progress: 5,
+        milestones: [],
+        metrics: [
+            { label: 'Waitlist', value: '45' }, { label: 'Prototypes', value: '2' },
+        ],
+        members: [
+            { name: 'Sami Khelil', role: 'Founder', avatar: 'SK' },
+            { name: 'Ines B.', role: 'Quantum Physicist', avatar: 'IB' },
+        ],
+    },
+    {
+        id: 's10', name: 'EcoTrack Tunisia', founderId: 'u10', founderName: 'Fatma Baccar',
+        logo: 'ET', industry: 'GreenTech', stage: 'Idea', status: 'Pending',
+        description: 'IoT-based real-time pollution monitoring for industrial zones.',
+        foundedDate: 'Dec 2025', teamSize: 3, funding: '$0', progress: 12,
+        milestones: [],
+        metrics: [
+            { label: 'Sensors', value: '10' }, { label: 'Partners', value: '1' },
+        ],
+        members: [
+            { name: 'Fatma Baccar', role: 'Founder', avatar: 'FB' },
+            { name: 'Mehdi Z.', role: 'IoT Engineer', avatar: 'MZ' },
         ],
     },
 ];

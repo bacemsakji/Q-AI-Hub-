@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { startups as allStartups, type Startup } from '../../data/adminData';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.15 } } };
-const cardItem = { hidden: { opacity: 0, y: 24, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 200, damping: 20 } } };
+const cardItem = { hidden: { opacity: 0, y: 24, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } } };
 
 function StageBadge({ stage }: { stage: string }) {
     const s: Record<string, string> = {
@@ -19,6 +19,8 @@ function StatusDot({ status }: { status: string }) {
         Active: { dot: 'bg-[#00FFC2]', glow: 'shadow-[0_0_6px_rgba(0,255,194,0.5)]' },
         'On Hold': { dot: 'bg-[#FFB800]', glow: 'shadow-[0_0_6px_rgba(255,184,0,0.5)]' },
         Graduated: { dot: 'bg-[#00E5FF]', glow: 'shadow-[0_0_6px_rgba(0,229,255,0.5)]' },
+        Pending: { dot: 'bg-amber-500', glow: 'shadow-[0_0_6px_rgba(245,158,11,0.5)]' },
+        Rejected: { dot: 'bg-[#FF4757]', glow: 'shadow-[0_0_6px_rgba(255,71,87,0.5)]' },
     };
     const style = c[status] || { dot: 'bg-white/30', glow: '' };
     return <div className="flex items-center gap-1.5"><div className={`h-2 w-2 rounded-full ${style.dot} ${style.glow}`} /><span className="text-xs text-muted-foreground">{status}</span></div>;
@@ -31,6 +33,8 @@ function MilestoneIcon({ status }: { status: string }) {
 }
 
 function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: () => void }) {
+    const [pitchDate, setPitchDate] = useState('');
+
     return (
         <motion.div
             initial={{ x: 520, opacity: 0 }}
@@ -104,11 +108,49 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
                 </div>
 
                 <div className="border-t border-border p-6">
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-3 mb-6">
                         {[{ l: 'Founded', v: startup.foundedDate, c: '#00E5FF' }, { l: 'Funding', v: startup.funding, c: '#00FFC2' }, { l: 'Team Size', v: startup.teamSize, c: '#7B2FFF' }].map(s => (
                             <div key={s.l} className="rounded-xl bg-muted p-3 text-center border border-border"><p className="text-base font-bold" style={{ color: s.c }}>{s.v}</p><p className="text-[10px] text-muted-foreground">{s.l}</p></div>
                         ))}
                     </div>
+
+                    {startup.status === 'Pending' && (
+                        <div className="space-y-4">
+                            <div className="bg-[#FFB800]/10 border border-[#FFB800]/20 rounded-xl p-4">
+                                <h5 className="text-xs font-bold text-[#FFB800] uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <Calendar className="h-3.5 w-3.5" /> Pitch Scheduling
+                                </h5>
+                                {startup.pitchDate ? (
+                                    <p className="text-sm text-foreground">Scheduled for: <span className="font-bold">{startup.pitchDate}</span></p>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground mb-3">No pitch date scheduled yet.</p>
+                                )}
+                                <div className="flex gap-2">
+                                    <input
+                                        type="datetime-local"
+                                        value={pitchDate}
+                                        onChange={e => setPitchDate(e.target.value)}
+                                        className="flex-1 bg-background border border-border rounded-lg px-3 py-2 text-xs text-foreground outline-none focus:border-[#00E5FF]/40"
+                                    />
+                                    <button
+                                        disabled={!pitchDate}
+                                        className="px-3 py-2 bg-[#00E5FF]/15 border border-[#00E5FF]/25 text-[#00E5FF] text-xs font-bold rounded-lg hover:bg-[#00E5FF]/25 transition-all disabled:opacity-50"
+                                    >
+                                        Schedule
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3 mt-4">
+                                <button className="flex items-center justify-center gap-2 px-4 py-3 bg-[#00FFC2] text-[#0A0E1A] text-sm font-bold rounded-xl hover:shadow-[0_0_20px_rgba(0,255,194,0.3)] transition-all">
+                                    <CheckCircle className="h-4 w-4" /> Approve
+                                </button>
+                                <button className="flex items-center justify-center gap-2 px-4 py-3 bg-foreground/5 border border-white/10 text-foreground text-sm font-bold rounded-xl hover:bg-[#FF4757]/10 hover:border-[#FF4757]/30 hover:text-[#FF4757] transition-all">
+                                    <X className="h-4 w-4" /> Decline
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </motion.div>
@@ -118,19 +160,42 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
 export function StartupsSection() {
     const [search, setSearch] = useState('');
     const [stageFilter, setStageFilter] = useState('All');
+    const [tab, setTab] = useState<'Portfolio' | 'Applications'>('Portfolio');
     const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
 
     const filtered = allStartups.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(search.toLowerCase()) || s.industry.toLowerCase().includes(search.toLowerCase());
         const matchStage = stageFilter === 'All' || s.stage === stageFilter;
-        return matchSearch && matchStage;
+        const matchTab = tab === 'Portfolio' ? s.status !== 'Pending' : s.status === 'Pending';
+        return matchSearch && matchStage && matchTab;
     });
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="text-2xl font-bold text-foreground">Startup Portfolio</h2>
-                <p className="mt-1 text-sm text-muted-foreground">Track and manage incubated startups</p>
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-bold text-foreground">Startup Portfolio</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">Track and manage incubated startups</p>
+                </div>
+                <div className="flex items-center gap-1 rounded-xl bg-foreground/5 p-1 border border-border">
+                    <button
+                        onClick={() => setTab('Portfolio')}
+                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${tab === 'Portfolio' ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        Portfolio
+                    </button>
+                    <button
+                        onClick={() => setTab('Applications')}
+                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all relative ${tab === 'Applications' ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        New Applications
+                        {allStartups.filter(s => s.status === 'Pending').length > 0 && (
+                            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#FFB800] text-[10px] font-bold text-[#0A0E1A] ring-2 ring-[#0F1628]">
+                                {allStartups.filter(s => s.status === 'Pending').length}
+                            </span>
+                        )}
+                    </button>
+                </div>
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
