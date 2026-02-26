@@ -1,14 +1,47 @@
-import { useState } from 'react';
+import { useState, useContext, memo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { User, Mail, Lock, Eye, EyeOff, CreditCard, Shield } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { toast } from 'sonner';
+import { useTheme } from '../context/useTheme';
+import { validateEmail, validatePassword, validateTextField } from '../utils/formValidation';
+
+const Field = memo(({
+  label, icon: Icon, type, field, placeholder, showToggle, onToggle, show, value, onChange, error,
+}: {
+  label: string; icon: any; type: string; field: string;
+  placeholder: string; showToggle?: boolean; onToggle?: () => void; show?: boolean;
+  value: string; onChange: (value: string) => void; error?: string;
+}) => (
+  <div>
+    <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">{label}</label>
+    <div className="relative">
+      <Icon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+      <input
+        type={showToggle ? (show ? 'text' : 'password') : type}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={`w-full pl-11 ${showToggle ? 'pr-12' : 'pr-4'} py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${error ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+          }`}
+      />
+      {showToggle && (
+        <button type="button" onClick={onToggle}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+          {show ? <EyeOff size={16} /> : <Eye size={16} />}
+        </button>
+      )}
+    </div>
+    {error && <p className="mt-1.5 text-xs text-[#FF4757]">{error}</p>}
+  </div>
+));
 
 export function RegisterPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isDark } = useTheme();
   const [formData, setFormData] = useState({
     fullName: '',
     studentId: '',
@@ -43,12 +76,40 @@ export function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
-    if (!formData.fullName) newErrors.fullName = 'Full name is required';
-    if (!formData.studentId) newErrors.studentId = 'Student ID is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
-    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+    
+    // Validate full name
+    const nameValidation = validateTextField(formData.fullName, 'Full name', 2);
+    if (!nameValidation.isValid) {
+      newErrors.fullName = nameValidation.error;
+    }
+    
+    // Validate student ID
+    const idValidation = validateTextField(formData.studentId, 'Student ID', 3);
+    if (!idValidation.isValid) {
+      newErrors.studentId = idValidation.error;
+    }
+    
+    // Validate email format
+    const emailValidation = validateEmail(formData.email);
+    if (!emailValidation.isValid) {
+      newErrors.email = emailValidation.error;
+    }
+    
+    // Validate password strength
+    const passwordValidation = validatePassword(formData.password);
+    if (!passwordValidation.isValid) {
+      newErrors.password = passwordValidation.error;
+    }
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     setIsLoading(true);
     await new Promise(r => setTimeout(r, 1000));
@@ -71,37 +132,8 @@ export function RegisterPage() {
   const strengthLabel = ['', 'Too weak', 'Weak', 'Medium', 'Strong'];
   const strengthColor = ['', '#FF4757', '#FFB800', '#00D9F5', '#00F5A0'];
 
-  const Field = ({
-    label, icon: Icon, type, field, placeholder, showToggle, onToggle, show,
-  }: {
-    label: string; icon: any; type: string; field: string;
-    placeholder: string; showToggle?: boolean; onToggle?: () => void; show?: boolean;
-  }) => (
-    <div>
-      <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">{label}</label>
-      <div className="relative">
-        <Icon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
-        <input
-          type={showToggle ? (show ? 'text' : 'password') : type}
-          value={(formData as any)[field]}
-          onChange={e => set(field, e.target.value)}
-          placeholder={placeholder}
-          className={`w-full pl-11 ${showToggle ? 'pr-12' : 'pr-4'} py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors[field] ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
-            }`}
-        />
-        {showToggle && (
-          <button type="button" onClick={onToggle}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
-            {show ? <EyeOff size={16} /> : <Eye size={16} />}
-          </button>
-        )}
-      </div>
-      {errors[field] && <p className="mt-1.5 text-xs text-[#FF4757]">{errors[field]}</p>}
-    </div>
-  );
-
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-6 py-10">
+    <div className={`min-h-screen relative flex items-center justify-center p-6 py-10 ${isDark ? 'bg-[#0A0E1A] text-white' : 'bg-white text-gray-900'}`}>
       <ParticleBackground />
 
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -129,7 +161,8 @@ export function RegisterPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Field label="Full Name" icon={User} type="text" field="fullName" placeholder="Your full name" />
+              <Field label="Full Name" icon={User} type="text" field="fullName" placeholder="Your full name" 
+                value={formData.fullName} onChange={(val) => set('fullName', val)} error={errors.fullName} />
 
               <div>
                 <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">ENICarthage Student ID</label>
@@ -148,11 +181,13 @@ export function RegisterPage() {
                 <p className="mt-1 text-xs text-[#8892A4]">Used to verify your enrollment at ENICarthage</p>
               </div>
 
-              <Field label="Email" icon={Mail} type="email" field="email" placeholder="your@email.com" />
+              <Field label="Email" icon={Mail} type="email" field="email" placeholder="your@email.com" 
+                value={formData.email} onChange={(val) => set('email', val)} error={errors.email} />
 
               <div>
                 <Field label="Password" icon={Lock} type="password" field="password" placeholder="Create a strong password"
-                  showToggle onToggle={() => setShowPassword(p => !p)} show={showPassword} />
+                  showToggle onToggle={() => setShowPassword(p => !p)} show={showPassword}
+                  value={formData.password} onChange={(val) => set('password', val)} error={errors.password} />
                 {formData.password && (
                   <div className="mt-2">
                     <div className="flex gap-1 mb-1">
@@ -167,7 +202,8 @@ export function RegisterPage() {
               </div>
 
               <Field label="Confirm Password" icon={Lock} type="password" field="confirmPassword" placeholder="Repeat your password"
-                showToggle onToggle={() => setShowConfirm(p => !p)} show={showConfirm} />
+                showToggle onToggle={() => setShowConfirm(p => !p)} show={showConfirm}
+                value={formData.confirmPassword} onChange={(val) => set('confirmPassword', val)} error={errors.confirmPassword} />
 
               <motion.button
                 type="submit"

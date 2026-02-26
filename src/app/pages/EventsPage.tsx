@@ -11,6 +11,7 @@ import { Button } from '../components/Button';
 import { AuthInterceptModal } from '../components/AuthInterceptModal';
 import { events } from '../data/mockData';
 import { toast } from 'sonner';
+import { useTheme } from '../context/useTheme';
 
 type FilterType = 'All' | 'Hackathon' | 'Workshop' | 'Talk';
 
@@ -29,6 +30,7 @@ const statusConfig: Record<string, { label: string; color: string; glow: string 
 export function EventsPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const { isDark } = useTheme();
     const isPublicView = searchParams.get('view') === 'public';
 
     const [activeFilter, setActiveFilter] = useState<FilterType>('All');
@@ -66,7 +68,7 @@ export function EventsPage() {
     };
 
     return (
-        <div className="min-h-screen relative">
+        <div className={`min-h-screen relative ${isDark ? 'bg-[#0A0E1A] text-white' : 'bg-white text-gray-900'}`}>
             <ParticleBackground />
             {isLoggedIn ? (
                 <DashboardHeader activeTab="events" profileName={profileName} />

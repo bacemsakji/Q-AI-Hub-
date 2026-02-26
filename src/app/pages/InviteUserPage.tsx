@@ -5,10 +5,12 @@ import { ArrowLeft, Send } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { toast } from 'sonner';
+import { validateEmail } from '../utils/formValidation';
 
 export function InviteUserPage() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
     const [form, setForm] = useState({
         email: '',
         message: '',
@@ -16,19 +18,21 @@ export function InviteUserPage() {
 
     const handleChange = (field: string, value: string) => {
         setForm(prev => ({ ...prev, [field]: value }));
+        setErrors(prev => ({ ...prev, [field]: '' }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!form.email) {
-            toast.error('Please enter an email address.');
-            return;
+        const newErrors: Record<string, string> = {};
+        
+        // Validate email format
+        const emailValidation = validateEmail(form.email);
+        if (!emailValidation.isValid) {
+            newErrors.email = emailValidation.error || 'Please enter a valid email address';
         }
 
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(form.email)) {
-            toast.error('Please enter a valid email address.');
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
             return;
         }
 
@@ -87,8 +91,9 @@ export function InviteUserPage() {
                                     value={form.email}
                                     onChange={e => handleChange('email', e.target.value)}
                                     placeholder="john.doe@example.com"
-                                    className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors placeholder:text-muted-foreground/40"
+                                    className={`w-full px-4 py-3 bg-card rounded-xl border text-foreground outline-none focus:border-white/30 transition-colors placeholder:text-muted-foreground/40 ${errors.email ? 'border-[#FF4757]/60' : 'border-border'}`}
                                 />
+                                {errors.email && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.email}</p>}
                             </div>
                         </div>
 

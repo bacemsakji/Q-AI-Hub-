@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, FileText, Bell, Settings, LogOut, Calendar } from 'lucide-react';
+import { Home, FileText, Bell, Settings, LogOut, Calendar, Moon, Sun } from 'lucide-react';
 import { Logo } from './Logo';
 import { Button } from './Button';
+import { useTheme } from '../context/useTheme';
 
 interface DashboardHeaderProps {
     activeTab?: string;
@@ -11,6 +12,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChange }: DashboardHeaderProps) {
     const navigate = useNavigate();
+    const { isDark, toggleTheme } = useTheme();
 
     const navItems = [
         { id: 'overview', icon: Home, label: 'Overview' },
@@ -71,6 +73,13 @@ export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChang
             {/* Right section: User section */}
             <div className="flex justify-end flex-1 items-center gap-3">
                 <div className="flex items-center gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2.5 rounded-lg transition-colors hover:bg-white/10 border border-white/10 hover:border-white/20"
+                        aria-label="Toggle dark mode"
+                    >
+                        {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-slate-600" />}
+                    </button>
                     <div className="hidden sm:flex items-center gap-3 px-3 py-2 rounded-full bg-foreground/5 border border-border">
                         <img
                             src={`https://ui-avatars.com/api/?name=${profileName}&background=00F5A0&color=0A0E1A`}

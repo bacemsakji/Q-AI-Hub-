@@ -12,9 +12,11 @@ import { FadeInSection } from '../components/FadeInSection';
 import { FloatingGlassPanel } from '../components/FloatingGlassPanel';
 import { Rotating3DCard } from '../components/Rotating3DCard';
 import { programs } from '../data/mockData';
+import { useTheme } from '../context/useTheme';
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const { isDark } = useTheme();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState<{ id: number; title: string; axis: string } | null>(null);
   const [stats, setStats] = useState({ startups: 0, members: 0, partners: 0, axes: 0 });
@@ -66,7 +68,7 @@ export function LandingPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.3]);
 
   return (
-    <div className="min-h-screen relative">
+    <div className={`min-h-screen relative ${isDark ? 'bg-[#0A0E1A] text-white' : 'bg-white text-gray-900'}`}>
       <ParticleBackground />
       <Navigation />
 

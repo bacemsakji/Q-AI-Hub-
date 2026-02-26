@@ -9,6 +9,7 @@ import { UsersSection } from '../components/admin/UsersSection';
 import { StartupsSection } from '../components/admin/StartupsSection';
 import { PitchEvaluation } from '../components/admin/PitchEvaluation';
 import { Settings, Shield, Globe, Database, Download, Lock, Eye, EyeOff, Check } from 'lucide-react';
+import { validatePassword } from '../utils/formValidation';
 
 function AdminPasswordForm() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -23,11 +24,33 @@ function AdminPasswordForm() {
     e.preventDefault();
     setError('');
     setSuccess(false);
-    if (!currentPassword || !newPassword || !confirmPassword) { setError('All fields are required.'); return; }
-    if (newPassword.length < 8) { setError('New password must be at least 8 characters.'); return; }
-    if (newPassword !== confirmPassword) { setError('Passwords do not match.'); return; }
+    
+    if (!currentPassword) {
+      setError('Current password is required');
+      return;
+    }
+    
+    if (!newPassword) {
+      setError('New password is required');
+      return;
+    }
+    
+    // Validate new password strength
+    const passwordValidation = validatePassword(newPassword);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.error || 'Password does not meet requirements');
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    
     setSuccess(true);
-    setCurrentPassword(''); setNewPassword(''); setConfirmPassword('');
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
     setTimeout(() => setSuccess(false), 3000);
   };
 

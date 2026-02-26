@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Calendar, MapPin, Users, Star, Brain, CheckCircle, XCircle, Timer, Sparkles } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Users, Star, Brain, CheckCircle, XCircle, Timer, Sparkles, Send, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { adminEvents, applicantsByEvent, evaluationCriteria, startups, type AdminEvent, type Startup } from '../../data/adminData';
+import { toast } from 'sonner';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
 const cardItem = { hidden: { opacity: 0, y: 24, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } } };
@@ -108,8 +109,10 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
     const [notes, setNotes] = useState('');
     const [aiFeedback, setAiFeedback] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isGeneratingNotes, setIsGeneratingNotes] = useState(false);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
+    const [sentNotes, setSentNotes] = useState<Array<{ member: string; note: string; timestamp: string }>>([]);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const totalScore = Object.values(scores).reduce((a, v) => a + v, 0);
@@ -136,6 +139,45 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
             `${percentage >= 70 ? '✅ Recommended for advancement.' : '⚠️ Consider additional mentorship sessions.'}`
         );
         setIsGenerating(false);
+    };
+
+    const handleGenerateNotes = async () => {
+        setIsGeneratingNotes(true);
+        await new Promise(r => setTimeout(r, 1500));
+        const avg = evaluationCriteria.length > 0 ? totalScore / evaluationCriteria.length : 0;
+        const weaknesses = Object.entries(scores).filter(([, v]) => v < 5).map(([k]) => evaluationCriteria.find(c => c.key === k)?.label).filter(Boolean);
+        const generatedNotes = 
+            `Great pitch! Your startup shows ${avg >= 7 ? 'exceptional' : avg >= 5 ? 'strong' : 'solid'} potential. ` +
+            `Your team demonstrated excellent ${weaknesses.length === 0 ? 'execution across all criteria' : 'execution overall'}. ` +
+            (weaknesses.length > 0 ? `Focus on improving: ${weaknesses.join(', ')}. ` : '') +
+            `We look forward to seeing your progress. Keep up the momentum!`;
+        setNotes(generatedNotes);
+        setIsGeneratingNotes(false);
+    };
+
+    const handleSendNotes = async () => {
+        if (!notes.trim()) {
+            toast.error('Please write notes before sending');
+            return;
+        }
+        
+        // Save notes for each team member
+        const newSentNotes = startupInfo.members.map(member => ({
+            member: member.name,
+            note: notes,
+            timestamp: new Date().toLocaleString()
+        }));
+        
+        setSentNotes([...sentNotes, ...newSentNotes]);
+        
+        // Save to localStorage
+        const allNotes = JSON.parse(localStorage.getItem('evaluatorNotes') || '{}');
+        const startupKey = startupInfo.startupName;
+        allNotes[startupKey] = (allNotes[startupKey] || []).concat(newSentNotes);
+        localStorage.setItem('evaluatorNotes', JSON.stringify(allNotes));
+        
+        toast.success(`Notes sent to ${startupInfo.members.length} team member${startupInfo.members.length !== 1 ? 's' : ''}`);
+        setNotes('');
     };
 
     const formatTime = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
@@ -221,12 +263,61 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                         </div>
                     </motion.div>
 
-                    {/* Notes */}
+                    {/* Notes - Enhanced with AI and Send Feature */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
-                        <label className="block text-sm font-semibold text-foreground mb-2">Evaluator Notes</label>
-                        <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Capture observations about the startup, team strengths, risks, or follow-up questions..."
-                            className="w-full px-4 py-3 bg-card rounded-xl border border-white/[0.08] text-foreground text-sm leading-relaxed outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 min-h-[120px] resize-none placeholder:text-muted-foreground/40 transition-all" />
+                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 space-y-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <label className="block text-sm font-semibold text-foreground">Evaluator Notes</label>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={handleGenerateNotes}
+                                disabled={isGeneratingNotes}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7B2FFF]/15 text-[#00E5FF] hover:bg-[#7B2FFF]/25 disabled:opacity-50 transition-all text-xs font-medium">
+                                <Zap className="h-3.5 w-3.5" />
+                                {isGeneratingNotes ? 'Generating...' : 'AI Generate'}
+                            </motion.button>
+                        </div>
+                        <textarea
+                            value={notes}
+                            onChange={e => setNotes(e.target.value)}
+                            placeholder="Write constructive feedback for the team. The AI can help you draft notes based on their evaluation scores..."
+                            className="w-full px-4 py-3 bg-card rounded-xl border border-white/[0.08] text-foreground text-sm leading-relaxed outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 min-h-[140px] resize-none placeholder:text-muted-foreground/40 transition-all"
+                        />
+                        
+                        {/* Send Notes Button */}
+                        <motion.button
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(0,229,255,0.25)' }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={handleSendNotes}
+                            className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] px-4 py-3 text-sm font-bold text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20 hover:shadow-[#00E5FF]/30 transition-all">
+                            <Send className="h-4 w-4" />
+                            Send Notes to Team
+                        </motion.button>
+
+                        {/* Sent Notes History */}
+                        {sentNotes.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mt-4 p-4 rounded-xl bg-[#00FFC2]/5 border border-[#00FFC2]/20 space-y-3">
+                                <p className="text-xs font-semibold text-[#00FFC2] uppercase tracking-wider">✓ Notes Sent</p>
+                                {sentNotes.map((sent, idx) => (
+                                    <div key={idx} className="flex items-start gap-3 p-3 bg-card rounded-lg border border-white/[0.05]">
+                                        <div className="flex-shrink-0 mt-0.5">
+                                            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#00FFC2] to-[#00E5FF] flex items-center justify-center text-xs font-bold text-[#0A0E1A]">
+                                                ✓
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-foreground">{sent.member}</p>
+                                            <p className="text-xs text-muted-foreground mt-0.5">{sent.timestamp}</p>
+                                            <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{sent.note}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
                     </motion.div>
                 </div>
 

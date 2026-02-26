@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { toast } from 'sonner';
+import { useTheme } from '../context/useTheme';
+import { validateEmail } from '../utils/formValidation';
 
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isDark } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,28 +25,50 @@ export function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { email?: string; password?: string } = {};
-    if (!email) newErrors.email = 'Email is required';
-    if (!password) newErrors.password = 'Password is required';
-    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+    
+    // Validate email format
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      newErrors.email = emailValidation.error;
+    }
+    
+    // Validate password
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     setIsLoading(true);
     await new Promise(r => setTimeout(r, 800));
 
     localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', 'student');
-    localStorage.setItem('userName', 'Student User');
-
-    if (returnUrl && eventName) {
-      toast.success(`Welcome back! Resuming your application for ${eventName}`);
-      navigate(returnUrl);
+    
+    // Check if the user is an admin
+    if (email === 'admin@gmail.com') {
+      localStorage.setItem('userRole', 'admin');
+      localStorage.setItem('userName', 'Admin User');
+      toast.success('Welcome Admin!');
+      navigate('/admin');
     } else {
-      toast.success('Welcome back!');
-      navigate('/dashboard');
+      localStorage.setItem('userRole', 'student');
+      localStorage.setItem('userName', 'Student User');
+
+      if (returnUrl && eventName) {
+        toast.success(`Welcome back! Resuming your application for ${eventName}`);
+        navigate(returnUrl);
+      } else {
+        toast.success('Welcome back!');
+        navigate('/dashboard');
+      }
     }
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-6">
+    <div className={`min-h-screen relative flex items-center justify-center p-6 ${isDark ? 'bg-[#0A0E1A] text-white' : 'bg-white text-gray-900'}`}>
       <ParticleBackground />
 
       {/* Ambient glow */}
@@ -166,7 +191,7 @@ export function LoginPage() {
                 <Link
                   to="/register"
                   state={{ returnUrl, eventName }}
-                  className="text-emerald-600 dark:text-[#00F5A0] hover:text-cyan-600 dark:text-[#00D9F5] transition-colors font-medium"
+                  className="text-emerald-600 dark:text-[#00F5A0] hover:text-cyan-600 dark:hover:text-[#00D9F5] transition-colors font-medium"
                 >
                   Create one →
                 </Link>

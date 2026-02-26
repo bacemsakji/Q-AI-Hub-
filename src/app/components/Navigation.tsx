@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
 import { Button } from './Button';
+import { useTheme } from '../context/useTheme';
 
 interface NavigationProps {
   isLoggedIn?: boolean;
@@ -14,6 +15,7 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,6 +79,15 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
 
           {/* Right section (Auth Buttons or Mobile Toggle) */}
           <div className="flex justify-end gap-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-lg transition-colors hover:bg-white/10 border border-white/10 hover:border-white/20"
+              aria-label="Toggle dark mode"
+            >
+              {isDark ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
+            </button>
+
             {/* Desktop Auth Buttons */}
             <div className="hidden md:flex items-center gap-4">
               {isLoggedIn ? (
@@ -137,7 +148,14 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
                   </Link>
                 )
               )}
-              <div className="pt-4 space-y-3">
+              <div className="pt-4 space-y-3 border-t border-border">
+                <button
+                  onClick={toggleTheme}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors bg-foreground/5 hover:bg-foreground/10 border border-white/10"
+                >
+                  {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-slate-600" />}
+                  <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+                </button>
                 {isLoggedIn ? (
                   <Link to={userRole === 'admin' ? '/admin' : '/dashboard'}>
                     <Button variant="primary" fullWidth>
