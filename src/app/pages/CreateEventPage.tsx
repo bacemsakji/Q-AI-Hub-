@@ -5,11 +5,13 @@ import { ArrowLeft, Calendar, MapPin, Users, Clock, FileText, Tag, Image } from 
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
+import { InviteExpertsPanel, type EventExpert } from '../components/admin/InviteExpertsPanel';
 import { toast } from 'sonner';
 
 export function CreateEventPage() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [pendingExperts, setPendingExperts] = useState<EventExpert[]>([]);
     const [form, setForm] = useState({
         name: '',
         category: '',
@@ -38,8 +40,16 @@ export function CreateEventPage() {
         }
         setIsSubmitting(true);
         await new Promise(resolve => setTimeout(resolve, 1500));
+        // Save experts with a temp event ID (timestamp-based)
+        const tempEventId = `event-${Date.now()}`;
+        if (pendingExperts.length > 0) {
+            localStorage.setItem(`event-experts-${tempEventId}`, JSON.stringify(pendingExperts));
+        }
         toast.success('Event created successfully!');
         toast.message('An email has been sent to the organizing team confirming the event creation.');
+        if (pendingExperts.length > 0) {
+            toast.success(`Invitations sent to ${pendingExperts.length} expert${pendingExperts.length > 1 ? 's' : ''}`);
+        }
         navigate('/admin');
     };
 
@@ -252,6 +262,9 @@ export function CreateEventPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Expert Invitations */}
+                        <InviteExpertsPanel onChange={setPendingExperts} />
 
                         {/* Actions */}
                         <div className="flex gap-4">

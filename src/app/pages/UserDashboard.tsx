@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Home, FileText, Bell, Settings, LogOut, Rocket, Calendar, BellRing, Lock, Eye, EyeOff, Check, Users } from 'lucide-react';
+import { Home, FileText, Bell, Settings, LogOut, Rocket, Calendar, BellRing, Lock, Eye, EyeOff, Check, Users, Shield } from 'lucide-react';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
@@ -113,6 +113,7 @@ export function UserDashboard() {
     newEvents: true,
     juryFeedback: true,
   });
+  const [userRoles, setUserRoles] = useState<any[]>([]);
   const storedUserName = localStorage.getItem('userName') || 'Student';
   const [profileName, setProfileName] = useState(storedUserName);
 
@@ -153,6 +154,27 @@ export function UserDashboard() {
     }
 
     setApplications(savedApps);
+
+    // Load expert roles from localStorage
+    const userEmail = localStorage.getItem('userEmail') || 'student@eni.tn';
+    let roles: any[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith('event-experts-')) {
+        const eventId = key.replace('event-experts-', '');
+        const eventExperts = JSON.parse(localStorage.getItem(key) || '[]');
+        const userExpertEntry = eventExperts.find((e: any) => e.email.toLowerCase() === userEmail.toLowerCase());
+        
+        if (userExpertEntry) {
+          roles.push({
+            eventId,
+            role: userExpertEntry.role,
+            invitedAt: userExpertEntry.invitedAt
+          });
+        }
+      }
+    }
+    setUserRoles(roles);
 
     // Update active tab if query param changes
     const tabParam = searchParams.get('tab');
@@ -213,6 +235,7 @@ export function UserDashboard() {
   const navItems = [
     { id: 'overview', icon: Home, label: 'Overview' },
     { id: 'applications', icon: FileText, label: 'My Applications' },
+    { id: 'roles', icon: Shield, label: 'My Roles' },
     { id: 'events', icon: Calendar, label: 'Events' },
     { id: 'notifications', icon: Bell, label: 'Notifications' },
     { id: 'settings', icon: Settings, label: 'Settings' },
@@ -395,6 +418,56 @@ export function UserDashboard() {
                               {app.status === 'Accepted' ? 'Manage Startup →' : 'View Application'}
                             </button>
                           </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {activeTab === 'roles' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <h1 className="text-4xl mb-2">My Special Roles</h1>
+                <p className="text-[#8892A4] mb-8">Events where you are invited as an expert or partner</p>
+                
+                <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-6">
+                  {userRoles.length === 0 ? (
+                    <div className="text-center py-12">
+                      <Shield size={48} className="mx-auto mb-4 text-[#8892A4] opacity-20" />
+                      <p className="text-[#8892A4] mb-2">No special roles assigned yet</p>
+                      <p className="text-xs text-white/30">Roles are assigned by event administrators via email invitation.</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {userRoles.map((role, index) => (
+                        <div
+                          key={index}
+                          className="bg-[#1A2035] border border-white/8 rounded-xl p-6 hover:border-[#7B2FFF]/40 transition-all flex items-center gap-4"
+                        >
+                          <div className="w-12 h-12 rounded-xl bg-[#7B2FFF]/10 flex items-center justify-center shrink-0">
+                            <Shield className="text-[#a78bfa]" size={24} />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-lg font-medium mb-1">Event {role.eventId.includes('1') ? 'Quantum Hackathon' : 'Innovation Showcase'}</h3>
+                            <div className="flex items-center gap-2">
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] bg-[#7B2FFF]/20 text-[#a78bfa] border border-[#7B2FFF]/30">
+                                {role.role}
+                              </span>
+                              <span className="text-xs text-[#8892A4]">
+                                Joined {new Date(role.invitedAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                          <button 
+                            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all"
+                            title="View event details as observer"
+                          >
+                            <Eye size={18} />
+                          </button>
                         </div>
                       ))}
                     </div>

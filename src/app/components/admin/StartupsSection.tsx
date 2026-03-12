@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Filter, X, Users, DollarSign, TrendingUp, Calendar, CheckCircle, Clock, ChevronRight } from 'lucide-react';
+import { Search, Filter, X, Users, DollarSign, TrendingUp, Calendar, CheckCircle, Clock, ChevronRight, Video } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { startups as allStartups, type Startup } from '../../data/adminData';
 
@@ -58,6 +58,27 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
                         </div>
                     </div>
                     <p className="mt-4 text-sm leading-relaxed text-foreground/70">{startup.description}</p>
+                </div>
+
+                {/* Pitch Video Section */}
+                <div className="border-b border-border p-6">
+                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase flex items-center gap-2">
+                        <Video className="h-3.5 w-3.5 text-[#00D9F5]" /> Startup Pitch Video
+                    </h5>
+                    {(startup as any).pitchVideoUrl ? (
+                        <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-border bg-black">
+                            <video
+                                src={(startup as any).pitchVideoUrl}
+                                controls
+                                className="absolute inset-0 w-full h-full object-contain"
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-foreground/[0.02] py-8">
+                            <Video className="h-8 w-8 text-muted-foreground/30" />
+                            <p className="text-xs text-muted-foreground/50">No pitch video uploaded</p>
+                        </div>
+                    )}
                 </div>
 
                 <div className="border-b border-border p-6">

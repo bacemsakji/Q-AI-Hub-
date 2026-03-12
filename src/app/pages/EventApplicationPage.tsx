@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Upload, Check, Sparkles, Github } from 'lucide-react';
+import { Upload, Check, Sparkles, Video } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
+import { DashboardHeader } from '../components/DashboardHeader';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { toast } from 'sonner';
@@ -31,6 +32,8 @@ export function EventApplicationPage() {
     teammates: [] as { email: string; role: string }[],
     techStack: [] as string[],
     pitchDeck: null as File | null,
+    pitchVideo: null as File | null,
+    pitchVideoUrl: '',
     acceptTerms: false,
   });
 
@@ -54,6 +57,18 @@ export function EventApplicationPage() {
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData({ ...formData, logo: e.target.files[0] });
+    }
+  };
+
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 200 * 1024 * 1024) {
+        toast.error('Video must be under 200MB');
+        return;
+      }
+      const url = URL.createObjectURL(file);
+      setFormData({ ...formData, pitchVideo: file, pitchVideoUrl: url });
     }
   };
 
@@ -104,12 +119,17 @@ export function EventApplicationPage() {
 
     // Show confetti effect and success state
     setIsSubmitted(true);
+    setApplicationCode(applicationId);
 
     toast.success('Your application was sent successfully. A confirmation email has been sent to your inbox.');
 
     setTimeout(() => {
       localStorage.setItem(`application-${event.id}`, JSON.stringify({
         ...formData,
+        pitchVideo: null, // file object can't be serialized
+        pitchVideoUrl: formData.pitchVideoUrl,
+        pitchDeck: null,
+        logo: null,
         applicationId,
         eventId: event.id,
         eventName: event.title,
@@ -133,34 +153,29 @@ export function EventApplicationPage() {
     'Legal Counsel',
     'Data Scientist',
     'AI Researcher',
+    'Other',
   ];
+
+  const [applicationCode, setApplicationCode] = useState('');
+  const profileName = localStorage.getItem('userName') || 'Student';
 
   return (
     <div className="min-h-screen relative">
       <ParticleBackground />
 
-      <div className="relative z-10 min-h-screen py-12 px-6">
-        {/* Header */}
-        <div className="max-w-3xl mx-auto mb-8">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-[#8892A4] hover:text-white transition-colors mb-6"
-          >
-            <ArrowLeft size={20} />
-            Events
-          </Link>
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Full user account header */}
+        <DashboardHeader
+          activeTab=""
+          profileName={profileName}
+          onTabChange={() => {}}
+        />
 
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl">{event.title}</h1>
-            <div className="flex items-center gap-3">
-              <img
-                src={`https://ui-avatars.com/api/?name=${localStorage.getItem('userName')}&background=00F5A0&color=0A0E1A`}
-                alt="User"
-                className="w-10 h-10 rounded-full"
-              />
-              <span className="text-sm text-[#8892A4]">{localStorage.getItem('userName')}</span>
-            </div>
-          </div>
+        <div className="flex-1 py-12 px-6">
+        {/* Event title */}
+        <div className="max-w-3xl mx-auto mb-8">
+          <h1 className="text-3xl">{event.title}</h1>
+          <p className="text-[#8892A4] text-sm mt-1">Application Form</p>
         </div>
 
         {/* Progress bar */}
@@ -262,6 +277,35 @@ export function EventApplicationPage() {
                               <>
                                 <Upload className="w-12 h-12 mx-auto mb-2 text-[#8892A4]" />
                                 <p className="text-[#8892A4]">Click or drag your logo here</p>
+                              </>
+                            )}
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Startup Pitch Video */}
+                      <div>
+                        <label className="block text-sm text-[#8892A4] mb-2">Startup Pitch Video <span className="text-xs text-white/30">(optional, max 200MB)</span></label>
+                        <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-[#00D9F5] transition-colors cursor-pointer">
+                          <input
+                            type="file"
+                            accept="video/mp4,video/webm,video/ogg"
+                            onChange={handleVideoUpload}
+                            className="hidden"
+                            id="video-upload"
+                          />
+                          <label htmlFor="video-upload" className="cursor-pointer">
+                            {formData.pitchVideo ? (
+                              <div>
+                                <Check className="w-10 h-10 mx-auto mb-2 text-[#00D9F5]" />
+                                <p className="text-white text-sm">{formData.pitchVideo.name}</p>
+                                <p className="text-xs text-[#8892A4] mt-1">{(formData.pitchVideo.size / 1024 / 1024).toFixed(1)} MB</p>
+                              </div>
+                            ) : (
+                              <>
+                                <Video className="w-10 h-10 mx-auto mb-2 text-[#8892A4]" />
+                                <p className="text-[#8892A4] text-sm">Upload a short video explaining your startup</p>
+                                <p className="text-xs text-white/20 mt-1">MP4, WebM or OGG</p>
                               </>
                             )}
                           </label>
@@ -449,6 +493,22 @@ export function EventApplicationPage() {
                         </div>
                       </div>
 
+                      {formData.userRole === 'Other' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          className="mt-4"
+                        >
+                          <label className="block text-sm text-[#8892A4] mb-2">Specify Your Role *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Type your role..."
+                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                          />
+                        </motion.div>
+                      )}
+
                       {/* Team Member Email Invitations */}
                       {formData.teamSize > 1 && (
                         <div className="bg-[#0F1628] border border-white/8 rounded-xl p-5">
@@ -493,6 +553,21 @@ export function EventApplicationPage() {
                                       <option key={role} value={role}>{role}</option>
                                     ))}
                                   </select>
+
+                                  {teammate.role === 'Other' && (
+                                    <motion.div
+                                      initial={{ opacity: 0, height: 0 }}
+                                      animate={{ opacity: 1, height: 'auto' }}
+                                      className="mt-2"
+                                    >
+                                      <input
+                                        type="text"
+                                        required
+                                        placeholder="Specify teammate role..."
+                                        className="w-full px-3 py-2 bg-[#1A2540] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
+                                      />
+                                    </motion.div>
+                                  )}
                                 </div>
                               </div>
                             ))}
@@ -603,18 +678,19 @@ export function EventApplicationPage() {
                 <div className="bg-[#1A2035] rounded-xl p-6 mb-8 inline-block">
                   <p className="text-xs text-[#8892A4] mb-2">Application Reference ID</p>
                   <p className="text-2xl font-mono text-white/90">
-                    QAI-{Date.now().toString(36).toUpperCase()}
+                    {applicationCode || `QAI-${Date.now().toString(36).toUpperCase()}`}
                   </p>
                 </div>
 
                 <div className="mt-6">
-                  <Button variant="ghost" onClick={() => navigate('/dashboard')}>
+                  <Button variant="primary" onClick={() => navigate('/dashboard?tab=applications')}>
                     Track your application
                   </Button>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
         </div>
       </div>
     </div>

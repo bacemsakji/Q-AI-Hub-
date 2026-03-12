@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, FileText, Bell, Settings, LogOut, Calendar } from 'lucide-react';
+import { Home, FileText, Bell, Settings, LogOut, Calendar, Shield } from 'lucide-react';
 import { Logo } from './Logo';
 import { Button } from './Button';
 
@@ -15,6 +15,7 @@ export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChang
     const navItems = [
         { id: 'overview', icon: Home, label: 'Overview' },
         { id: 'applications', icon: FileText, label: 'My Applications' },
+        { id: 'roles', icon: Shield, label: 'My Roles' },
         { id: 'events', icon: Calendar, label: 'Events' },
         { id: 'notifications', icon: Bell, label: 'Notifications' },
         { id: 'settings', icon: Settings, label: 'Settings' },
