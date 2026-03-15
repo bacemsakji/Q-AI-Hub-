@@ -1,6 +1,67 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Q-AI Hub Light Mode - Arctic Marine */
+  --mint-green: #00F5A0;
+  /* Keeping accent values intact for specific uses */
+  --cyan: #00D9F5;
+  --electric-blue: #0061FF;
+
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: rgba(241, 245, 249, 0.85); /* Glassy Grey Slate-100 */
+  --card-foreground: #0f172a;
+  --popover: rgba(241, 245, 249, 0.85);
+  --popover-foreground: #0f172a;
+  --primary: #1e3a8a;
+  /* Neon Navy */
+  --primary-foreground: #ffffff;
+  --secondary: #e2e8f0;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --accent: #1e3a8a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  /* Danger */
+  --destructive-foreground: #ffffff;
+  --border: rgba(30, 58, 138, 0.15);
+  /* Navy hint border */
+  --input: rgba(30, 58, 138, 0.05);
+  --ring: #1e3a8a;
+  --radius: 0.75rem;
+
+  /* Font families */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size: 16px;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+
+  /* Frosted glass & blur layers - Light Mode */
+  --glass-bg: rgba(248, 250, 252, 0.6);
+  --glass-bg-strong: rgba(241, 245, 249, 0.9);
+  --glass-border: rgba(30, 58, 138, 0.1);
+  --glass-border-strong: rgba(30, 58, 138, 0.2);
+  --glass-blur: 20px;
+  --glass-blur-strong: 40px;
+  --shadow-soft: 0 8px 32px rgba(0, 229, 255, 0.08), 0 4px 16px rgba(123, 47, 255, 0.04);
+  --shadow-soft-lg: 0 24px 64px rgba(0, 229, 255, 0.12), 0 12px 32px rgba(123, 47, 255, 0.06);
+  --shadow-glass: 0 8px 32px rgba(0, 229, 255, 0.08), 0 0 0 1px rgba(0, 229, 255, 0.05) inset;
+  --shadow-float: 0 25px 50px -12px rgba(0, 229, 255, 0.15), 0 0 0 1px rgba(0, 229, 255, 0.06);
+
+  /* Liquid glass - Light Mode */
+  --liquid-glass-bg: rgba(241, 245, 249, 0.4);
+  --liquid-glass-bg-hover: rgba(241, 245, 249, 0.6);
+  --liquid-glass-border: rgba(0, 229, 255, 0.2);
+  --liquid-glass-border-hover: rgba(0, 229, 255, 0.4);
+  --liquid-glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 229, 255, 0.12), 0 4px 16px rgba(123, 47, 255, 0.05);
+  --liquid-glass-shadow-hover: 0 12px 40px rgba(0, 229, 255, 0.18), 0 8px 24px rgba(123, 47, 255, 0.1), 0 0 0 1px rgba(0, 229, 255, 0.15);
+}
+
+.dark {
   /* Q-AI Hub Color Palette */
   --mint-green: #00F5A0;
   --cyan: #00D9F5;
@@ -35,24 +96,12 @@
   --border: rgba(255, 255, 255, 0.08);
   --input: var(--input-bg);
   --ring: var(--electric-blue);
-  --radius: 0.75rem;
-
-  /* Font families */
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  --font-size: 16px;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
 
   /* Frosted glass & blur layers */
   --glass-bg: rgba(15, 22, 40, 0.4);
   --glass-bg-strong: rgba(15, 22, 40, 0.72);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-strong: rgba(255, 255, 255, 0.14);
-  --glass-blur: 20px;
-  --glass-blur-strong: 40px;
   --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.24);
   --shadow-soft-lg: 0 24px 64px rgba(0, 0, 0, 0.32);
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
@@ -195,5 +244,67 @@
     background: var(--liquid-glass-bg-hover);
     border-color: var(--liquid-glass-border-hover);
     box-shadow: var(--liquid-glass-highlight), var(--liquid-glass-shadow-hover);
+  }
+
+  /* Neon Button Gradient */
+  .neon-btn-gradient {
+    background: linear-gradient(135deg, #00E5FF 0%, #0061FF 100%);
+    border: none;
+    box-shadow: 0 10px 25px -5px rgba(0, 229, 255, 0.4), 0 8px 10px -6px rgba(0, 97, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: white !important;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neon-btn-gradient::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+  }
+
+  .neon-btn-gradient:hover::after {
+    left: 100%;
+  }
+
+  .neon-btn-gradient:hover {
+    box-shadow: 0 15px 35px -5px rgba(0, 229, 255, 0.6), 0 10px 15px -6px rgba(0, 97, 255, 0.4);
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+  }
+
+  .neon-btn-gradient:active {
+    transform: translateY(0);
+  }
+
+  /* Thin marine border around neon text for contrast in Light Mode */
+  .neon-text-border {
+    -webkit-text-stroke: 0.5px #1e3a8a; /* Marine blue stroke */
+    paint-order: stroke fill;
+  }
+
+  /* Glass Border Buttons */
+  .btn-glass-outline {
+    background: rgba(15, 22, 40, 0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: var(--foreground);
+    transition: all 0.3s ease;
+  }
+
+  .btn-glass-outline:hover {
+    border-color: rgba(0, 229, 255, 0.6);
+    background: rgba(0, 229, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
   }
 }

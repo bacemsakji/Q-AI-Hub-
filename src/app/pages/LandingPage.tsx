@@ -24,6 +24,8 @@ export function LandingPage() {
     setAuthModalOpen(true);
   };
 
+  const neutralGradient = 'from-slate-400/5 to-transparent dark:from-slate-400/10 dark:to-transparent';
+
   // Animate stats on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -81,7 +83,7 @@ export function LandingPage() {
             <Logo size="lg" showText={false} />
           </motion.div>
           <motion.h1
-            className="text-6xl md:text-8xl font-extrabold mt-12 mb-8 tracking-tight text-foreground leading-[1.1] drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
+            className="text-6xl md:text-8xl font-extrabold mt-12 mb-8 tracking-tight text-foreground leading-[1.1] drop-shadow-lg dark:drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -142,53 +144,48 @@ export function LandingPage() {
                 className="w-full"
                 style={{ zIndex: 10 + index }}
               >
-                <div className="p-px rounded-3xl bg-gradient-to-br from-[#00F5A0]/30 via-white/5 to-[#7B2FFF]/20">
-                  <Rotating3DCard simple className="h-full min-h-[280px] md:min-h-[340px] rounded-[1.5rem]">
+                <div className="p-px rounded-3xl bg-gradient-to-br from-primary/30 via-foreground/5 to-accent/20">
+                  <Rotating3DCard simple className="h-full min-h-[280px] md:min-h-[340px] rounded-[1.5rem] border border-border/50 bg-card/40 shadow-[0_15px_50px_rgba(0,229,255,0.08)]">
                     <div
-                      className="absolute inset-0 opacity-60"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
-                      }}
+                      className={`absolute inset-0 opacity-100 bg-gradient-to-br ${neutralGradient}`}
                     />
                     <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-8 md:p-12 lg:p-14 h-full min-h-[280px] md:min-h-[340px] items-center">
                       <div className="space-y-4 order-2 md:order-1">
-                        <span className="inline-block h-1 w-20 rounded-full bg-white/30" />
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground">
-                          {program.title}
-                        </h3>
+                        <span className="inline-block h-1 w-20 rounded-full bg-foreground/30" />
+                        <div className="flex flex-col gap-2">
+                          <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground">
+                            {program.title}
+                          </h3>
+                        </div>
                         <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-xl">
                           {program.description}
                         </p>
-                        <div className="flex items-center gap-3 pt-2">
-                          <img
-                            src={program.professor.photo}
-                            alt={program.professor.name}
-                            className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20"
-                          />
-                          <div className="text-sm">
-                            <p className="text-foreground/95">Prof. {program.professor.name}</p>
-                            <p className="text-xs text-foreground/60">Program Director</p>
-                          </div>
-                        </div>
                         {program.id === 5 ? (
-                          <button
+                          <Button
+                            variant="ghost"
                             onClick={() => navigate('/events?view=public')}
-                            className="inline-flex items-center gap-2 text-sm mt-4 text-foreground/90 hover:text-foreground transition-colors"
+                            className="mt-4 !px-4 !py-2 text-xs"
                           >
                             Explore Events & Programs
-                            <ArrowRight size={16} />
-                          </button>
+                            <ArrowRight size={14} />
+                          </Button>
                         ) : (
                           <p className="text-xs mt-4 text-muted-foreground">Detailed axis journeys coming soon.</p>
                         )}
                       </div>
-                      <div className="flex flex-col justify-center text-center md:text-right order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0">
-                        <p className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground/95 mb-2 tracking-tight">
-                          {program.cardTagline}
-                        </p>
-                        <p className="text-sm md:text-base text-foreground/70 font-medium tracking-wide">
-                          {program.cardPillar}
-                        </p>
+                      <div className="flex flex-col items-center md:items-end justify-center order-1 md:order-2 md:pl-8 lg:pl-12 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0">
+                        <div className="relative group">
+                          <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <img
+                            src={program.professor.photo}
+                            alt={program.professor.name}
+                            className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-background shadow-2xl ring-1 ring-foreground/10"
+                          />
+                        </div>
+                        <div className="mt-6 text-center md:text-right">
+                          <p className="text-xl font-bold text-foreground">Prof. {program.professor.name}</p>
+                          <p className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Program Director</p>
+                        </div>
                       </div>
                     </div>
                   </Rotating3DCard>
@@ -243,7 +240,7 @@ export function LandingPage() {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  <div className="text-5xl md:text-7xl font-extrabold mb-2 text-foreground tracking-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.2)]">
+                  <div className="text-5xl md:text-7xl font-extrabold mb-2 text-foreground tracking-tight drop-shadow-md dark:drop-shadow-[0_2px_16px_rgba(0,0,0,0.2)]">
                     {stat.value}{stat.suffix}
                   </div>
                   <div className="text-muted-foreground font-medium">{stat.label}</div>

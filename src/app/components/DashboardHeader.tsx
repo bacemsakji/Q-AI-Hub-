@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Home, FileText, Bell, Settings, LogOut, Calendar, Shield } from 'lucide-react';
 import { Logo } from './Logo';
 import { Button } from './Button';
+import { ThemeToggle } from './ThemeToggle';
 
 interface DashboardHeaderProps {
     activeTab?: string;
@@ -42,7 +43,7 @@ export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChang
     };
 
     return (
-        <header className="w-full border-b border-border bg-[rgba(10,14,26,0.95)] backdrop-blur-xl px-4 md:px-8 py-4 grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center relative z-50">
+        <header className="w-full border-b border-border bg-background/95 backdrop-blur-xl px-4 md:px-8 py-4 grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center relative z-50">
             {/* Left section: Logo */}
             <div className="flex justify-start">
                 <Link to="/" className="flex items-center gap-2">
@@ -57,9 +58,9 @@ export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChang
                         <button
                             key={item.id}
                             onClick={() => handleTabClick(item.id)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all ${activeTab === item.id
-                                ? 'bg-white/15 text-foreground border border-border shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
-                                : 'text-muted-foreground hover:text-foreground hover:bg-foreground/10'
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === item.id
+                                ? 'bg-[#00E5FF]/15 text-cyan-500 dark:text-[#00E5FF] shadow-[0_0_15px_rgba(0,229,255,0.2)] border border-[#00E5FF]/30'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                                 }`}
                         >
                             <item.icon size={16} />
@@ -72,6 +73,7 @@ export function DashboardHeader({ activeTab, profileName = 'Founder', onTabChang
             {/* Right section: User section */}
             <div className="flex justify-end flex-1 items-center gap-3">
                 <div className="flex items-center gap-3">
+                    <ThemeToggle />
                     <div className="hidden sm:flex items-center gap-3 px-3 py-2 rounded-full bg-foreground/5 border border-border">
                         <img
                             src={`https://ui-avatars.com/api/?name=${profileName}&background=00F5A0&color=0A0E1A`}

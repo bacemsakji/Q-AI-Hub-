@@ -9,9 +9,9 @@ interface FloatingGlassPanelProps {
 }
 
 const depthStyles = {
-  sm: 'shadow-soft hover:shadow-[0_12px_40px_rgba(0,0,0,0.28)]',
-  md: 'shadow-float hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.06)]',
-  lg: 'shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.06)] hover:shadow-[0_40px_80px_-16px_rgba(0,0,0,0.55)]',
+  sm: 'shadow-sm hover:shadow-md',
+  md: 'shadow-md hover:shadow-lg',
+  lg: 'shadow-lg hover:shadow-xl',
 };
 
 export function FloatingGlassPanel({ children, className = '', depth = 'md' }: FloatingGlassPanelProps) {

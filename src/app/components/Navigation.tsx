@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
 import { Button } from './Button';
+import { ThemeToggle } from './ThemeToggle';
 
 interface NavigationProps {
   isLoggedIn?: boolean;
@@ -59,7 +60,7 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
                     className="text-muted-foreground hover:text-foreground transition-colors duration-200 relative group"
                   >
                     {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover:w-full transition-all duration-300" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-foreground/60 group-hover:w-full transition-all duration-300" />
                   </a>
                 ) : (
                   <Link
@@ -68,7 +69,7 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
                     className="text-muted-foreground hover:text-foreground transition-colors duration-200 relative group"
                   >
                     {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover:w-full transition-all duration-300" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-foreground/60 group-hover:w-full transition-all duration-300" />
                   </Link>
                 )
               )}
@@ -79,6 +80,7 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
           <div className="flex justify-end gap-4">
             {/* Desktop Auth Buttons */}
             <div className="hidden md:flex items-center gap-4">
+              <ThemeToggle />
               {isLoggedIn ? (
                 <Link to={userRole === 'admin' ? '/admin' : '/dashboard'}>
                   <Button variant="primary">Dashboard</Button>
@@ -95,13 +97,16 @@ export function Navigation({ isLoggedIn = false, userRole }: NavigationProps) {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Menu & Theme Toggle */}
+            <div className="md:hidden flex items-center gap-3">
+              <ThemeToggle />
+              <button
+                className="text-foreground"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </div>

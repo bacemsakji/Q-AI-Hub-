@@ -17,7 +17,7 @@ export function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
+                className="text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
               >
                 <Linkedin size={20} />
               </a>
@@ -25,7 +25,7 @@ export function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
+                className="text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
               >
                 <Github size={20} />
               </a>
@@ -33,7 +33,7 @@ export function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
+                className="text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
               >
                 <Instagram size={20} />
               </a>

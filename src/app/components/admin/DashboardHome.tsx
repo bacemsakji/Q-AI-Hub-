@@ -67,13 +67,13 @@ function DonutChart({ segments, size = 160 }: { segments: { label: string; value
         <div className="flex items-center gap-6">
             <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
                 {paths.map((p, i) => (
-                    <motion.path key={i} d={p.d} fill={p.color} fillOpacity={0.85} stroke="#0A0E1A" strokeWidth="2"
+                    <motion.path key={i} d={p.d} fill={p.color} fillOpacity={0.85} className="stroke-background" strokeWidth="2"
                         initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3 + i * 0.1, type: 'spring' as const, stiffness: 200 }}
                         style={{ transformOrigin: `${cx}px ${cy}px` }} />
                 ))}
-                <circle cx={cx} cy={cy} r="32" fill="#0F1628" />
-                <text x={cx} y={cy - 4} textAnchor="middle" fill="white" fontSize="14" fontWeight="700">{total}</text>
-                <text x={cx} y={cy + 10} textAnchor="middle" fill="#8892A4" fontSize="8">STARTUPS</text>
+                <circle cx={cx} cy={cy} r="32" className="fill-card" />
+                <text x={cx} y={cy - 4} textAnchor="middle" className="fill-foreground font-bold text-sm">{total}</text>
+                <text x={cx} y={cy + 10} textAnchor="middle" className="fill-muted-foreground text-[8px]">STARTUPS</text>
             </svg>
             <div className="flex flex-col gap-1.5">
                 {paths.map((p, i) => (
@@ -94,12 +94,12 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
         { label: 'Total Events', value: '6', change: '+2 this month', icon: Calendar, gradient: 'from-[#00E5FF] to-[#0061FF]', glow: 'rgba(0,229,255,0.15)' },
         { label: 'Active Startups', value: '24', change: '+5 this month', icon: Rocket, gradient: 'from-[#00FFC2] to-[#00D9F5]', glow: 'rgba(0,255,194,0.15)' },
         { label: 'Total Users', value: '156', change: '+18 this month', icon: Users, gradient: 'from-[#7B2FFF] to-[#00E5FF]', glow: 'rgba(123,47,255,0.15)' },
-        { label: 'Pitches Evaluated', value: '42', change: '+8 this week', icon: Zap, gradient: 'from-[#FFB800] to-[#FF8800]', glow: 'rgba(255,184,0,0.15)' },
+        { label: 'Pitches Evaluated', value: '42', change: '+8 this week', icon: Zap, gradient: 'from-[#7B2FFF] to-[#0061FF]', glow: 'rgba(123,47,255,0.15)' },
     ];
 
     const recentActivity = [
         { action: 'New application received', detail: 'Sara Meziane applied to AI Workshop Series', time: '2 hours ago', dotColor: 'bg-[#00E5FF]', glowColor: 'shadow-[0_0_6px_rgba(0,229,255,0.5)]' },
-        { action: 'Event status updated', detail: 'BioTech Innovation Lab marked as Closed', time: '5 hours ago', dotColor: 'bg-amber-400', glowColor: 'shadow-[0_0_6px_rgba(251,191,36,0.5)]' },
+        { action: 'Event status updated', detail: 'BioTech Innovation Lab marked as Closed', time: '5 hours ago', dotColor: 'bg-[#7B2FFF]', glowColor: 'shadow-[0_0_6px_rgba(123,47,255,0.5)]' },
         { action: 'Pitch evaluated', detail: 'NeuroQuant Solutions scored 8.5/10', time: '1 day ago', dotColor: 'bg-[#00FFC2]', glowColor: 'shadow-[0_0_6px_rgba(0,255,194,0.5)]' },
         { action: 'User registered', detail: 'Karim Bouzid joined the platform', time: '2 days ago', dotColor: 'bg-[#7B2FFF]', glowColor: 'shadow-[0_0_6px_rgba(123,47,255,0.5)]' },
         { action: 'New event created', detail: 'Cybersecurity CTF Challenge published', time: '3 days ago', dotColor: 'bg-[#00E5FF]', glowColor: 'shadow-[0_0_6px_rgba(0,229,255,0.5)]' },
@@ -127,7 +127,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
     const fundingStats = [
         { label: 'Total Funding Raised', value: '$4.2M', icon: DollarSign, gradient: 'from-[#00FFC2] to-[#00E5FF]', glow: 'rgba(0,255,194,0.12)' },
         { label: 'Total Revenue', value: '$1.8M', icon: TrendingUp, gradient: 'from-[#7B2FFF] to-[#00E5FF]', glow: 'rgba(123,47,255,0.12)' },
-        { label: 'Avg Funding/Cohort', value: '$700K', icon: Target, gradient: 'from-[#FFB800] to-[#FF8800]', glow: 'rgba(255,184,0,0.12)' },
+        { label: 'Avg Funding/Cohort', value: '$700K', icon: Target, gradient: 'from-[#00E5FF] to-[#00FFC2]', glow: 'rgba(0,229,255,0.12)' },
         { label: 'Investment Rounds', value: '18', icon: Layers, gradient: 'from-[#00E5FF] to-[#0061FF]', glow: 'rgba(0,229,255,0.12)' },
     ];
 
@@ -135,9 +135,9 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
         { label: 'AI & Data', value: 32, color: '#00E5FF' },
         { label: 'FinTech', value: 20, color: '#7B2FFF' },
         { label: 'HealthTech', value: 18, color: '#00FFC2' },
-        { label: 'GreenTech', value: 14, color: '#FFB800' },
-        { label: 'SaaS', value: 10, color: '#FF6B6B' },
-        { label: 'E-commerce', value: 6, color: '#FF8800' },
+        { label: 'GreenTech', value: 14, color: '#0061FF' },
+        { label: 'SaaS', value: 10, color: '#00D9F5' },
+        { label: 'E-commerce', value: 6, color: '#00BFA5' },
     ];
 
     return (
@@ -158,23 +158,31 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                         initial={{ opacity: 0, y: 24, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: 0.15 + i * 0.08, type: 'spring' as const, stiffness: 200, damping: 20 }}
-                        whileHover={{ y: -4, boxShadow: `0 8px 30px ${stat.glow}` }}
-                        className="group relative overflow-hidden bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5 transition-colors hover:border-white/[0.12] cursor-pointer"
+                        whileHover={{ y: -5, filter: 'brightness(1.1)' }}
+                        className="group relative overflow-hidden rounded-2xl p-6 transition-all cursor-pointer"
+                        style={{
+                            background: 'var(--color-card)',
+                            boxShadow: `0 10px 40px ${stat.glow.replace('0.15', '0.08')}`,
+                            border: '1px solid var(--color-border)'
+                        }}
                     >
-                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${stat.gradient}`} style={{ opacity: 0.03 }} />
-                        <div className="relative">
-                            <div className="flex items-center justify-between">
-                                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{stat.label}</p>
-                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground/5 group-hover:bg-white/[0.08] transition-colors">
-                                    <stat.icon className="h-4 w-4 text-muted-foreground/80 group-hover:text-foreground/60 transition-colors" />
+                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 bg-gradient-to-br ${stat.gradient}`} />
+                        {/* Bottom Accent Glow */}
+                        <div className={`absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} opacity-40 blur-sm`} />
+                        
+                        <div className="relative z-10">
+                            <div className="flex items-center justify-between mb-4">
+                                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{stat.label}</p>
+                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted/50 shadow-inner group-hover:bg-primary/10 transition-colors">
+                                    <stat.icon className="h-4.5 w-4.5 text-muted-foreground/70 group-hover:text-primary transition-colors" />
                                 </div>
                             </div>
-                            <p className={`mt-3 text-4xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>
+                            <p className={`text-4xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent drop-shadow-sm`}>
                                 {stat.value}
                             </p>
-                            <div className="mt-2 flex items-center gap-1.5">
-                                <ArrowUpRight className="h-3.5 w-3.5 text-[#00FFC2]" />
-                                <p className="text-xs font-medium text-[#00FFC2]">{stat.change}</p>
+                            <div className="mt-3 flex items-center gap-1.5">
+                                <ArrowUpRight className="h-3.5 w-3.5 text-emerald-600 dark:text-[#00FFC2]" />
+                                <p className="text-xs font-medium text-emerald-600 dark:text-[#00FFC2]">{stat.change}</p>
                             </div>
                         </div>
                     </motion.div>
@@ -190,11 +198,13 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                 ].map((chart, ci) => (
                     <motion.div key={chart.title}
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + ci * 0.1 }}
-                        whileHover={{ y: -3, borderColor: 'rgba(255,255,255,0.1)' }}
-                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5 transition-all">
+                        whileHover={{ y: -3, borderColor: 'var(--color-border)' }}
+                        className="relative rounded-2xl p-6 transition-all border border-border/50 bg-card/40"
+                        style={{ boxShadow: '0 8px 30px rgba(0, 229, 255, 0.04)' }}
+                    >
                         <div className="flex items-center justify-between mb-1">
                             <p className="text-sm font-semibold text-foreground">{chart.title}</p>
-                            <span className="text-xs font-medium text-[#00FFC2]">{chart.change}</span>
+                            <span className="text-xs font-medium text-emerald-600 dark:text-[#00FFC2]">{chart.change}</span>
                         </div>
                         <p className="text-2xl font-bold mb-3" style={{ color: chart.color }}>{chart.latest}</p>
                         <MiniLineChart data={chart.data} color={chart.color} height={80} />
@@ -210,31 +220,51 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                 {/* Funding Stats */}
                 <motion.div variants={item} className="lg:col-span-2">
                     <div className="flex items-center gap-2 mb-4">
-                        <DollarSign className="h-5 w-5 text-[#00FFC2]" />
+                        <DollarSign className="h-5 w-5 text-emerald-600 dark:text-[#00FFC2]" />
                         <h3 className="text-base font-bold text-foreground">Funding & Economic Impact</h3>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {fundingStats.map((fs, fi) => (
                             <motion.div key={fs.label}
                                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 + fi * 0.08 }}
-                                whileHover={{ y: -3, boxShadow: `0 8px 24px ${fs.glow}` }}
-                                className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-5 hover:border-white/[0.12] transition-all cursor-default">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/5">
-                                        <fs.icon className="h-4 w-4 text-muted-foreground" />
+                                whileHover={{ y: -5, filter: 'brightness(1.1)' }}
+                                className="relative rounded-2xl p-6 transition-all cursor-default overflow-hidden group"
+                                style={{
+                                    background: 'var(--color-card)',
+                                    boxShadow: `0 10px 40px ${fs.glow.replace('0.12', '0.08')}`,
+                                    border: '1px solid var(--color-border)'
+                                }}
+                            >
+                                {/* Background Glow Layer */}
+                                <div 
+                                    className={`absolute inset-0 bg-gradient-to-br ${fs.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} 
+                                />
+                                {/* Bottom Accent Glow */}
+                                <div 
+                                    className={`absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r ${fs.gradient} opacity-40 blur-sm`} 
+                                />
+                                
+                                <div className="relative z-10">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-foreground/5 shadow-inner">
+                                            <fs.icon className="h-4.5 w-4.5 text-muted-foreground/70" />
+                                        </div>
+                                        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{fs.label}</p>
                                     </div>
-                                    <p className="text-xs text-muted-foreground">{fs.label}</p>
+                                    <p className={`text-3xl font-bold bg-gradient-to-r ${fs.gradient} bg-clip-text text-transparent drop-shadow-sm`}>
+                                        {fs.value}
+                                    </p>
                                 </div>
-                                <p className={`text-2xl font-bold bg-gradient-to-r ${fs.gradient} bg-clip-text text-transparent`}>
-                                    {fs.value}
-                                </p>
                             </motion.div>
                         ))}
                     </div>
                 </motion.div>
 
                 {/* Sector Pie Chart */}
-                <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-5">
+                <motion.div variants={item} 
+                    className="relative rounded-2xl p-6 border border-border/50 bg-card/40"
+                    style={{ boxShadow: '0 10px 40px rgba(0, 229, 255, 0.05)' }}
+                >
                     <div className="flex items-center gap-2 mb-5">
                         <PieChart className="h-5 w-5 text-purple-600 dark:text-[#7B2FFF]" />
                         <h3 className="text-base font-bold text-foreground">Sector Focus</h3>
@@ -245,10 +275,13 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
 
             {/* Activity + Quick Actions */}
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                <motion.div variants={item} className="lg:col-span-2 bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                <motion.div variants={item} 
+                    className="lg:col-span-2 relative rounded-2xl p-7 border border-border/50 bg-card/40"
+                    style={{ boxShadow: '0 12px 50px rgba(0, 229, 255, 0.06)' }}
+                >
                     <div className="flex items-center justify-between mb-5">
                         <div className="flex items-center gap-2">
-                            <Activity className="h-5 w-5 text-[#00E5FF]" />
+                            <Activity className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
                             <h3 className="text-base font-bold text-foreground">Recent Activity</h3>
                         </div>
                         <span className="text-xs text-muted-foreground">Last 7 days</span>
@@ -260,7 +293,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + i * 0.08 }}
-                                whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.03)' }}
+                                whileHover={{ x: 4, backgroundColor: 'var(--color-muted)' }}
                                 className="flex items-start gap-3 rounded-lg p-3 transition-all cursor-default"
                             >
                                 <div className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${activity.dotColor} ${activity.glowColor}`} />
@@ -274,30 +307,39 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                     </div>
                 </motion.div>
 
-                <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                <motion.div variants={item} 
+                    className="relative rounded-2xl p-7 border border-border/50 bg-card/40"
+                    style={{ boxShadow: '0 12px 50px rgba(0, 229, 255, 0.06)' }}
+                >
                     <div className="flex items-center gap-2 mb-5">
-                        <Zap className="h-5 w-5 text-amber-600 dark:text-[#FFB800]" />
+                        <Zap className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
                         <h3 className="text-base font-bold text-foreground">Quick Actions</h3>
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
                         {quickActions.map((action, i) => (
                             <motion.button
                                 key={action.label}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 + i * 0.08 }}
-                                whileHover={{ scale: 1.02, x: 2 }}
+                                whileHover={{ 
+                                    scale: 1.02, 
+                                    x: 4,
+                                    backgroundColor: 'rgba(0, 229, 255, 0.05)',
+                                    borderColor: 'rgba(0, 229, 255, 0.2)'
+                                }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => action.nav === 'create-event' ? navigate('/admin/events/create') : onNavigate(action.nav)}
-                                className="flex items-center gap-3 rounded-xl bg-muted p-3.5 text-left transition-all hover:bg-foreground/5 border border-transparent hover:border-border"
+                                className="group/btn flex items-center gap-4 rounded-2xl bg-muted/30 p-4 text-left transition-all border border-border hover:shadow-lg hover:shadow-cyan-500/5"
                             >
-                                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00E5FF]/10">
-                                    <action.icon className="h-4 w-4 text-[#00E5FF]" />
+                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF]/10 to-[#0061FF]/10 group-hover/btn:from-[#00E5FF]/20 group-hover/btn:to-[#0061FF]/20 transition-all duration-300">
+                                    <action.icon className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF] group-hover/btn:scale-110 transition-transform" />
                                 </div>
-                                <div>
-                                    <p className="text-sm font-medium text-foreground/90">{action.label}</p>
-                                    <p className="text-[11px] text-muted-foreground">{action.desc}</p>
+                                <div className="flex-1">
+                                    <p className="text-sm font-bold text-foreground/90 group-hover/btn:text-primary transition-colors">{action.label}</p>
+                                    <p className="text-[11px] leading-tight text-muted-foreground mt-0.5">{action.desc}</p>
                                 </div>
+                                <ArrowUpRight className="h-4 w-4 text-muted-foreground/30 group-hover/btn:text-cyan-500 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-all" />
                             </motion.button>
                         ))}
                     </div>
@@ -305,13 +347,16 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
             </div>
 
             {/* Upcoming Events */}
-            <motion.div variants={item} className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+            <motion.div variants={item} 
+                className="relative rounded-2xl p-7 border border-border/50 bg-card/40"
+                style={{ boxShadow: '0 15px 60px rgba(0, 229, 255, 0.08)' }}
+            >
                 <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2">
-                        <Calendar className="h-5 w-5 text-[#00E5FF]" />
+                        <Calendar className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
                         <h3 className="text-base font-bold text-foreground">Upcoming Events</h3>
                     </div>
-                    <button onClick={() => onNavigate('events')} className="text-xs font-medium text-[#00E5FF] hover:text-[#00E5FF]/80 transition-colors">View all →</button>
+                    <button onClick={() => onNavigate('events')} className="text-xs font-medium text-cyan-600 dark:text-[#00E5FF] hover:text-cyan-600 dark:text-[#00E5FF]/80 transition-colors">View all →</button>
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {upcomingEvents.map((event, i) => (
@@ -321,10 +366,10 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 + i * 0.1 }}
                             whileHover={{ y: -2, borderColor: 'rgba(0,229,255,0.15)' }}
-                            className="rounded-xl border border-border p-4 transition-all hover:bg-white/[0.02] cursor-pointer"
+                            className="rounded-xl border border-border p-4 transition-all hover:bg-muted/50 cursor-pointer"
                         >
                             <div className="flex items-center justify-between">
-                                <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${event.status === 'Open' ? 'bg-[#00FFC2]/15 text-[#00FFC2]' : 'bg-[#00E5FF]/10 text-[#00E5FF]'
+                                <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${event.status === 'Open' ? 'bg-[#00FFC2]/15 text-emerald-600 dark:text-[#00FFC2]' : 'bg-[#00E5FF]/10 text-cyan-600 dark:text-[#00E5FF]'
                                     }`}>{event.status}</span>
                                 <span className="text-xs text-muted-foreground">{event.applicants} applicants</span>
                             </div>

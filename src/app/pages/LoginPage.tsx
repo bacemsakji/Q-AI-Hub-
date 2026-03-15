@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
+import { Button } from '../components/Button';
 import { toast } from 'sonner';
 
 export function LoginPage() {
@@ -58,8 +59,8 @@ export function LoginPage() {
         className="relative z-10 w-full max-w-md"
       >
         {/* Gradient border card */}
-        <div className="p-px rounded-3xl bg-gradient-to-br from-[#00F5A0]/30 via-white/5 to-[#7B2FFF]/20">
-          <div className="bg-[rgba(10,14,26,0.97)] backdrop-blur-2xl rounded-3xl p-10 shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
+        <div className="p-px rounded-3xl bg-gradient-to-br from-primary/30 via-foreground/5 to-accent/20">
+          <div className="bg-card backdrop-blur-2xl rounded-3xl p-10 shadow-glass">
 
             <div className="flex justify-center mb-8">
               <Logo size="md" />
@@ -134,22 +135,21 @@ export function LoginPage() {
               </div>
 
               {/* Submit */}
-              <motion.button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#00F5A0] via-[#00D9F5] to-[#0061FF] text-[#0A0E1A] flex items-center justify-center gap-2 shadow-[0_8px_32px_rgba(0,245,160,0.2)] hover:shadow-[0_12px_40px_rgba(0,245,160,0.3)] transition-all disabled:opacity-60 mt-2"
+                fullWidth
+                className="mt-2"
               >
                 {isLoading ? (
                   <>
-                    <span className="animate-spin border-2 border-[#0A0E1A] border-t-transparent rounded-full w-4 h-4" />
+                    <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4" />
                     <span>Signing in...</span>
                   </>
                 ) : (
                   <span>Sign In</span>
                 )}
-              </motion.button>
+              </Button>
 
               {/* Divider */}
               <div className="relative my-1">
@@ -166,7 +166,7 @@ export function LoginPage() {
                 <Link
                   to="/register"
                   state={{ returnUrl, eventName }}
-                  className="text-emerald-600 dark:text-[#00F5A0] hover:text-cyan-600 dark:text-[#00D9F5] transition-colors font-medium"
+                  className="text-cyan-500 hover:text-cyan-400 dark:text-[#00E5FF] transition-colors font-medium"
                 >
                   Create one →
                 </Link>

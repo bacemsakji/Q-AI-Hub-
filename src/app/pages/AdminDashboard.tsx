@@ -59,8 +59,8 @@ function AdminPasswordForm() {
           className="w-full rounded-xl bg-input border border-border px-3 py-2.5 text-sm text-foreground/90 outline-none focus:border-white/40 placeholder:text-muted-foreground/40 transition-all" />
       </div>
       {error && <p className="text-sm text-destructive dark:text-[#FF4757]">{error}</p>}
-      {success && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-[#00FFC2] flex items-center gap-1.5"><Check className="h-3.5 w-3.5" /> Password updated successfully</motion.p>}
-      <button type="submit" className="w-full px-4 py-2.5 rounded-xl bg-[#00E5FF]/15 border border-[#00E5FF]/25 text-[#00E5FF] text-sm font-medium hover:bg-[#00E5FF]/25 transition-all">Update Password</button>
+      {success && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-emerald-600 dark:text-[#00FFC2] flex items-center gap-1.5"><Check className="h-3.5 w-3.5" /> Password updated successfully</motion.p>}
+      <button type="submit" className="w-full px-4 py-2.5 rounded-xl bg-[#00E5FF]/15 border border-[#00E5FF]/25 text-cyan-600 dark:text-[#00E5FF] text-sm font-medium hover:bg-[#00E5FF]/25 transition-all">Update Password</button>
     </form>
   );
 }
@@ -89,7 +89,7 @@ function SettingsSection() {
         <div className="space-y-6">
           <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Shield className="h-5 w-5 text-[#00E5FF]" />
+              <Shield className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Platform Settings</h3>
             </div>
             {([
@@ -117,7 +117,7 @@ function SettingsSection() {
           {/* Change Password */}
           <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Lock className="h-5 w-5 text-[#00E5FF]" />
+              <Lock className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Change Password</h3>
             </div>
             <AdminPasswordForm />
@@ -128,11 +128,11 @@ function SettingsSection() {
         <div className="space-y-6">
           <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Globe className="h-5 w-5 text-[#00E5FF]" />
+              <Globe className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Admin Profile</h3>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#00E5FF]/20 text-lg font-bold text-[#00E5FF]">AD</div>
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#00E5FF]/20 text-lg font-bold text-cyan-600 dark:text-[#00E5FF]">AD</div>
               <div>
                 <p className="font-medium text-foreground">Admin User</p>
                 <p className="text-sm text-muted-foreground">Super Admin · Q-AI Hub</p>
@@ -143,7 +143,7 @@ function SettingsSection() {
 
           <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Database className="h-5 w-5 text-[#00E5FF]" />
+              <Database className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Data & Exports</h3>
             </div>
             <div className="space-y-2">

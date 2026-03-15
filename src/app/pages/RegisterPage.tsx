@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { User, Mail, Lock, Eye, EyeOff, CreditCard, Shield } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
+import { Button } from '../components/Button';
 import { toast } from 'sonner';
 
 export function RegisterPage() {
@@ -78,25 +79,25 @@ export function RegisterPage() {
     placeholder: string; showToggle?: boolean; onToggle?: () => void; show?: boolean;
   }) => (
     <div>
-      <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">{label}</label>
+      <label className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">{label}</label>
       <div className="relative">
-        <Icon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+        <Icon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           type={showToggle ? (show ? 'text' : 'password') : type}
           value={(formData as any)[field]}
           onChange={e => set(field, e.target.value)}
           placeholder={placeholder}
-          className={`w-full pl-11 ${showToggle ? 'pr-12' : 'pr-4'} py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors[field] ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+          className={`w-full pl-11 ${showToggle ? 'pr-12' : 'pr-4'} py-3.5 bg-input rounded-xl border text-foreground text-sm outline-none transition-all placeholder:text-muted-foreground/40 ${errors[field] ? 'border-destructive/60' : 'border-border focus:border-primary/50'
             }`}
         />
         {showToggle && (
           <button type="button" onClick={onToggle}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8892A4] hover:text-white transition-colors">
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
             {show ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         )}
       </div>
-      {errors[field] && <p className="mt-1.5 text-xs text-[#FF4757]">{errors[field]}</p>}
+      {errors[field] && <p className="mt-1.5 text-xs text-red-600 dark:text-[#FF4757]">{errors[field]}</p>}
     </div>
   );
 
@@ -114,8 +115,8 @@ export function RegisterPage() {
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative z-10 w-full max-w-md"
       >
-        <div className="p-px rounded-3xl bg-gradient-to-br from-[#7B2FFF]/30 via-white/5 to-[#00F5A0]/20">
-          <div className="bg-[rgba(10,14,26,0.97)] backdrop-blur-2xl rounded-3xl p-10 shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
+        <div className="p-px rounded-3xl bg-gradient-to-br from-primary/30 via-foreground/5 to-accent/20">
+          <div className="bg-card backdrop-blur-2xl rounded-3xl p-10 shadow-glass">
 
             <div className="flex justify-center mb-8">
               <Logo size="md" />
@@ -123,7 +124,7 @@ export function RegisterPage() {
 
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Join Q-AI Hub</h1>
-              <p className="text-[#8892A4] text-sm leading-relaxed">
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Start your Quantum-AI entrepreneurship journey
               </p>
             </div>
@@ -132,20 +133,20 @@ export function RegisterPage() {
               <Field label="Full Name" icon={User} type="text" field="fullName" placeholder="Your full name" />
 
               <div>
-                <label className="block text-xs font-medium text-[#8892A4] mb-2 uppercase tracking-wider">ENICarthage Student ID</label>
+                <label className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">ENICarthage Student ID</label>
                 <div className="relative">
-                  <CreditCard size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+                  <CreditCard size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
                     value={formData.studentId}
                     onChange={e => set('studentId', e.target.value)}
                     placeholder="e.g. 2024-ENIC-XXXX"
-                    className={`w-full pl-11 pr-4 py-3.5 bg-[#1A2035] rounded-xl border text-white text-sm outline-none transition-all placeholder:text-white/20 ${errors.studentId ? 'border-[#FF4757]/60' : 'border-white/8 focus:border-[#00F5A0]/50'
+                    className={`w-full pl-11 pr-4 py-3.5 bg-input rounded-xl border text-foreground text-sm outline-none transition-all placeholder:text-muted-foreground/40 ${errors.studentId ? 'border-destructive/60' : 'border-border focus:border-primary/50'
                       }`}
                   />
                 </div>
-                {errors.studentId && <p className="mt-1.5 text-xs text-[#FF4757]">{errors.studentId}</p>}
-                <p className="mt-1 text-xs text-[#8892A4]">Used to verify your enrollment at ENICarthage</p>
+                {errors.studentId && <p className="mt-1.5 text-xs text-red-600 dark:text-[#FF4757]">{errors.studentId}</p>}
+                <p className="mt-1 text-xs text-muted-foreground">Used to verify your enrollment at ENICarthage</p>
               </div>
 
               <Field label="Email" icon={Mail} type="email" field="email" placeholder="your@email.com" />
@@ -169,12 +170,11 @@ export function RegisterPage() {
               <Field label="Confirm Password" icon={Lock} type="password" field="confirmPassword" placeholder="Repeat your password"
                 showToggle onToggle={() => setShowConfirm(p => !p)} show={showConfirm} />
 
-              <motion.button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#7B2FFF] via-[#0061FF] to-[#00D9F5] text-white flex items-center justify-center gap-2 shadow-[0_8px_32px_rgba(123,47,255,0.3)] hover:shadow-[0_12px_40px_rgba(123,47,255,0.4)] transition-all disabled:opacity-60 mt-2"
+                fullWidth
+                className="mt-2"
               >
                 {isLoading ? (
                   <>
@@ -184,20 +184,20 @@ export function RegisterPage() {
                 ) : (
                   <span>Create Account</span>
                 )}
-              </motion.button>
+              </Button>
 
-              <p className="text-center text-sm text-[#8892A4]">
+              <p className="text-center text-sm text-muted-foreground">
                 Already have an account?{' '}
                 <Link to="/login" state={{ returnUrl, eventName }}
-                  className="text-[#7B2FFF] hover:text-[#00D9F5] transition-colors font-medium">
+                  className="text-cyan-500 hover:text-cyan-400 dark:text-[#00E5FF] transition-colors font-medium">
                   Log In →
                 </Link>
               </p>
 
               {/* Security note */}
-              <div className="mt-2 p-3 bg-[#1A2035]/60 rounded-xl border border-white/8 flex items-center gap-3">
-                <Shield size={16} className="text-[#00F5A0] flex-shrink-0" />
-                <p className="text-xs text-[#8892A4]">Your ideas are protected under our confidentiality policy</p>
+              <div className="mt-2 p-3 bg-card/60 rounded-xl border border-border flex items-center gap-3">
+                <Shield size={16} className="text-emerald-600 dark:text-[#00F5A0] flex-shrink-0" />
+                <p className="text-xs text-muted-foreground">Your ideas are protected under our confidentiality policy</p>
               </div>
             </form>
           </div>

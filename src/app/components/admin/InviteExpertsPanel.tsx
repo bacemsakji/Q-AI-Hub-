@@ -20,11 +20,11 @@ const ROLES: ExpertRole[] = [
 ];
 
 const ROLE_COLORS: Record<ExpertRole, { bg: string; text: string; border: string }> = {
-  'Field Expert':     { bg: 'bg-[#00F5A0]/10', text: 'text-[#00F5A0]', border: 'border-[#00F5A0]/25' },
-  'Finance Expert':   { bg: 'bg-[#00D9F5]/10', text: 'text-[#00D9F5]', border: 'border-[#00D9F5]/25' },
+  'Field Expert': { bg: 'bg-[#00F5A0]/10', text: 'text-emerald-600 dark:text-[#00F5A0]', border: 'border-[#00F5A0]/25' },
+  'Finance Expert': { bg: 'bg-[#00D9F5]/10', text: 'text-cyan-700 dark:text-[#00D9F5]', border: 'border-[#00D9F5]/25' },
   'Technical Expert': { bg: 'bg-[#7B2FFF]/10', text: 'text-[#a78bfa]', border: 'border-[#7B2FFF]/25' },
-  'Legal Expert':     { bg: 'bg-[#FFB800]/10', text: 'text-[#FFB800]', border: 'border-[#FFB800]/25' },
-  'Marketing Expert': { bg: 'bg-[#FF4757]/10', text: 'text-[#FF4757]', border: 'border-[#FF4757]/25' },
+  'Legal Expert': { bg: 'bg-[#FFB800]/10', text: 'text-amber-600 dark:text-[#FFB800]', border: 'border-[#FFB800]/25' },
+  'Marketing Expert': { bg: 'bg-[#FF4757]/10', text: 'text-red-600 dark:text-[#FF4757]', border: 'border-[#FF4757]/25' },
 };
 
 interface InviteExpertsPanelProps {
@@ -78,12 +78,12 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
   const c = ROLE_COLORS[role];
 
   return (
-    <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-8">
-      <h2 className="text-lg mb-1 text-white/90 flex items-center gap-2">
-        <Shield size={18} className="text-[#7B2FFF]" />
+    <div className="bg-background/95 backdrop-blur-xl border border-border rounded-2xl p-8">
+      <h2 className="text-lg mb-1 text-foreground/90 flex items-center gap-2">
+        <Shield size={18} className="text-purple-700 dark:text-[#7B2FFF]" />
         Invite Partners &amp; Experts
       </h2>
-      <p className="text-[#8892A4] text-sm mb-6">
+      <p className="text-muted-foreground text-sm mb-6">
         Invite users by email and assign them an expert role for this event. They will be able to observe pitches alongside the admin.
       </p>
 
@@ -91,14 +91,14 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         {/* Email */}
         <div className="relative flex-1">
-          <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8892A4]" />
+          <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleAdd()}
             placeholder="partner@email.com"
-            className="w-full pl-9 pr-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white text-sm outline-none focus:border-[#7B2FFF]/60 transition-colors placeholder:text-white/20"
+            className="w-full pl-9 pr-4 py-3 bg-card rounded-xl border border-border text-foreground text-sm outline-none focus:border-[#7B2FFF]/60 transition-colors placeholder:text-muted-foreground/40"
           />
         </div>
 
@@ -118,7 +118,7 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
-                className="absolute bottom-full mb-2 left-0 right-0 z-50 bg-[#0F1628] border border-white/10 rounded-xl overflow-hidden shadow-2xl shadow-black/50"
+                className="absolute bottom-full mb-2 left-0 right-0 z-50 bg-muted border border-border rounded-xl overflow-hidden shadow-2xl shadow-black/50"
               >
                 {ROLES.map(r => {
                   const rc = ROLE_COLORS[r];
@@ -127,13 +127,13 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
                       key={r}
                       type="button"
                       onClick={() => { setRole(r); setDropdownOpen(false); }}
-                      className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm text-left hover:bg-white/5 transition-colors ${r === role ? 'bg-white/5' : ''}`}
+                      className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm text-left hover:bg-foreground/5 transition-colors ${r === role ? 'bg-foreground/5' : ''}`}
                     >
                       <span className={`w-2 h-2 rounded-full ${rc.bg.replace('/10', '')}`} style={{
                         background: rc.text.replace('text-[', '').replace(']', '')
                       }} />
                       <span className={rc.text}>{r}</span>
-                      {r === role && <Check size={12} className="ml-auto text-white/40" />}
+                      {r === role && <Check size={12} className="ml-auto text-muted-foreground/80" />}
                     </button>
                   );
                 })}
@@ -154,12 +154,12 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
 
       {/* Invited list */}
       {experts.length === 0 ? (
-        <div className="flex items-center justify-center py-8 rounded-xl border border-dashed border-white/10">
-          <p className="text-sm text-[#8892A4]">No experts invited yet</p>
+        <div className="flex items-center justify-center py-8 rounded-xl border border-dashed border-border">
+          <p className="text-sm text-muted-foreground">No experts invited yet</p>
         </div>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-          <p className="text-xs text-[#8892A4] mb-3 uppercase tracking-wider">{experts.length} expert{experts.length !== 1 ? 's' : ''} invited</p>
+          <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wider">{experts.length} expert{experts.length !== 1 ? 's' : ''} invited</p>
           <AnimatePresence>
             {experts.map((expert, idx) => {
               const rc = ROLE_COLORS[expert.role];
@@ -169,14 +169,14 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
-                  className="flex items-center gap-3 bg-[#1A2035] border border-white/8 rounded-xl px-4 py-3"
+                  className="flex items-center gap-3 bg-card border border-border rounded-xl px-4 py-3"
                 >
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B2FFF]/20 to-[#00E5FF]/20 text-xs font-bold text-[#a78bfa]">
                     {expert.email[0].toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">{expert.email}</p>
-                    <p className="text-xs text-[#8892A4]">
+                    <p className="text-sm text-foreground truncate">{expert.email}</p>
+                    <p className="text-xs text-muted-foreground">
                       Invited {new Date(expert.invitedAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -186,7 +186,7 @@ export function InviteExpertsPanel({ eventId, initialExperts = [], onChange }: I
                   <button
                     type="button"
                     onClick={() => handleRemove(idx)}
-                    className="text-[#8892A4] hover:text-[#FF4757] transition-colors ml-1"
+                    className="text-muted-foreground hover:text-red-600 dark:text-[#FF4757] transition-colors ml-1"
                   >
                     <X size={14} />
                   </button>

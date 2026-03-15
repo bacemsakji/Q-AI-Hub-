@@ -32,8 +32,8 @@ export function ProgramApplicationPage() {
 
   if (!program) {
     return (
-      <div className="min-h-screen bg-[#0A0E1A] text-white flex items-center justify-center">
-        <p className="text-[#8892A4]">Program not found</p>
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <p className="text-muted-foreground">Program not found</p>
       </div>
     );
   }
@@ -109,7 +109,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
   };
 
   return (
-    <div className="min-h-screen relative bg-[#0A0E1A] text-white py-24 px-6">
+    <div className="min-h-screen relative bg-background text-foreground py-24 px-6">
       <ParticleBackground />
 
       <div className="relative z-10 max-w-4xl mx-auto">
@@ -117,12 +117,12 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
         <div className="flex items-center justify-between mb-10">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 text-[#8892A4] hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             Back
           </button>
-          <span className="text-xs px-3 py-1 rounded-full border border-white/10 text-[#8892A4]">
+          <span className="text-xs px-3 py-1 rounded-full border border-border text-muted-foreground">
             Program Application
           </span>
         </div>
@@ -132,14 +132,14 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
             className="text-4xl md:text-5xl font-bold mb-3"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            <span className="text-white">
+            <span className="text-foreground">
               Apply to {program.title}
             </span>
           </h1>
-          <p className="text-[#8892A4] text-sm uppercase tracking-[0.2em] mb-3">
+          <p className="text-muted-foreground text-sm uppercase tracking-[0.2em] mb-3">
             {program.axis}
           </p>
-          <p className="text-[#8892A4] text-base max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base max-w-2xl mx-auto">
             Share your startup vision and join the next generation of quantum‑AI
             builders at ENICarthage.
           </p>
@@ -148,9 +148,9 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
         {/* Step Indicator */}
         <div className="mb-12">
           <div className="flex items-center justify-between relative">
-            <div className="absolute top-5 left-0 right-0 h-1 bg-white/5 overflow-hidden rounded-full">
+            <div className="absolute top-5 left-0 right-0 h-1 bg-foreground/5 overflow-hidden rounded-full">
               <div
-                className="h-full bg-white/30 transition-all duration-500"
+                className="h-full bg-foreground/30 transition-all duration-500"
                 style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
               />
             </div>
@@ -159,14 +159,14 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
               <div key={step} className="relative z-10 flex flex-col items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${currentStep >= step
-                    ? 'bg-white/20 text-white border border-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
-                    : 'bg-[#0F1628] text-white/40 border border-white/10'
+                    ? 'bg-foreground/20 text-foreground border border-border shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
+                    : 'bg-muted text-muted-foreground/80 border border-border'
                     }`}
                 >
                   {currentStep > step ? <Check size={20} /> : step}
                 </div>
                 <span
-                  className={`text-xs mt-2 ${currentStep >= step ? 'text-white' : 'text-white/40'
+                  className={`text-xs mt-2 ${currentStep >= step ? 'text-foreground' : 'text-muted-foreground/80'
                     }`}
                 >
                   {step === 1 ? 'Profile' : step === 2 ? 'Description' : 'Submit'}
@@ -198,7 +198,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                     onChange={(e) =>
                       setFormData({ ...formData, startupName: e.target.value })
                     }
-                    className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                     placeholder="Enter your startup name"
                   />
                 </div>
@@ -212,7 +212,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                     onChange={(e) =>
                       setFormData({ ...formData, sector: e.target.value })
                     }
-                    className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                   >
                     <option value="">Select a sector</option>
                     {sectors.map((sector) => (
@@ -227,7 +227,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                   <label className="block text-sm font-medium mb-2">
                     Upload Logo
                   </label>
-                  <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center hover:border-[#00D9F5]/50 transition-colors cursor-pointer">
+                  <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-[#00D9F5]/50 transition-colors cursor-pointer">
                     <input
                       type="file"
                       accept="image/*"
@@ -236,13 +236,13 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                       id="program-logo-upload"
                     />
                     <label htmlFor="program-logo-upload" className="cursor-pointer">
-                      <Upload className="w-8 h-8 mx-auto mb-2 text-[#8892A4]" />
-                      <p className="text-sm text-[#8892A4]">
+                      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
                         {formData.logo
                           ? formData.logo.name
                           : 'Click to upload or drag and drop'}
                       </p>
-                      <p className="text-xs text-[#8892A4]/60 mt-1">
+                      <p className="text-xs text-muted-foreground/60 mt-1">
                         PNG, JPG up to 5MB
                       </p>
                     </label>
@@ -290,7 +290,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                         setFormData({ ...formData, description: e.target.value })
                       }
                       rows={8}
-                      className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white resize-none"
+                      className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground resize-none"
                       placeholder="Tell us about the problem you're solving, your solution, and your target market..."
                     />
                   </div>
@@ -317,9 +317,9 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                 {[1, 2].map((i) => (
                   <GlassCard key={i}>
                     <div className="p-6 space-y-3">
-                      <div className="h-4 bg-white/10 rounded animate-pulse" />
-                      <div className="h-4 bg-white/10 rounded animate-pulse w-3/4" />
-                      <div className="h-4 bg-white/10 rounded animate-pulse w-1/2" />
+                      <div className="h-4 bg-foreground/10 rounded animate-pulse" />
+                      <div className="h-4 bg-foreground/10 rounded animate-pulse w-3/4" />
+                      <div className="h-4 bg-foreground/10 rounded animate-pulse w-1/2" />
                     </div>
                   </GlassCard>
                 ))}
@@ -331,10 +331,10 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                 <div className="grid md:grid-cols-2 gap-6">
                   <GlassCard>
                     <div className="p-6">
-                      <h3 className="text-sm font-bold text-[#8892A4] mb-3">
+                      <h3 className="text-sm font-bold text-muted-foreground mb-3">
                         Your Original Text
                       </h3>
-                      <p className="text-sm text-white/80 whitespace-pre-wrap">
+                      <p className="text-sm text-foreground/80 whitespace-pre-wrap">
                         {formData.description}
                       </p>
                     </div>
@@ -343,12 +343,12 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                   <GlassCard gradient>
                     <div className="p-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <Sparkles className="w-4 h-4 text-[#00F5A0]" />
-                        <h3 className="text-sm font-bold text-white">
+                        <Sparkles className="w-4 h-4 text-emerald-600 dark:text-[#00F5A0]" />
+                        <h3 className="text-sm font-bold text-foreground">
                           AI-Enhanced Version
                         </h3>
                       </div>
-                      <div className="text-sm text-white/90 space-y-3 whitespace-pre-wrap">
+                      <div className="text-sm text-foreground/90 space-y-3 whitespace-pre-wrap">
                         {formData.aiDescription}
                       </div>
                     </div>
@@ -365,7 +365,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
             <div className="flex gap-4">
               <button
                 onClick={() => setCurrentStep(1)}
-                className="px-6 py-3 rounded-full font-semibold border-2 border-white/20 text-white hover:bg-white/5 transition-all flex items-center gap-2"
+                className="px-6 py-3 rounded-full font-semibold border-2 border-border text-foreground hover:bg-foreground/5 transition-all flex items-center gap-2"
               >
                 <ChevronLeft className="w-5 h-5" /> Back
               </button>
@@ -406,7 +406,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                       onChange={(e) =>
                         setFormData({ ...formData, githubUrl: e.target.value })
                       }
-                      className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                      className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                       placeholder="https://github.com/your-repo"
                     />
                   </div>
@@ -440,7 +440,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
 
                           setFormData({ ...formData, teamSize: size, teammates: newTeammates });
                         }}
-                        className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                        className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                         placeholder="Enter number of team members"
                         min="1"
                       />
@@ -455,7 +455,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                         onChange={(e) =>
                           setFormData({ ...formData, userRole: e.target.value })
                         }
-                        className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                        className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                       >
                         <option value="">Select your role</option>
                         {commonRoles.map((role) => (
@@ -469,19 +469,19 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
 
                   {/* Team Member Email Invitations */}
                   {Number(formData.teamSize) > 1 && (
-                    <div className="bg-[#0F1628] border border-white/10 rounded-xl p-5">
+                    <div className="bg-muted border border-border rounded-xl p-5">
                       <div className="flex items-center gap-2 mb-4">
-                        <svg className="h-4 w-4 text-[#00D9F5]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        <p className="text-sm font-medium text-white">Invite Team Members</p>
+                        <svg className="h-4 w-4 text-cyan-700 dark:text-[#00D9F5]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <p className="text-sm font-medium text-foreground">Invite Team Members</p>
                       </div>
-                      <p className="text-xs text-[#8892A4] mb-4">
+                      <p className="text-xs text-muted-foreground mb-4">
                         Send email invitations to your {Number(formData.teamSize) - 1} teammate{Number(formData.teamSize) > 2 ? 's' : ''} to join your application.
                       </p>
                       <div className="space-y-4">
                         {formData.teammates.map((teammate, i) => (
                           <div key={i} className="space-y-2">
                             <div className="flex items-center gap-2">
-                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00D9F5]/15 to-[#7B2FFF]/15 text-xs font-bold text-[#00D9F5]">
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00D9F5]/15 to-[#7B2FFF]/15 text-xs font-bold text-cyan-700 dark:text-[#00D9F5]">
                                 {i + 1}
                               </div>
                               <input
@@ -493,7 +493,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                                   setFormData({ ...formData, teammates: newTeammates });
                                 }}
                                 placeholder={`teammate${i + 1}@email.com`}
-                                className="flex-1 px-3 py-2.5 bg-[#1A2035] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00D9F5]/50 placeholder:text-white/20 transition-all"
+                                className="flex-1 px-3 py-2.5 bg-card rounded-lg border border-border text-sm text-foreground outline-none focus:border-[#00D9F5]/50 placeholder:text-muted-foreground/40 transition-all"
                               />
                             </div>
                             <div className="pl-10">
@@ -504,7 +504,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                                   newTeammates[i].role = e.target.value;
                                   setFormData({ ...formData, teammates: newTeammates });
                                 }}
-                                className="w-full px-3 py-2.5 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-sm text-white"
+                                className="w-full px-3 py-2.5 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-sm text-foreground"
                               >
                                 <option value="">Select teammate role</option>
                                 {commonRoles.map((role) => (
@@ -530,7 +530,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                       onChange={(e) =>
                         setFormData({ ...formData, techStack: e.target.value })
                       }
-                      className="w-full px-4 py-3 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-white"
+                      className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:border-[#00D9F5] focus:outline-none transition-colors text-foreground"
                       placeholder="e.g., React, Python, TensorFlow, Qiskit"
                     />
                   </div>
@@ -539,7 +539,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                     <label className="block text-sm font-medium mb-2">
                       Pitch Deck (PDF, max 10MB)
                     </label>
-                    <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#00D9F5]/50 transition-colors cursor-pointer">
+                    <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-[#00D9F5]/50 transition-colors cursor-pointer">
                       <input
                         type="file"
                         accept=".pdf"
@@ -548,8 +548,8 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                         id="program-deck-upload"
                       />
                       <label htmlFor="program-deck-upload" className="cursor-pointer">
-                        <Upload className="w-6 h-6 mx-auto mb-2 text-[#8892A4]" />
-                        <p className="text-sm text-[#8892A4]">
+                        <Upload className="w-6 h-6 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">
                           {formData.pitchDeck
                             ? formData.pitchDeck.name
                             : 'Upload your pitch deck'}
@@ -573,7 +573,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
                     />
                     <label
                       htmlFor="program-terms"
-                      className="text-sm text-white/90"
+                      className="text-sm text-foreground/90"
                     >
                       I agree to the terms and conditions. I understand that Q-AI
                       Hub provides IP protection and confidentiality for all
@@ -598,7 +598,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
 
             <button
               onClick={() => setCurrentStep(2)}
-              className="px-6 py-3 rounded-full font-semibold border-2 border-white/20 text-white hover:bg-white/5 transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-full font-semibold border-2 border-border text-foreground hover:bg-foreground/5 transition-all flex items-center gap-2"
             >
               <ChevronLeft className="w-5 h-5" /> Back
             </button>
@@ -609,7 +609,7 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
         <div className="text-center mt-8">
           <Link
             to="/"
-            className="text-[#00D9F5] hover:text-[#00F5A0] transition-colors"
+            className="text-cyan-700 dark:text-[#00D9F5] hover:text-emerald-600 dark:text-[#00F5A0] transition-colors"
           >
             ← Back to Home
           </Link>

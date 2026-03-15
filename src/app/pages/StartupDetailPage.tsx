@@ -89,7 +89,7 @@ export function StartupDetailPage() {
                             </div>
                             <h1 className="text-4xl md:text-5xl font-bold mb-3">{application.projectName}</h1>
                             <p className="text-lg text-muted-foreground flex items-center gap-2">
-                                <Target size={18} className="text-[#00E5FF]" />
+                                <Target size={18} className="text-cyan-600 dark:text-[#00E5FF]" />
                                 {application.sector} Startup
                             </p>
                         </div>
@@ -156,8 +156,8 @@ export function StartupDetailPage() {
                                         Performance
                                     </h2>
                                     <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#00E5FF]/10 border border-[#00E5FF]/20">
-                                        <ShieldCheck size={14} className="text-[#00E5FF]" />
-                                        <span className="text-[10px] font-bold text-[#00E5FF] uppercase tracking-wider">Verified</span>
+                                        <ShieldCheck size={14} className="text-cyan-600 dark:text-[#00E5FF]" />
+                                        <span className="text-[10px] font-bold text-cyan-600 dark:text-[#00E5FF] uppercase tracking-wider">Verified</span>
                                     </div>
                                 </div>
 

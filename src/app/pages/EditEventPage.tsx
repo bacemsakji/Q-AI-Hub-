@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, MapPin, Users, Clock, FileText, Tag, Trash2 } from 'lucide-react';
 import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
+import { DatePicker } from '../components/ui/date-picker';
 import { Button } from '../components/Button';
 import { toast } from 'sonner';
 
@@ -116,15 +117,15 @@ export function EditEventPage() {
             <ParticleBackground />
 
             {/* Header */}
-            <div className="relative z-10 border-b border-white/8 bg-[#0F1628]/80 backdrop-blur-xl">
+            <div className="relative z-10 border-b border-border bg-muted/80 backdrop-blur-xl">
                 <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-6">
                     <Link to="/admin">
                         <Logo size="sm" />
                     </Link>
-                    <div className="h-6 w-px bg-white/10" />
+                    <div className="h-6 w-px bg-foreground/10" />
                     <button
                         onClick={() => navigate('/admin')}
-                        className="flex items-center gap-2 text-[#8892A4] hover:text-white transition-colors"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                     >
                         <ArrowLeft size={18} />
                         <span className="text-sm">Back to Dashboard</span>
@@ -143,12 +144,12 @@ export function EditEventPage() {
                     <div className="mb-10 flex items-start justify-between">
                         <div>
                             <h1 className="text-4xl mb-2">Edit Event</h1>
-                            <p className="text-[#8892A4]">Update the details for <span className="text-white/80">{form.name}</span></p>
+                            <p className="text-muted-foreground">Update the details for <span className="text-foreground/80">{form.name}</span></p>
                         </div>
                         <button
                             type="button"
                             onClick={() => setShowDeleteConfirm(true)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#FF4757]/30 text-[#FF4757] hover:bg-[#FF4757]/10 transition-all text-sm"
+                            className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#FF4757]/30 text-red-600 dark:text-[#FF4757] hover:bg-[#FF4757]/10 transition-all text-sm"
                         >
                             <Trash2 size={14} />
                             Delete Event
@@ -162,7 +163,7 @@ export function EditEventPage() {
                             animate={{ opacity: 1, scale: 1 }}
                             className="mb-6 p-6 bg-[#FF4757]/10 border border-[#FF4757]/30 rounded-2xl"
                         >
-                            <p className="text-white mb-4">Are you sure you want to delete <strong>{form.name}</strong>? This action cannot be undone.</p>
+                            <p className="text-foreground mb-4">Are you sure you want to delete <strong>{form.name}</strong>? This action cannot be undone.</p>
                             <div className="flex gap-3">
                                 <Button variant="danger" onClick={handleDelete} disabled={isSubmitting}>
                                     {isSubmitting ? 'Deleting...' : 'Yes, Delete'}
@@ -177,24 +178,24 @@ export function EditEventPage() {
                     <form onSubmit={handleSubmit} className="space-y-6">
 
                         {/* Basic Info Card */}
-                        <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-8">
-                            <h2 className="text-lg mb-6 text-white/90 flex items-center gap-2">
-                                <FileText size={18} className="text-[#00F5A0]" />
+                        <div className="bg-background/95 backdrop-blur-xl border border-border rounded-2xl p-8">
+                            <h2 className="text-lg mb-6 text-foreground/90 flex items-center gap-2">
+                                <FileText size={18} className="text-emerald-600 dark:text-[#00F5A0]" />
                                 Basic Information
                             </h2>
                             <div className="space-y-5">
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">Event Name *</label>
+                                    <label className="block text-sm text-muted-foreground mb-2">Event Name *</label>
                                     <input
                                         type="text"
                                         value={form.name}
                                         onChange={e => handleChange('name', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors"
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2 flex items-center gap-1">
+                                    <label className="block text-sm text-muted-foreground mb-2 flex items-center gap-1">
                                         <Tag size={13} /> Category *
                                     </label>
                                     <div className="flex flex-wrap gap-2">
@@ -204,8 +205,8 @@ export function EditEventPage() {
                                                 type="button"
                                                 onClick={() => handleChange('category', cat)}
                                                 className={`px-4 py-2 rounded-full text-sm border transition-all ${form.category === cat
-                                                    ? 'bg-white/15 border-white/30 text-white'
-                                                    : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
+                                                    ? 'bg-foreground/10 border-white/30 text-foreground'
+                                                    : 'bg-transparent border-border text-muted-foreground hover:border-border hover:text-foreground'
                                                     }`}
                                             >
                                                 {cat}
@@ -215,109 +216,106 @@ export function EditEventPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">Description</label>
+                                    <label className="block text-sm text-muted-foreground mb-2">Description</label>
                                     <textarea
                                         value={form.description}
                                         onChange={e => handleChange('description', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors min-h-[120px] resize-none"
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors min-h-[120px] resize-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">Tags (comma-separated)</label>
+                                    <label className="block text-sm text-muted-foreground mb-2">Tags (comma-separated)</label>
                                     <input
                                         type="text"
                                         value={form.tags}
                                         onChange={e => handleChange('tags', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors"
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Date & Location Card */}
-                        <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-8">
-                            <h2 className="text-lg mb-6 text-white/90 flex items-center gap-2">
-                                <Calendar size={18} className="text-[#00D9F5]" />
+                        <div className="bg-background/95 backdrop-blur-xl border border-border rounded-2xl p-8">
+                            <h2 className="text-lg mb-6 text-foreground/90 flex items-center gap-2">
+                                <Calendar size={18} className="text-cyan-700 dark:text-[#00D9F5]" />
                                 Date & Location
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">Start Date *</label>
-                                    <input
-                                        type="date"
-                                        value={form.startDate}
-                                        onChange={e => handleChange('startDate', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors [color-scheme:dark]"
+                                    <label className="block text-sm text-muted-foreground mb-2">Start Date *</label>
+                                    <DatePicker
+                                        date={form.startDate ? new Date(form.startDate) : undefined}
+                                        setDate={(d) => handleChange('startDate', d ? d.toISOString().split('T')[0] : '')}
+                                        placeholder="Pick start date"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">End Date *</label>
-                                    <input
-                                        type="date"
-                                        value={form.endDate}
-                                        onChange={e => handleChange('endDate', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors [color-scheme:dark]"
+                                    <label className="block text-sm text-muted-foreground mb-2">End Date *</label>
+                                    <DatePicker
+                                        date={form.endDate ? new Date(form.endDate) : undefined}
+                                        setDate={(d) => handleChange('endDate', d ? d.toISOString().split('T')[0] : '')}
+                                        placeholder="Pick end date"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2 flex items-center gap-1">
+                                    <label className="block text-sm text-muted-foreground mb-2 flex items-center gap-1">
                                         <Clock size={13} /> Application Deadline
                                     </label>
-                                    <input
-                                        type="date"
-                                        value={form.deadline}
-                                        onChange={e => handleChange('deadline', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors [color-scheme:dark]"
+                                    <DatePicker
+                                        date={form.deadline ? new Date(form.deadline) : undefined}
+                                        setDate={(d) => handleChange('deadline', d ? d.toISOString().split('T')[0] : '')}
+                                        placeholder="Pick deadline"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2 flex items-center gap-1">
+                                    <label className="block text-sm text-muted-foreground mb-2 flex items-center gap-1">
                                         <MapPin size={13} /> Location
                                     </label>
                                     <input
                                         type="text"
                                         value={form.location}
                                         onChange={e => handleChange('location', e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors"
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Participants & Status Card */}
-                        <div className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-2xl p-8">
-                            <h2 className="text-lg mb-6 text-white/90 flex items-center gap-2">
-                                <Users size={18} className="text-[#7B2FFF]" />
+                        <div className="bg-background/95 backdrop-blur-xl border border-border rounded-2xl p-8">
+                            <h2 className="text-lg mb-6 text-foreground/90 flex items-center gap-2">
+                                <Users size={18} className="text-purple-700 dark:text-[#7B2FFF]" />
                                 Participants & Status
                             </h2>
                             <div className="space-y-5">
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-2">Max Participants</label>
+                                    <label className="block text-sm text-muted-foreground mb-2">Max Participants</label>
                                     <input
                                         type="number"
                                         value={form.maxParticipants}
                                         onChange={e => handleChange('maxParticipants', e.target.value)}
                                         min={1}
-                                        className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-white/30 transition-colors"
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm text-[#8892A4] mb-3">Publishing Status</label>
+                                    <label className="block text-sm text-muted-foreground mb-3">Publishing Status</label>
                                     <div className="flex gap-3">
                                         {[
-                                            { value: 'active', label: 'Active', color: 'text-[#00F5A0]' },
-                                            { value: 'draft', label: 'Draft', color: 'text-[#FFB800]' },
-                                            { value: 'closed', label: 'Closed', color: 'text-[#FF4757]' },
+                                            { value: 'active', label: 'Active', color: 'text-emerald-600 dark:text-[#00F5A0]' },
+                                            { value: 'draft', label: 'Draft', color: 'text-amber-600 dark:text-[#FFB800]' },
+                                            { value: 'closed', label: 'Closed', color: 'text-red-600 dark:text-[#FF4757]' },
                                         ].map(opt => (
                                             <button
                                                 key={opt.value}
                                                 type="button"
                                                 onClick={() => handleChange('status', opt.value)}
                                                 className={`px-5 py-2.5 rounded-full text-sm border transition-all ${form.status === opt.value
-                                                    ? `bg-white/10 border-white/25 ${opt.color}`
-                                                    : 'bg-transparent border-white/8 text-[#8892A4] hover:border-white/15'
+                                                    ? `bg-foreground/10 border-border ${opt.color}`
+                                                    : 'bg-transparent border-border text-muted-foreground hover:border-white/15'
                                                     }`}
                                             >
                                                 {opt.label}

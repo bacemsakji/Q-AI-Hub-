@@ -15,15 +15,15 @@ import { toast } from 'sonner';
 type FilterType = 'All' | 'Hackathon' | 'Workshop' | 'Talk';
 
 const typeColors: Record<string, { bg: string; text: string; border: string }> = {
-    Hackathon: { bg: 'bg-[#7B2FFF]/15', text: 'text-[#B47EFF]', border: 'border-[#7B2FFF]/30' },
-    Workshop: { bg: 'bg-[#00D9F5]/15', text: 'text-[#00D9F5]', border: 'border-[#00D9F5]/30' },
-    Talk: { bg: 'bg-[#FFB800]/15', text: 'text-[#FFB800]', border: 'border-[#FFB800]/30' },
+    Hackathon: { bg: 'bg-accent/15', text: 'text-accent', border: 'border-accent/30' },
+    Workshop: { bg: 'bg-[#00E5FF]/10', text: 'text-cyan-500 dark:text-[#00E5FF]', border: 'border-[#00E5FF]/30' },
+    Talk: { bg: 'bg-[#7B2FFF]/15', text: 'text-purple-600 dark:text-[#7B2FFF]', border: 'border-[#7B2FFF]/30' },
 };
 
 const statusConfig: Record<string, { label: string; color: string; glow: string }> = {
-    Open: { label: 'Open', color: 'bg-[#00F5A0]/20 text-[#00F5A0] border-[#00F5A0]/30', glow: 'shadow-[0_0_12px_rgba(0,245,160,0.15)]' },
-    'Coming Soon': { label: 'Coming Soon', color: 'bg-[#FFB800]/20 text-[#FFB800] border-[#FFB800]/30', glow: 'shadow-[0_0_12px_rgba(255,184,0,0.15)]' },
-    Closed: { label: 'Closed', color: 'bg-white/10 text-white/40 border-white/10', glow: '' },
+    Open: { label: 'Open', color: 'bg-[#00F5A0]/20 text-emerald-600 dark:text-[#00F5A0] border-[#00F5A0]/30', glow: 'shadow-[0_0_12px_rgba(0,245,160,0.15)]' },
+    'Coming Soon': { label: 'Coming Soon', color: 'bg-[#7B2FFF]/15 text-purple-600 dark:text-[#7B2FFF] border-[#7B2FFF]/30', glow: 'shadow-[0_0_12px_rgba(123,47,255,0.15)]' },
+    Closed: { label: 'Closed', color: 'bg-foreground/5 text-muted-foreground border-border', glow: '' },
 };
 
 export function EventsPage() {
@@ -76,15 +76,18 @@ export function EventsPage() {
 
             {!isLoggedIn && (
                 <section className="relative z-10 pt-32 pb-16 px-6">
-                    <div className="max-w-6xl mx-auto text-center">
+                    <div className="relative max-w-6xl mx-auto text-center rounded-3xl p-12 lg:p-16 border border-border/50 bg-card/40"
+                        style={{ boxShadow: '0 20px 80px rgba(0, 229, 255, 0.1)' }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-accent/5 opacity-50 rounded-3xl" />
                         <FadeInSection variant="fade-up">
-                            <p className="uppercase tracking-[0.25em] text-xs text-[#8892A4] mb-4 font-medium">
+                            <p className="uppercase tracking-[0.25em] text-xs text-muted-foreground mb-4 font-medium">
                                 Q-AI Hub Events
                             </p>
-                            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+                            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-foreground">
                                 Upcoming Events & Programs
                             </h1>
-                            <p className="text-lg text-[#8892A4] max-w-2xl mx-auto">
+                            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                                 Explore hackathons, workshops, and talks. Apply to events that match
                                 your interests and accelerate your journey.
                             </p>
@@ -104,8 +107,8 @@ export function EventsPage() {
                                 whileTap={{ scale: 0.97 }}
                                 onClick={() => setActiveFilter(filter)}
                                 className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-300 ${activeFilter === filter
-                                    ? 'bg-white/10 border-white/30 text-white shadow-[0_4px_20px_rgba(255,255,255,0.08)]'
-                                    : 'bg-transparent border-white/10 text-[#8892A4] hover:border-white/20 hover:text-white'
+                                    ? 'bg-foreground/10 border-foreground/30 text-foreground shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+                                    : 'bg-transparent border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground'
                                     }`}
                             >
                                 {filter}
@@ -144,8 +147,11 @@ export function EventsPage() {
                                         whileHover={{ y: -4, scale: 1.01 }}
                                         className="group"
                                     >
-                                        <div className="h-full p-px rounded-2xl bg-gradient-to-br from-white/10 via-transparent to-white/5 hover:from-white/15 hover:to-white/8 transition-all duration-500">
-                                            <div className="h-full bg-[rgba(15,22,40,0.92)] backdrop-blur-xl rounded-[calc(1rem-1px)] p-6 flex flex-col">
+                                        <div className="h-full p-px rounded-2xl bg-gradient-to-br from-foreground/10 via-transparent to-foreground/5 hover:from-foreground/15 hover:to-foreground/5 transition-all duration-500">
+                                            <div className="relative h-full rounded-[calc(1rem-1px)] p-6 flex flex-col border border-border/40 bg-card/30 group-hover:border-primary/20 transition-all duration-500"
+                                                style={{ boxShadow: '0 8px 30px rgba(0, 229, 255, 0.04)' }}
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] to-transparent rounded-[calc(1rem-1px)]" />
                                                 {/* Header: type badge + status */}
                                                 <div className="flex items-center justify-between mb-4">
                                                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${typeStyle.bg} ${typeStyle.text} ${typeStyle.border}`}>
@@ -158,23 +164,23 @@ export function EventsPage() {
                                                 </div>
 
                                                 {/* Title */}
-                                                <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-white/95 transition-colors leading-tight">
+                                                <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-foreground/90 transition-colors leading-tight">
                                                     {event.title}
                                                 </h3>
 
                                                 {/* Description */}
-                                                <p className="text-sm text-[#8892A4] leading-relaxed mb-5 flex-grow">
+                                                <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-grow">
                                                     {event.description}
                                                 </p>
 
                                                 {/* Meta info */}
                                                 <div className="space-y-2 mb-6">
-                                                    <div className="flex items-center gap-2 text-sm text-[#8892A4]">
-                                                        <Calendar size={14} className="text-white/40" />
+                                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                        <Calendar size={14} className="text-foreground/40" />
                                                         <span>{event.date}</span>
                                                     </div>
-                                                    <div className="flex items-center gap-2 text-sm text-[#8892A4]">
-                                                        <MapPin size={14} className="text-white/40" />
+                                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                        <MapPin size={14} className="text-foreground/40" />
                                                         <span>{event.location}</span>
                                                     </div>
                                                 </div>
@@ -208,7 +214,7 @@ export function EventsPage() {
                                                         </Button>
                                                     )}
                                                     {event.status === 'Closed' && (
-                                                        <div className="w-full py-3 rounded-full text-center text-sm text-white/30 border border-white/8 bg-white/[0.03] cursor-not-allowed flex items-center justify-center gap-2">
+                                                        <div className="w-full py-3 rounded-full text-center text-sm text-muted-foreground border border-border bg-foreground/5 cursor-not-allowed flex items-center justify-center gap-2">
                                                             <Lock size={14} />
                                                             Registration Closed
                                                         </div>
@@ -225,10 +231,10 @@ export function EventsPage() {
                     {/* Empty state */}
                     {filteredEvents.length === 0 && (
                         <FadeInSection variant="fade-up" className="text-center py-20">
-                            <p className="text-[#8892A4] text-lg">No events found for this category.</p>
+                            <p className="text-muted-foreground text-lg">No events found for this category.</p>
                             <button
                                 onClick={() => setActiveFilter('All')}
-                                className="mt-4 text-sm text-white/70 hover:text-white underline underline-offset-4 transition-colors"
+                                className="mt-4 text-sm text-foreground/70 hover:text-foreground underline underline-offset-4 transition-colors"
                             >
                                 View all events
                             </button>

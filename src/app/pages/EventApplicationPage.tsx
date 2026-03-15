@@ -51,7 +51,7 @@ export function EventApplicationPage() {
   }, [id, navigate, event]);
 
   if (!event) {
-    return <div className="min-h-screen flex items-center justify-center text-white">Event not found</div>;
+    return <div className="min-h-screen flex items-center justify-center text-foreground">Event not found</div>;
   }
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,7 +175,7 @@ export function EventApplicationPage() {
         {/* Event title */}
         <div className="max-w-3xl mx-auto mb-8">
           <h1 className="text-3xl">{event.title}</h1>
-          <p className="text-[#8892A4] text-sm mt-1">Application Form</p>
+          <p className="text-muted-foreground text-sm mt-1">Application Form</p>
         </div>
 
         {/* Progress bar */}
@@ -186,16 +186,16 @@ export function EventApplicationPage() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep === step
-                      ? 'bg-white/20 text-white border border-white/25 scale-110'
+                      ? 'bg-foreground/20 text-foreground border border-border scale-110'
                       : currentStep > step
-                        ? 'bg-white/15 text-white border border-white/20'
-                        : 'bg-[#1A2035] text-[#8892A4] border border-white/10'
+                        ? 'bg-foreground/10 text-foreground border border-border'
+                        : 'bg-card text-muted-foreground border border-border'
                       }`}
                   >
                     {currentStep > step ? <Check size={20} /> : step}
                   </div>
                   <span
-                    className={`text-sm ${currentStep >= step ? 'text-white' : 'text-[#8892A4]'
+                    className={`text-sm ${currentStep >= step ? 'text-foreground' : 'text-muted-foreground'
                       }`}
                   >
                     {step === 1 ? 'Project Info' : step === 2 ? 'AI Pitch' : 'Submit'}
@@ -203,7 +203,7 @@ export function EventApplicationPage() {
                 </div>
                 {step < 3 && (
                   <div
-                    className={`flex-1 h-0.5 mx-4 transition-all duration-300 ${currentStep > step ? 'bg-white/25' : 'bg-[#1A2035]'
+                    className={`flex-1 h-0.5 mx-4 transition-all duration-300 ${currentStep > step ? 'bg-foreground/20' : 'bg-card'
                       }`}
                   />
                 )}
@@ -223,7 +223,7 @@ export function EventApplicationPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-8"
+                    className="bg-background/95 backdrop-blur-xl border border-border rounded-3xl p-8"
                   >
                     <h2 className="text-2xl mb-6">Project Information</h2>
 
@@ -236,11 +236,11 @@ export function EventApplicationPage() {
                       />
 
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Sector</label>
+                        <label className="block text-sm text-muted-foreground mb-2">Sector</label>
                         <select
                           value={formData.sector}
                           onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                          className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                          className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors"
                         >
                           <option value="">Select a sector</option>
                           {sectors.map((sector) => (
@@ -258,8 +258,8 @@ export function EventApplicationPage() {
                       />
 
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Project Logo</label>
-                        <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-[#00F5A0] transition-colors cursor-pointer">
+                        <label className="block text-sm text-muted-foreground mb-2">Project Logo</label>
+                        <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-[#00F5A0] transition-colors cursor-pointer">
                           <input
                             type="file"
                             accept="image/*"
@@ -270,13 +270,13 @@ export function EventApplicationPage() {
                           <label htmlFor="logo-upload" className="cursor-pointer">
                             {formData.logo ? (
                               <div>
-                                <Check className="w-12 h-12 mx-auto mb-2 text-[#00F5A0]" />
-                                <p className="text-white">{formData.logo.name}</p>
+                                <Check className="w-12 h-12 mx-auto mb-2 text-emerald-600 dark:text-[#00F5A0]" />
+                                <p className="text-foreground">{formData.logo.name}</p>
                               </div>
                             ) : (
                               <>
-                                <Upload className="w-12 h-12 mx-auto mb-2 text-[#8892A4]" />
-                                <p className="text-[#8892A4]">Click or drag your logo here</p>
+                                <Upload className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-muted-foreground">Click or drag your logo here</p>
                               </>
                             )}
                           </label>
@@ -285,8 +285,8 @@ export function EventApplicationPage() {
 
                       {/* Startup Pitch Video */}
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Startup Pitch Video <span className="text-xs text-white/30">(optional, max 200MB)</span></label>
-                        <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-[#00D9F5] transition-colors cursor-pointer">
+                        <label className="block text-sm text-muted-foreground mb-2">Startup Pitch Video <span className="text-xs text-muted-foreground/60">(optional, max 200MB)</span></label>
+                        <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-[#00D9F5] transition-colors cursor-pointer">
                           <input
                             type="file"
                             accept="video/mp4,video/webm,video/ogg"
@@ -297,15 +297,15 @@ export function EventApplicationPage() {
                           <label htmlFor="video-upload" className="cursor-pointer">
                             {formData.pitchVideo ? (
                               <div>
-                                <Check className="w-10 h-10 mx-auto mb-2 text-[#00D9F5]" />
-                                <p className="text-white text-sm">{formData.pitchVideo.name}</p>
-                                <p className="text-xs text-[#8892A4] mt-1">{(formData.pitchVideo.size / 1024 / 1024).toFixed(1)} MB</p>
+                                <Check className="w-10 h-10 mx-auto mb-2 text-cyan-700 dark:text-[#00D9F5]" />
+                                <p className="text-foreground text-sm">{formData.pitchVideo.name}</p>
+                                <p className="text-xs text-muted-foreground mt-1">{(formData.pitchVideo.size / 1024 / 1024).toFixed(1)} MB</p>
                               </div>
                             ) : (
                               <>
-                                <Video className="w-10 h-10 mx-auto mb-2 text-[#8892A4]" />
-                                <p className="text-[#8892A4] text-sm">Upload a short video explaining your startup</p>
-                                <p className="text-xs text-white/20 mt-1">MP4, WebM or OGG</p>
+                                <Video className="w-10 h-10 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-muted-foreground text-sm">Upload a short video explaining your startup</p>
+                                <p className="text-xs text-muted-foreground/40 mt-1">MP4, WebM or OGG</p>
                               </>
                             )}
                           </label>
@@ -331,22 +331,22 @@ export function EventApplicationPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-8"
+                    className="bg-background/95 backdrop-blur-xl border border-border rounded-3xl p-8"
                   >
                     <h2 className="text-2xl mb-6">AI Pitch Assistant</h2>
 
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">
+                        <label className="block text-sm text-muted-foreground mb-2">
                           Describe your idea in plain language
                         </label>
                         <textarea
                           value={formData.pitchOriginal}
                           onChange={(e) => setFormData({ ...formData, pitchOriginal: e.target.value })}
-                          className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors min-h-[150px] resize-none"
+                          className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors min-h-[150px] resize-none"
                           placeholder="Tell us about your project, what problem it solves, and who it helps..."
                         />
-                        <div className="text-right text-xs text-[#8892A4] mt-1">
+                        <div className="text-right text-xs text-muted-foreground mt-1">
                           {formData.pitchOriginal.length} characters
                         </div>
                       </div>
@@ -363,36 +363,36 @@ export function EventApplicationPage() {
 
                       {isGenerating && (
                         <div className="space-y-3">
-                          <div className="h-4 bg-[#1A2035] rounded animate-pulse" />
-                          <div className="h-4 bg-[#1A2035] rounded animate-pulse w-3/4" />
-                          <div className="h-4 bg-[#1A2035] rounded animate-pulse w-5/6" />
-                          <p className="text-sm text-[#8892A4] text-center">Structuring your pitch...</p>
+                          <div className="h-4 bg-card rounded animate-pulse" />
+                          <div className="h-4 bg-card rounded animate-pulse w-3/4" />
+                          <div className="h-4 bg-card rounded animate-pulse w-5/6" />
+                          <p className="text-sm text-muted-foreground text-center">Structuring your pitch...</p>
                         </div>
                       )}
 
                       {aiPitch.problem && !isGenerating && (
                         <div className="grid md:grid-cols-2 gap-6">
-                          <div className="bg-[#1A2035]/50 border border-white/8 rounded-xl p-6">
-                            <p className="text-xs text-[#8892A4] mb-2">Your Original</p>
-                            <p className="text-sm text-[#8892A4] line-clamp-6">{formData.pitchOriginal}</p>
+                          <div className="bg-card/50 border border-border rounded-xl p-6">
+                            <p className="text-xs text-muted-foreground mb-2">Your Original</p>
+                            <p className="text-sm text-muted-foreground line-clamp-6">{formData.pitchOriginal}</p>
                           </div>
 
-                          <div className="bg-white/10 border border-white/20 rounded-xl p-6 relative">
-                            <div className="absolute top-3 right-3 flex items-center gap-1 text-xs text-white/80">
+                          <div className="bg-foreground/10 border border-border rounded-xl p-6 relative">
+                            <div className="absolute top-3 right-3 flex items-center gap-1 text-xs text-foreground/80">
                               <Sparkles size={14} />
                               AI Enhanced
                             </div>
                             <div className="space-y-4 mt-2">
                               <div>
-                                <p className="text-xs text-[#FF4757] mb-1">Problem</p>
+                                <p className="text-xs text-red-600 dark:text-[#FF4757] mb-1">Problem</p>
                                 <p className="text-sm">{aiPitch.problem}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-white/80 mb-1">Solution</p>
+                                <p className="text-xs text-foreground/80 mb-1">Solution</p>
                                 <p className="text-sm">{aiPitch.solution}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-white/70 mb-1">Target Market</p>
+                                <p className="text-xs text-foreground/70 mb-1">Target Market</p>
                                 <p className="text-sm">{aiPitch.targetMarket}</p>
                               </div>
                             </div>
@@ -431,7 +431,7 @@ export function EventApplicationPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/8 rounded-3xl p-8"
+                    className="bg-background/95 backdrop-blur-xl border border-border rounded-3xl p-8"
                   >
                     <h2 className="text-2xl mb-6">Final Details</h2>
 
@@ -446,7 +446,7 @@ export function EventApplicationPage() {
 
                       <div className="grid md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm text-[#8892A4] mb-2">Team Size</label>
+                          <label className="block text-sm text-muted-foreground mb-2">Team Size</label>
                           <input
                             type="number"
                             min="1"
@@ -472,18 +472,18 @@ export function EventApplicationPage() {
 
                               setFormData({ ...formData, teamSize: size, teammates: newTeammates });
                             }}
-                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                            className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm text-[#8892A4] mb-2">Your Role *</label>
+                          <label className="block text-sm text-muted-foreground mb-2">Your Role *</label>
                           <select
                             value={formData.userRole}
                             onChange={(e) =>
                               setFormData({ ...formData, userRole: e.target.value })
                             }
-                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                            className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors"
                           >
                             <option value="">Select your role</option>
                             {commonRoles.map((role) => (
@@ -499,31 +499,31 @@ export function EventApplicationPage() {
                           animate={{ opacity: 1, height: 'auto' }}
                           className="mt-4"
                         >
-                          <label className="block text-sm text-[#8892A4] mb-2">Specify Your Role *</label>
+                          <label className="block text-sm text-muted-foreground mb-2">Specify Your Role *</label>
                           <input
                             type="text"
                             required
                             placeholder="Type your role..."
-                            className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                            className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors"
                           />
                         </motion.div>
                       )}
 
                       {/* Team Member Email Invitations */}
                       {formData.teamSize > 1 && (
-                        <div className="bg-[#0F1628] border border-white/8 rounded-xl p-5">
+                        <div className="bg-muted border border-border rounded-xl p-5">
                           <div className="flex items-center gap-2 mb-4">
-                            <svg className="h-4 w-4 text-[#00F5A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                            <p className="text-sm font-medium text-white">Invite Team Members</p>
+                            <svg className="h-4 w-4 text-emerald-600 dark:text-[#00F5A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            <p className="text-sm font-medium text-foreground">Invite Team Members</p>
                           </div>
-                          <p className="text-xs text-[#8892A4] mb-4">
+                          <p className="text-xs text-muted-foreground mb-4">
                             Send email invitations to your {formData.teamSize - 1} teammate{formData.teamSize > 2 ? 's' : ''} to join your application.
                           </p>
                           <div className="space-y-4">
                             {formData.teammates.map((teammate, i) => (
                               <div key={i} className="space-y-2">
                                 <div className="flex items-center gap-2">
-                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/15 to-[#7B2FFF]/15 text-xs font-bold text-[#00E5FF]">
+                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/15 to-[#7B2FFF]/15 text-xs font-bold text-cyan-600 dark:text-[#00E5FF]">
                                     {i + 1}
                                   </div>
                                   <input
@@ -535,7 +535,7 @@ export function EventApplicationPage() {
                                       setFormData({ ...formData, teammates: newTeammates });
                                     }}
                                     placeholder={`teammate${i + 1}@email.com`}
-                                    className="flex-1 px-3 py-2.5 bg-[#1A2035] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
+                                    className="flex-1 px-3 py-2.5 bg-card rounded-lg border border-border text-sm text-foreground outline-none focus:border-[#00F5A0]/50 placeholder:text-muted-foreground/40 transition-all"
                                   />
                                 </div>
                                 <div className="pl-10">
@@ -546,7 +546,7 @@ export function EventApplicationPage() {
                                       newTeammates[i].role = e.target.value;
                                       setFormData({ ...formData, teammates: newTeammates });
                                     }}
-                                    className="w-full px-3 py-2.5 bg-[#1A2035] border border-white/10 rounded-lg focus:border-[#00F5A0] focus:outline-none transition-colors text-sm text-white"
+                                    className="w-full px-3 py-2.5 bg-card border border-border rounded-lg focus:border-[#00F5A0] focus:outline-none transition-colors text-sm text-foreground"
                                   >
                                     <option value="">Select teammate role</option>
                                     {commonRoles.map((role) => (
@@ -564,7 +564,7 @@ export function EventApplicationPage() {
                                         type="text"
                                         required
                                         placeholder="Specify teammate role..."
-                                        className="w-full px-3 py-2 bg-[#1A2540] rounded-lg border border-white/10 text-sm text-white outline-none focus:border-[#00F5A0]/50 placeholder:text-white/20 transition-all"
+                                        className="w-full px-3 py-2 bg-[#1A2540] rounded-lg border border-border text-sm text-foreground outline-none focus:border-[#00F5A0]/50 placeholder:text-muted-foreground/40 transition-all"
                                       />
                                     </motion.div>
                                   )}
@@ -576,18 +576,18 @@ export function EventApplicationPage() {
                       )}
 
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Tech Stack</label>
+                        <label className="block text-sm text-muted-foreground mb-2">Tech Stack</label>
                         <input
                           type="text"
                           placeholder="React, Python, TensorFlow... (comma separated)"
                           onChange={(e) => setFormData({ ...formData, techStack: e.target.value.split(',').map(s => s.trim()) })}
-                          className="w-full px-4 py-3 bg-[#1A2035] rounded-xl border border-white/8 text-white outline-none focus:border-[#00F5A0] transition-colors"
+                          className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-[#00F5A0] transition-colors"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm text-[#8892A4] mb-2">Pitch Deck (PDF, max 10MB)</label>
-                        <div className="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-[#00F5A0] transition-colors cursor-pointer">
+                        <label className="block text-sm text-muted-foreground mb-2">Pitch Deck (PDF, max 10MB)</label>
+                        <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-[#00F5A0] transition-colors cursor-pointer">
                           <input
                             type="file"
                             accept=".pdf"
@@ -598,28 +598,28 @@ export function EventApplicationPage() {
                           <label htmlFor="deck-upload" className="cursor-pointer">
                             {formData.pitchDeck ? (
                               <div>
-                                <Check className="w-10 h-10 mx-auto mb-2 text-[#00F5A0]" />
-                                <p className="text-white">{formData.pitchDeck.name}</p>
-                                <p className="text-xs text-[#8892A4]">
+                                <Check className="w-10 h-10 mx-auto mb-2 text-emerald-600 dark:text-[#00F5A0]" />
+                                <p className="text-foreground">{formData.pitchDeck.name}</p>
+                                <p className="text-xs text-muted-foreground">
                                   {(formData.pitchDeck.size / 1024 / 1024).toFixed(2)} MB
                                 </p>
                               </div>
                             ) : (
                               <>
-                                <Upload className="w-10 h-10 mx-auto mb-2 text-[#8892A4]" />
-                                <p className="text-[#8892A4]">Upload your pitch deck</p>
+                                <Upload className="w-10 h-10 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-muted-foreground">Upload your pitch deck</p>
                               </>
                             )}
                           </label>
                         </div>
                       </div>
 
-                      <div className="bg-[#1A2035]/50 border border-white/8 rounded-xl p-6">
-                        <p className="text-xs text-[#8892A4] mb-3">Application Summary</p>
+                      <div className="bg-card/50 border border-border rounded-xl p-6">
+                        <p className="text-xs text-muted-foreground mb-3">Application Summary</p>
                         <div className="space-y-2 text-sm">
-                          <p><span className="text-[#8892A4]">Project:</span> {formData.projectName}</p>
-                          <p><span className="text-[#8892A4]">Sector:</span> {formData.sector}</p>
-                          <p className="text-[#8892A4] line-clamp-2">
+                          <p><span className="text-muted-foreground">Project:</span> {formData.projectName}</p>
+                          <p><span className="text-muted-foreground">Sector:</span> {formData.sector}</p>
+                          <p className="text-muted-foreground line-clamp-2">
                             {useAiVersion ? 'Using AI-enhanced pitch' : formData.pitchOriginal}
                           </p>
                         </div>
@@ -630,9 +630,9 @@ export function EventApplicationPage() {
                           type="checkbox"
                           checked={formData.acceptTerms}
                           onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
-                          className="mt-1 w-5 h-5 rounded border-white/20"
+                          className="mt-1 w-5 h-5 rounded border-border"
                         />
-                        <span className="text-sm text-[#8892A4]">
+                        <span className="text-sm text-muted-foreground">
                           I confirm this is my original work and accept the confidentiality terms
                         </span>
                       </label>
@@ -659,25 +659,25 @@ export function EventApplicationPage() {
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-[rgba(15,22,40,0.95)] backdrop-blur-xl border border-white/20 rounded-3xl p-12 text-center"
+                className="bg-background/95 backdrop-blur-xl border border-border rounded-3xl p-12 text-center"
               >
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: 'spring' }}
-                  className="w-24 h-24 mx-auto mb-6 rounded-full bg-white/15 border border-white/20 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"
+                  className="w-24 h-24 mx-auto mb-6 rounded-full bg-foreground/10 border border-border flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"
                 >
-                  <Check size={48} className="text-white" />
+                  <Check size={48} className="text-foreground" />
                 </motion.div>
 
                 <h2 className="text-4xl mb-4">Application Submitted!</h2>
-                <p className="text-[#8892A4] mb-8">
+                <p className="text-muted-foreground mb-8">
                   Your application has been successfully submitted and is now under review.
                 </p>
 
-                <div className="bg-[#1A2035] rounded-xl p-6 mb-8 inline-block">
-                  <p className="text-xs text-[#8892A4] mb-2">Application Reference ID</p>
-                  <p className="text-2xl font-mono text-white/90">
+                <div className="bg-card rounded-xl p-6 mb-8 inline-block">
+                  <p className="text-xs text-muted-foreground mb-2">Application Reference ID</p>
+                  <p className="text-2xl font-mono text-foreground/90">
                     {applicationCode || `QAI-${Date.now().toString(36).toUpperCase()}`}
                   </p>
                 </div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTheme } from './ThemeProvider';
 
 interface Particle {
   x: number;
@@ -9,6 +10,7 @@ interface Particle {
 
 export function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,7 +56,8 @@ export function ParticleBackground() {
         // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 245, 160, 0.3)';
+        const lightColors = ['rgba(0, 229, 255, 0.5)', 'rgba(0, 245, 160, 0.5)', 'rgba(123, 47, 255, 0.4)'];
+        ctx.fillStyle = theme === 'light' ? lightColors[i % 3] : 'rgba(0, 245, 160, 0.3)';
         ctx.fill();
 
         // Draw connections
@@ -68,7 +71,8 @@ export function ParticleBackground() {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(0, 217, 245, ${opacity})`;
+            const lightLineColor = i % 2 === 0 ? `rgba(0, 229, 255, ${opacity * 1.5})` : `rgba(123, 47, 255, ${opacity * 1.2})`;
+            ctx.strokeStyle = theme === 'light' ? lightLineColor : `rgba(0, 217, 245, ${opacity})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -88,8 +92,7 @@ export function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'linear-gradient(to bottom, #0A0E1A, #0F1628)' }}
+      className={`fixed inset-0 pointer-events-none z-0 ${theme === 'dark' ? 'bg-[#0A0E1A]' : 'bg-background'}`}
     />
   );
 }

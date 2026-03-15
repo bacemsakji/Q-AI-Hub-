@@ -14,13 +14,15 @@ import { EventsPage } from './pages/EventsPage';
 import { StartupDetailPage } from './pages/StartupDetailPage';
 import { InviteTeammatePage } from './pages/InviteTeammatePage';
 import { RequireAuth } from './components/RequireAuth';
+import { ThemeProvider } from './components/ThemeProvider';
 import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <div className="min-h-screen bg-[#0A0E1A] text-white">
+    <ThemeProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -71,7 +73,8 @@ function App() {
           }}
         />
       </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
