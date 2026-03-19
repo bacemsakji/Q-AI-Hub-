@@ -148,8 +148,7 @@ export function EventsPage() {
                                         className="group"
                                     >
                                         <div className="h-full p-px rounded-2xl bg-gradient-to-br from-foreground/10 via-transparent to-foreground/5 hover:from-foreground/15 hover:to-foreground/5 transition-all duration-500">
-                                            <div className="relative h-full rounded-[calc(1rem-1px)] p-6 flex flex-col border border-border/40 bg-card/30 group-hover:border-primary/20 transition-all duration-500"
-                                                style={{ boxShadow: '0 8px 30px rgba(0, 229, 255, 0.04)' }}
+                                            <div className="relative h-full rounded-[calc(1rem-1px)] p-6 flex flex-col border border-border/40 bg-card/50 group-hover:border-primary/20 transition-all duration-500 shadow-sm"
                                             >
                                                 <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] to-transparent rounded-[calc(1rem-1px)]" />
                                                 {/* Header: type badge + status */}

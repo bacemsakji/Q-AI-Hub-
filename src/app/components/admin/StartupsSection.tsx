@@ -44,7 +44,7 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 520, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-[520px] flex-col border-l border-border bg-card/95 backdrop-blur-xl shadow-2xl"
+            className="fixed inset-y-0 right-0 z-50 flex w-[520px] flex-col border-l border-border bg-card backdrop-blur-xl shadow-2xl"
         >
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
                 <h3 className="text-base font-bold text-foreground">Startup Details</h3>
@@ -217,12 +217,16 @@ export function StartupsSection() {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+            <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                className="flex items-center justify-between bg-card border border-border rounded-2xl p-6 shadow-sm"
+            >
                 <div>
                     <h2 className="text-2xl font-bold text-foreground">Startup Portfolio</h2>
                     <p className="mt-1 text-sm text-muted-foreground">Track and manage incubated startups</p>
                 </div>
-                <div className="flex items-center gap-1 rounded-xl bg-foreground/5 p-1 border border-border">
+                <div className="flex items-center gap-1 rounded-xl bg-foreground/10 p-1 border border-border/20 shadow-sm">
                     <button
                         onClick={() => setTab('Portfolio')}
                         className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${tab === 'Portfolio' ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20' : 'text-muted-foreground hover:text-foreground'}`}
@@ -256,12 +260,7 @@ export function StartupsSection() {
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ delay: 0.1 + i * 0.06 }}
                         whileHover={{ y: -5, filter: 'brightness(1.1)' }}
-                        className="group relative rounded-2xl p-6 transition-all cursor-default overflow-hidden"
-                        style={{
-                            background: 'var(--color-card)',
-                            boxShadow: `0 10px 40px rgba(0, 229, 255, 0.08)`,
-                            border: '1px solid var(--color-border)'
-                        }}
+                        className="group relative rounded-2xl p-6 transition-all cursor-default overflow-hidden bg-card border border-border shadow-sm"
                     >
                         {/* Bottom Accent Glow */}
                         <div className={`absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} opacity-40 blur-sm`} />
@@ -296,7 +295,7 @@ export function StartupsSection() {
                 {filtered.map(startup => (
                     <motion.div key={startup.id} variants={cardItem}
                         whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(0,229,255,0.06)' }}
-                        className="group overflow-hidden rounded-2xl border border-border bg-card/95 transition-colors hover:border-border/80">
+                        className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors hover:border-border/80">
                         <div className="flex items-start gap-4 p-5">
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-cyan-600 dark:text-[#00E5FF] ring-2 ring-[#00E5FF]/10 group-hover:ring-[#00E5FF]/25 transition-all">{startup.logo}</div>
                             <div className="flex-1 min-w-0">

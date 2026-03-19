@@ -30,7 +30,7 @@ function UserProfilePanel({ user, onClose }: { user: AdminUser; onClose: () => v
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 500, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-[500px] flex-col border-l border-border bg-card/95 backdrop-blur-xl shadow-2xl"
+            className="fixed inset-y-0 right-0 z-50 flex w-[500px] flex-col border-l border-border bg-card backdrop-blur-xl shadow-2xl"
         >
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
                 <h3 className="text-base font-bold text-foreground">User Profile</h3>
@@ -139,8 +139,15 @@ export function UsersSection() {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-                <div><h2 className="text-2xl font-bold text-foreground">Users Directory</h2><p className="mt-1 text-sm text-muted-foreground">Manage startup founders and team members</p></div>
+            <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                className="flex items-center justify-between bg-card border border-border rounded-2xl p-6 shadow-sm"
+            >
+                <div>
+                    <h2 className="text-2xl font-bold text-foreground">Users Directory</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">Manage startup founders and team members</p>
+                </div>
                 <Button
                     onClick={() => navigate('/admin/users/invite')}
                     className="!px-5 !py-2.5"
@@ -162,12 +169,7 @@ export function UsersSection() {
                         initial={{ opacity: 0, y: 20 }} 
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ delay: 0.1 + i * 0.06 }}
-                        className="relative rounded-2xl p-6 transition-all cursor-default"
-                        style={{
-                            background: 'var(--color-card)',
-                            boxShadow: `0 10px 40px rgba(0, 229, 255, 0.08)`,
-                            border: '1px solid var(--color-border)'
-                        }}
+                        className="relative rounded-2xl p-6 transition-all cursor-default bg-card border border-border shadow-sm"
                     >
                         {/* Bottom Accent Glow */}
                         <div className={`absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} opacity-40 blur-sm`} />
@@ -194,7 +196,7 @@ export function UsersSection() {
                 {filtered.map(user => (
                     <motion.div key={user.id} variants={cardItem}
                         whileHover={{ y: -4, boxShadow: '0 16px 40px rgba(0,229,255,0.06)' }}
-                        className="group overflow-hidden rounded-2xl border border-border bg-card/95 transition-colors hover:border-border/80">
+                        className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors hover:border-border/80">
                         <div className="flex items-start gap-4 p-5">
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-cyan-600 dark:text-[#00E5FF] ring-2 ring-[#00E5FF]/10 group-hover:ring-[#00E5FF]/25 transition-all">{user.avatar}</div>
                             <div className="flex-1 min-w-0">

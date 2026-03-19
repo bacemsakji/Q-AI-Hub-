@@ -288,7 +288,7 @@ export function UserDashboard() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="bg-slate-400/20 dark:bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 group transition-colors hover:border-border/80"
+                      className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 group transition-colors hover:border-border/80 shadow-sm"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center`}>
@@ -304,7 +304,7 @@ export function UserDashboard() {
                 </div>
 
                 {/* Recent Applications */}
-                <div className="bg-slate-400/20 dark:bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
                   <h2 className="text-2xl mb-6 text-foreground">My Recent Applications</h2>
 
                   {applications.length === 0 ? (
@@ -371,7 +371,7 @@ export function UserDashboard() {
                 animate={{ opacity: 1, y: 0 }}
               >
                 <h1 className="text-4xl mb-8 text-foreground">My Applications</h1>
-                <div className="bg-slate-400/20 dark:bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
                   {applications.length === 0 ? (
                     <div className="text-center py-12">
                       <FileText size={48} className="mx-auto mb-4 text-muted-foreground" />

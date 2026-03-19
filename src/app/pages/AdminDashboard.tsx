@@ -87,7 +87,7 @@ function SettingsSection() {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Left Column: Platform Settings + Change Password */}
         <div className="space-y-6">
-          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
+          <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Shield className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Platform Settings</h3>
@@ -115,7 +115,7 @@ function SettingsSection() {
           </div>
 
           {/* Change Password */}
-          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
+          <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Lock className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Change Password</h3>
@@ -126,7 +126,7 @@ function SettingsSection() {
 
         {/* Right Column: Admin Profile + Data & Exports */}
         <div className="space-y-6">
-          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
+          <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Globe className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Admin Profile</h3>
@@ -141,7 +141,7 @@ function SettingsSection() {
             </div>
           </div>
 
-          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl p-6">
+          <div className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <Database className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
               <h3 className="text-lg font-bold text-foreground">Data & Exports</h3>

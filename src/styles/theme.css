@@ -7,9 +7,9 @@
   --cyan: #00D9F5;
   --electric-blue: #0061FF;
 
-  --background: #f8fafc;
+  --background: #f1f5f9;
   --foreground: #0f172a;
-  --card: rgba(241, 245, 249, 0.85); /* Glassy Grey Slate-100 */
+  --card: rgba(148, 163, 184, 0.12); /* Glassy Tech Grey */
   --card-foreground: #0f172a;
   --popover: rgba(241, 245, 249, 0.85);
   --popover-foreground: #0f172a;

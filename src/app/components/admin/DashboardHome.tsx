@@ -142,8 +142,8 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
 
     return (
         <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-6">
-            {/* Welcome */}
-            <motion.div variants={item}>
+            {/* Welcome Banner */}
+            <motion.div variants={item} className="bg-card border border-border rounded-2xl p-6 mb-2 shadow-sm">
                 <h2 className="text-3xl font-bold text-foreground">
                     Welcome back, <span className="bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] bg-clip-text text-transparent">Admin</span>
                 </h2>
@@ -159,12 +159,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: 0.15 + i * 0.08, type: 'spring' as const, stiffness: 200, damping: 20 }}
                         whileHover={{ y: -5, filter: 'brightness(1.1)' }}
-                        className="group relative overflow-hidden rounded-2xl p-6 transition-all cursor-pointer"
-                        style={{
-                            background: 'var(--color-card)',
-                            boxShadow: `0 10px 40px ${stat.glow.replace('0.15', '0.08')}`,
-                            border: '1px solid var(--color-border)'
-                        }}
+                        className="group relative overflow-hidden rounded-2xl p-6 transition-all cursor-pointer bg-card border border-border shadow-sm"
                     >
                         <div className={`absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 bg-gradient-to-br ${stat.gradient}`} />
                         {/* Bottom Accent Glow */}
@@ -199,8 +194,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                     <motion.div key={chart.title}
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + ci * 0.1 }}
                         whileHover={{ y: -3, borderColor: 'var(--color-border)' }}
-                        className="relative rounded-2xl p-6 transition-all border border-border/50 bg-card/40"
-                        style={{ boxShadow: '0 8px 30px rgba(0, 229, 255, 0.04)' }}
+                        className="relative rounded-2xl p-6 transition-all border border-border bg-card shadow-sm"
                     >
                         <div className="flex items-center justify-between mb-1">
                             <p className="text-sm font-semibold text-foreground">{chart.title}</p>
@@ -228,12 +222,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                             <motion.div key={fs.label}
                                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 + fi * 0.08 }}
                                 whileHover={{ y: -5, filter: 'brightness(1.1)' }}
-                                className="relative rounded-2xl p-6 transition-all cursor-default overflow-hidden group"
-                                style={{
-                                    background: 'var(--color-card)',
-                                    boxShadow: `0 10px 40px ${fs.glow.replace('0.12', '0.08')}`,
-                                    border: '1px solid var(--color-border)'
-                                }}
+                                className="relative rounded-2xl p-6 transition-all cursor-default overflow-hidden group bg-card border border-border shadow-sm"
                             >
                                 {/* Background Glow Layer */}
                                 <div 
@@ -262,8 +251,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
 
                 {/* Sector Pie Chart */}
                 <motion.div variants={item} 
-                    className="relative rounded-2xl p-6 border border-border/50 bg-card/40"
-                    style={{ boxShadow: '0 10px 40px rgba(0, 229, 255, 0.05)' }}
+                    className="relative rounded-2xl p-6 border border-border bg-card shadow-sm"
                 >
                     <div className="flex items-center gap-2 mb-5">
                         <PieChart className="h-5 w-5 text-purple-600 dark:text-[#7B2FFF]" />
@@ -276,8 +264,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
             {/* Activity + Quick Actions */}
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                 <motion.div variants={item} 
-                    className="lg:col-span-2 relative rounded-2xl p-7 border border-border/50 bg-card/40"
-                    style={{ boxShadow: '0 12px 50px rgba(0, 229, 255, 0.06)' }}
+                    className="lg:col-span-2 relative rounded-2xl p-7 border border-border bg-card shadow-sm"
                 >
                     <div className="flex items-center justify-between mb-5">
                         <div className="flex items-center gap-2">
@@ -308,8 +295,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
                 </motion.div>
 
                 <motion.div variants={item} 
-                    className="relative rounded-2xl p-7 border border-border/50 bg-card/40"
-                    style={{ boxShadow: '0 12px 50px rgba(0, 229, 255, 0.06)' }}
+                    className="relative rounded-2xl p-7 border border-border bg-card shadow-sm"
                 >
                     <div className="flex items-center gap-2 mb-5">
                         <Zap className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" />
@@ -348,8 +334,7 @@ export function DashboardHome({ onNavigate }: DashboardHomeProps) {
 
             {/* Upcoming Events */}
             <motion.div variants={item} 
-                className="relative rounded-2xl p-7 border border-border/50 bg-card/40"
-                style={{ boxShadow: '0 15px 60px rgba(0, 229, 255, 0.08)' }}
+                className="relative rounded-2xl p-7 border border-border bg-card shadow-sm"
             >
                 <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2">

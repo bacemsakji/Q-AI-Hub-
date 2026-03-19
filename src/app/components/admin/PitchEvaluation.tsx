@@ -37,7 +37,7 @@ function EventsList({ onSelectEvent }: { onSelectEvent: (event: AdminEvent) => v
                         <motion.button key={event.id} variants={cardItem}
                             whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,229,255,0.08)' }}
                             onClick={() => onSelectEvent(event)}
-                            className="group overflow-hidden rounded-2xl border border-border bg-card/95 text-left transition-colors hover:border-white/[0.12]">
+                            className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm text-left transition-colors hover:border-primary/30">
                             <div className="relative h-32 overflow-hidden">
                                 <img src={event.image} alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" crossOrigin="anonymous" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
@@ -72,7 +72,7 @@ function StartupsList({ event, onSelectStartup, onBack }: { event: AdminEvent; o
                     <motion.button key={s.startupName} variants={cardItem}
                         whileHover={{ y: -3, boxShadow: '0 12px 30px rgba(0,229,255,0.06)' }}
                         onClick={() => onSelectStartup(s)}
-                        className="rounded-2xl border border-border bg-card/95 p-5 text-left hover:border-border/80 transition-all">
+                        className="rounded-2xl border border-border bg-card shadow-sm p-5 text-left hover:border-border/80 transition-all">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-cyan-600 dark:text-[#00E5FF] ring-2 ring-[#00E5FF]/15">
                                 {s.startup?.logo || s.startupName.slice(0, 2).toUpperCase()}
@@ -165,8 +165,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
 
             {/* Team Members Card */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                className="relative rounded-2xl p-6 transition-all border border-border/50 bg-card/40"
-                style={{ boxShadow: '0 8px 30px rgba(0, 229, 255, 0.05)' }}
+                className="relative rounded-2xl p-6 transition-all border border-border bg-card shadow-sm"
             >
                 <div className="absolute -bottom-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
                 <div className="flex items-center gap-2 mb-4">
@@ -190,8 +189,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                 <div className="lg:col-span-2 space-y-6">
                     {/* Scoring */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                        className="relative rounded-2xl p-7 transition-all border border-border/50 bg-card/40"
-                        style={{ boxShadow: '0 10px 40px rgba(0, 229, 255, 0.05)' }}
+                        className="relative rounded-2xl p-7 transition-all border border-border bg-card shadow-sm"
                     >
                         <div className="absolute -bottom-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                         <div className="flex items-center gap-2 mb-5">
@@ -229,7 +227,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
 
                     {/* Notes */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-                        className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                        className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
                         <label className="block text-sm font-semibold text-foreground mb-2">Evaluator Notes</label>
                         <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Capture observations about the startup, team strengths, risks, or follow-up questions..."
                             className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground text-sm leading-relaxed outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/20 min-h-[120px] resize-none placeholder:text-muted-foreground/40 transition-all" />
@@ -240,8 +238,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
                 <div className="space-y-6">
                     {/* Score Summary */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-                        className="relative rounded-2xl p-8 text-center border border-border/50 bg-card/60 overflow-hidden"
-                        style={{ boxShadow: '0 12px 50px rgba(0, 229, 255, 0.08)' }}
+                        className="relative rounded-2xl p-8 text-center border border-border bg-card shadow-sm overflow-hidden"
                     >
                         {/* Animated background accent */}
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-50" />
@@ -260,7 +257,7 @@ function EvaluationView({ event, startupInfo, onBack }: { event: AdminEvent; sta
 
                     {/* AI Feedback — Premium */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-                        className="relative overflow-hidden bg-card/95 backdrop-blur-xl rounded-2xl p-6 border border-border">
+                        className="relative overflow-hidden bg-card backdrop-blur-xl rounded-2xl p-6 border border-border shadow-sm">
                         <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'linear-gradient(135deg, #00E5FF40, #7B2FFF40, #00FFC240)' }} />
                         <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-gradient-to-br from-[#00E5FF]/10 to-[#7B2FFF]/10 blur-2xl pointer-events-none" />
                         <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-gradient-to-tr from-[#7B2FFF]/8 to-[#00FFC2]/8 blur-xl pointer-events-none" />

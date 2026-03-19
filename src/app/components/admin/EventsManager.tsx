@@ -105,7 +105,7 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
 
             {/* Overview */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-                className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6">
+                className="bg-card backdrop-blur-xl border border-border rounded-2xl p-6 shadow-sm">
                 <h3 className="mb-3 text-lg font-bold text-foreground">About this Event</h3>
                 <p className="leading-relaxed text-foreground/70">{event.description}</p>
                 <div className="mt-4 grid grid-cols-3 gap-4">
@@ -127,7 +127,7 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
                 {eventApplicants.length === 0 ? (
                     <div className="rounded-2xl border border-dashed border-border p-12 text-center"><Users className="mx-auto h-10 w-10 text-muted-foreground/40" /><p className="mt-3 text-sm text-muted-foreground">No applicants yet</p></div>
                 ) : (
-                    <div className="overflow-hidden rounded-2xl border border-border bg-card/95">
+                    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                         <table className="w-full">
                             <thead><tr className="border-b border-border bg-muted">
                                 {['Applicant', 'Startup', 'Submitted', 'Status', 'Actions'].map(h => <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">{h}</th>)}
@@ -192,8 +192,15 @@ export function EventsManager() {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
             {/* Header */}
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-                <div><h2 className="text-2xl font-bold text-foreground">Events Manager</h2><p className="mt-1 text-sm text-muted-foreground">Manage and monitor all incubator events</p></div>
+            <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                className="flex items-center justify-between bg-card border border-border rounded-2xl p-6 shadow-sm"
+            >
+                <div>
+                    <h2 className="text-2xl font-bold text-foreground">Events Manager</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">Manage and monitor all incubator events</p>
+                </div>
                 <Button
                     onClick={() => navigate('/admin/events/create')}
                     className="!px-5 !py-2.5"
@@ -216,12 +223,7 @@ export function EventsManager() {
                         initial={{ opacity: 0, y: 20 }} 
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ delay: 0.1 + i * 0.06 }}
-                        className="relative rounded-2xl p-6 transition-all cursor-default"
-                        style={{
-                            background: 'var(--color-card)',
-                            boxShadow: `0 10px 40px rgba(0, 229, 255, 0.08)`,
-                            border: '1px solid var(--color-border)'
-                        }}
+                        className="relative rounded-2xl p-6 transition-all cursor-default bg-card border border-border shadow-sm"
                     >
                         {/* Bottom Accent Glow */}
                         <div className={`absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} opacity-40 blur-sm`} />
@@ -253,7 +255,7 @@ export function EventsManager() {
                 {filtered.map(event => (
                     <motion.div key={event.id} variants={cardItem}
                         whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,229,255,0.08)' }}
-                        className="group overflow-hidden rounded-2xl border border-border bg-card/95 transition-colors hover:border-primary/30">
+                        className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors hover:border-primary/30">
                         <div className="relative h-44 overflow-hidden">
                             <img src={event.image} alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" crossOrigin="anonymous" />
                             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
