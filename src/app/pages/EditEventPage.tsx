@@ -6,6 +6,7 @@ import { ParticleBackground } from '../components/ParticleBackground';
 import { Logo } from '../components/Logo';
 import { DatePicker } from '../components/ui/date-picker';
 import { Button } from '../components/Button';
+import { InviteExpertsPanel, type EventExpert } from '../components/admin/InviteExpertsPanel';
 import { toast } from 'sonner';
 
 /* ─── Mock event data (shared with AdminDashboard in a real app this would come from a store/API) ─── */
@@ -64,6 +65,7 @@ export function EditEventPage() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [pendingExperts, setPendingExperts] = useState<EventExpert[]>([]);
     const [form, setForm] = useState({
         name: '',
         category: '',
@@ -300,6 +302,18 @@ export function EditEventPage() {
                                         className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors"
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-sm text-muted-foreground mb-2 flex items-center gap-1">
+                                        <Users size={13} /> Cover Image URL
+                                    </label>
+                                    <input
+                                        type="url"
+                                        value={form.imageUrl}
+                                        onChange={e => handleChange('imageUrl', e.target.value)}
+                                        placeholder="https://..."
+                                        className="w-full px-4 py-3 bg-card rounded-xl border border-border text-foreground outline-none focus:border-white/30 transition-colors placeholder:text-muted-foreground/40"
+                                    />
+                                </div>
 
                                 <div>
                                     <label className="block text-sm text-muted-foreground mb-3">Publishing Status</label>
@@ -325,6 +339,9 @@ export function EditEventPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Expert Invitations */}
+                        <InviteExpertsPanel eventId={id} onChange={setPendingExperts} />
 
                         {/* Actions */}
                         <div className="flex gap-4">

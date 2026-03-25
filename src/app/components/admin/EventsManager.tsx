@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Plus, MapPin, CalendarDays, Users, ArrowRight, Filter, X, ArrowLeft, Eye, Clock, FileText, Download, ExternalLink, Sparkles, Brain, Target, Star, CheckCircle2, TrendingUp } from 'lucide-react';
+import { Search, Plus, MapPin, CalendarDays, Users, ArrowRight, Filter, X, ArrowLeft, Eye, Clock, FileText, Download, ExternalLink, Sparkles, Brain, Target, Star, CheckCircle2, TrendingUp, UserPlus, Pencil } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { adminEvents as initialEvents, applicantsByEvent, questionSuggestions, type AdminEvent, type Applicant } from '../../data/adminData';
 import { Button } from '../Button';
 import { DateTimePicker } from '../ui/datetime-picker';
+import { InviteExpertsPanel } from './InviteExpertsPanel';
 import { toast } from 'sonner';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.1 } } };
@@ -353,7 +354,7 @@ function ApplicantPanel({ applicant, onClose }: { applicant: Applicant; onClose:
     );
 }
 
-function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void }) {
+function EventDetail({ event, onBack, navigate }: { event: AdminEvent; onBack: () => void; navigate: (path: string) => void }) {
     const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
     const [searchApplicant, setSearchApplicant] = useState('');
     
@@ -407,15 +408,40 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
             <div>
                 <button onClick={onBack} className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"><ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />Back to Events</button>
-                <div className="flex items-center gap-4">
-                    <div className="h-16 w-24 overflow-hidden rounded-xl border border-border"><img src={event.image} alt={event.title} className="h-full w-full object-cover" crossOrigin="anonymous" /></div>
-                    <div>
-                        <h2 className="text-2xl font-bold text-foreground">{event.title}</h2>
-                        <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1.5"><CalendarDays className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.date}</span>
-                            <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.location}</span>
-                            <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{allApplicants.length} Applicants</span>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="h-16 w-24 overflow-hidden rounded-xl border border-border">
+                            <img src={event.image} alt={event.title} className="h-full w-full object-cover" crossOrigin="anonymous" />
                         </div>
+                        <div>
+                            <h2 className="text-2xl font-bold text-foreground">{event.title}</h2>
+                            <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                                <span className="flex items-center gap-1.5"><CalendarDays className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.date}</span>
+                                <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.location}</span>
+                                <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{allApplicants.length} Applicants</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate(`/admin/events/${event.id}/edit`)}
+                            className="!px-4 !py-2 !text-sm border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10"
+                        >
+                            <Pencil className="h-4 w-4" />
+                            Modify Event
+                        </Button>
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                // @ts-ignore - we'll handle this in the parent EventsManager
+                                document.dispatchEvent(new CustomEvent('open-partner-modal', { detail: event.id }));
+                            }}
+                            className="!px-4 !py-2 !text-sm border-cyan-500/30 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/10"
+                        >
+                            <UserPlus className="h-4 w-4" />
+                            Add Partner
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -506,6 +532,15 @@ export function EventsManager() {
     const [statusFilter, setStatusFilter] = useState('All');
     const [selectedEvent, setSelectedEvent] = useState<AdminEvent | null>(null);
     const [eventsList] = useState(initialEvents);
+    const [partneringEventId, setPartneringEventId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const handler = (e: any) => {
+            if (e.detail) setPartneringEventId(e.detail);
+        };
+        document.addEventListener('open-partner-modal', handler);
+        return () => document.removeEventListener('open-partner-modal', handler);
+    }, []);
 
     const filtered = eventsList.filter(e => {
         const matchSearch = e.title.toLowerCase().includes(search.toLowerCase());
@@ -516,7 +551,7 @@ export function EventsManager() {
     const totalApplicants = eventsList.reduce((a, e) => a + e.applicants, 0);
     const openCount = eventsList.filter(e => e.status === 'Open').length;
 
-    if (selectedEvent) return <EventDetail event={selectedEvent} onBack={() => setSelectedEvent(null)} />;
+    if (selectedEvent) return <EventDetail event={selectedEvent} onBack={() => setSelectedEvent(null)} navigate={navigate} />;
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
@@ -607,19 +642,70 @@ export function EventsManager() {
                                     <div className="h-full rounded-full bg-gradient-to-r from-[#00E5FF] to-[#00FFC2] transition-all" style={{ width: `${Math.min((event.applicants / event.maxCapacity) * 100, 100)}%` }} />
                                 </div>
                             </div>
-                            <Button
-                                variant="outline"
-                                fullWidth
-                                onClick={() => setSelectedEvent(event)}
-                                className="!px-4 !py-2.5 !text-xs group/btn"
-                            >
-                                View Details
-                                <ArrowRight className="h-3.5 w-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                            </Button>
+                            <div className="grid grid-cols-2 gap-2">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setSelectedEvent(event)}
+                                    className="!px-3 !py-2 !text-xs group/btn !h-9"
+                                >
+                                    Review
+                                    <ArrowRight className="h-3.2 w-3.2 group-hover/btn:translate-x-1 transition-transform" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => navigate(`/admin/events/${event.id}/edit`)}
+                                    className="!px-3 !py-2 !text-xs group/btn !h-9 border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10"
+                                >
+                                    <Pencil className="h-3.2 w-3.2" />
+                                    Modify
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setPartneringEventId(event.id);
+                                    }}
+                                    className="col-span-2 !px-4 !py-2.5 !text-xs group/btn !h-9 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/10"
+                                >
+                                    <UserPlus className="h-3.5 w-3.5" />
+                                    Add Partner
+                                </Button>
+                            </div>
                         </div>
                     </motion.div>
                 ))}
             </motion.div>
+
+            <AnimatePresence>
+                {partneringEventId && (
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-background/60 backdrop-blur-md"
+                            onClick={() => setPartneringEventId(null)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative w-full max-w-2xl"
+                        >
+                            <button
+                                onClick={() => setPartneringEventId(null)}
+                                className="absolute right-4 top-4 z-10 p-2 text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+                            <InviteExpertsPanel
+                                eventId={partneringEventId}
+                                onChange={() => {}}
+                            />
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }
