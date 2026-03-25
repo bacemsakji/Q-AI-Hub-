@@ -66,6 +66,12 @@ export interface Applicant {
     status: 'Pending' | 'Accepted' | 'Rejected' | 'Under Review';
     submittedAt: string;
     answers: { question: string; answer: string; type: 'text' | 'file' | 'url' }[];
+    questionnaireAnswers?: Record<string, string>;
+    milestones?: any[];
+    followupStatus?: 'none' | 'pending_questions' | 'waiting_answers' | 'answers_received';
+    followupQuestions?: string[];
+    followupAnswers?: string[];
+    pitchDate?: string;
 }
 
 export interface Startup {
@@ -86,6 +92,14 @@ export interface Startup {
     milestones: Milestone[];
     metrics: { label: string; value: string }[];
     members: { name: string; role: string; avatar: string }[];
+    
+    // New editable metrics
+    monthlyRevenue: string;
+    growthRatePct: number;
+    monthlyBurnRate: string;
+    overallProgressPct: number; // Linked with progress
+    accuracyRatePct: number;
+    totalFundedMoney: string; // Linked with funding
 }
 
 export interface Milestone {
@@ -129,7 +143,7 @@ export const evaluationCriteria: EvaluationCriterion[] = [
 export const adminEvents: AdminEvent[] = [
     {
         id: '1',
-        title: 'Quantum Hackathon 2026',
+        title: '!!!CHECK THIS FIRST!!!',
         date: 'March 15-17, 2026',
         location: 'Q-AI Innovation Lab, Tunis',
         category: 'Quantum Computing',
@@ -137,7 +151,7 @@ export const adminEvents: AdminEvent[] = [
         applicants: 45,
         maxCapacity: 60,
         image: 'https://picsum.photos/seed/quantum/600/400',
-        description: 'A 48-hour hackathon challenging teams to build quantum algorithms that solve real-world optimization problems in logistics, healthcare, and finance.',
+        description: 'cuz this is just a protoype we cant do the usual timeline of promoting startups so we simplified it as u can see here',
         questions: [
             { id: 'q1', text: 'Describe your innovation and how it uses quantum computing.', type: 'Long Text', required: true },
             { id: 'q2', text: 'Upload your pitch deck.', type: 'File Upload', required: true },
@@ -352,6 +366,12 @@ export const startups: Startup[] = [
             { name: 'Amine Ben Ali', role: 'CEO', avatar: 'AB' }, { name: 'Yasmine K.', role: 'CTO', avatar: 'YK' },
             { name: 'Farid M.', role: 'Quantum Engineer', avatar: 'FM' }, { name: 'Dalila B.', role: 'Data Scientist', avatar: 'DB' },
         ],
+        monthlyRevenue: '8500',
+        growthRatePct: 45,
+        monthlyBurnRate: '6000',
+        overallProgressPct: 72,
+        accuracyRatePct: 92,
+        totalFundedMoney: '120000',
     },
     {
         id: 's2', name: 'Carthage Vision', founderId: 'u2', founderName: 'Sara Meziane',
@@ -372,6 +392,12 @@ export const startups: Startup[] = [
             { name: 'Sara Meziane', role: 'CTO', avatar: 'SM' }, { name: 'Hichem A.', role: 'ML Engineer', avatar: 'HA' },
             { name: 'Rania T.', role: 'Product Designer', avatar: 'RT' },
         ],
+        monthlyRevenue: '2100',
+        growthRatePct: 15,
+        monthlyBurnRate: '3500',
+        overallProgressPct: 48,
+        accuracyRatePct: 94.3,
+        totalFundedMoney: '45000',
     },
     {
         id: 's3', name: 'ChainSecure', founderId: 'u3', founderName: 'Youcef Krim',
@@ -393,6 +419,12 @@ export const startups: Startup[] = [
             { name: 'Meriem S.', role: 'Frontend Dev', avatar: 'MS' }, { name: 'Bilal H.', role: 'Smart Contract Dev', avatar: 'BH' },
             { name: 'Ines R.', role: 'Business Dev', avatar: 'IR' },
         ],
+        monthlyRevenue: '15000',
+        growthRatePct: 62,
+        monthlyBurnRate: '8000',
+        overallProgressPct: 65,
+        accuracyRatePct: 98,
+        totalFundedMoney: '200000',
     },
     {
         id: 's4', name: 'BioData TN', founderId: 'u4', founderName: 'Lina Hadj',
@@ -413,6 +445,12 @@ export const startups: Startup[] = [
             { name: 'Lina Hadj', role: 'Research Lead', avatar: 'LH' }, { name: 'Samir N.', role: 'Bioinformatician', avatar: 'SN' },
             { name: 'Amina C.', role: 'Lab Technician', avatar: 'AC' },
         ],
+        monthlyRevenue: '1200',
+        growthRatePct: 25,
+        monthlyBurnRate: '4000',
+        overallProgressPct: 55,
+        accuracyRatePct: 97.8,
+        totalFundedMoney: '60000',
     },
     {
         id: 's5', name: 'AgriDrones Carthage', founderId: 'u5', founderName: 'Karim Bouzid',
@@ -431,6 +469,12 @@ export const startups: Startup[] = [
         members: [
             { name: 'Karim Bouzid', role: 'Product Manager', avatar: 'KB' }, { name: 'Nassim Y.', role: 'Drone Engineer', avatar: 'NY' },
         ],
+        monthlyRevenue: '0',
+        growthRatePct: 0,
+        monthlyBurnRate: '1500',
+        overallProgressPct: 25,
+        accuracyRatePct: 85,
+        totalFundedMoney: '10000',
     },
     {
         id: 's6', name: 'Fusha AI', founderId: 'u6', founderName: 'Nadia Ferhat',
@@ -451,6 +495,12 @@ export const startups: Startup[] = [
             { name: 'Nadia Ferhat', role: 'ML Engineer', avatar: 'NF' }, { name: 'Rachid M.', role: 'NLP Researcher', avatar: 'RM' },
             { name: 'Fatima Z.', role: 'Mobile Dev', avatar: 'FZ' }, { name: 'Ali K.', role: 'Linguist', avatar: 'AK' },
         ],
+        monthlyRevenue: '1800',
+        growthRatePct: 38,
+        monthlyBurnRate: '3000',
+        overallProgressPct: 60,
+        accuracyRatePct: 91.2,
+        totalFundedMoney: '80000',
     },
     {
         id: 's7', name: 'Tunis Sensors', founderId: 'u7', founderName: 'Omar Tazi',
@@ -469,6 +519,12 @@ export const startups: Startup[] = [
         members: [
             { name: 'Omar Tazi', role: 'Hardware Engineer', avatar: 'OT' }, { name: 'Leila S.', role: 'Chemistry Researcher', avatar: 'LS' },
         ],
+        monthlyRevenue: '0',
+        growthRatePct: 0,
+        monthlyBurnRate: '1200',
+        overallProgressPct: 15,
+        accuracyRatePct: 88,
+        totalFundedMoney: '5000',
     },
     {
         id: 's8', name: 'CyberShield TN', founderId: 'u8', founderName: 'Amira Slimani',
@@ -486,6 +542,12 @@ export const startups: Startup[] = [
         members: [
             { name: 'Amira Slimani', role: 'Data Scientist', avatar: 'AS' },
         ],
+        monthlyRevenue: '0',
+        growthRatePct: 0,
+        monthlyBurnRate: '800',
+        overallProgressPct: 10,
+        accuracyRatePct: 75,
+        totalFundedMoney: '0',
     },
     {
         id: 's9', name: 'Quantum Leap Labs', founderId: 'u9', founderName: 'Sami Khelil',
@@ -500,6 +562,12 @@ export const startups: Startup[] = [
             { name: 'Sami Khelil', role: 'Founder', avatar: 'SK' },
             { name: 'Ines B.', role: 'Quantum Physicist', avatar: 'IB' },
         ],
+        monthlyRevenue: '0',
+        growthRatePct: 0,
+        monthlyBurnRate: '2000',
+        overallProgressPct: 5,
+        accuracyRatePct: 0,
+        totalFundedMoney: '0',
     },
     {
         id: 's10', name: 'EcoTrack Tunisia', founderId: 'u10', founderName: 'Fatma Baccar',
@@ -514,6 +582,12 @@ export const startups: Startup[] = [
             { name: 'Fatma Baccar', role: 'Founder', avatar: 'FB' },
             { name: 'Mehdi Z.', role: 'IoT Engineer', avatar: 'MZ' },
         ],
+        monthlyRevenue: '0',
+        growthRatePct: 0,
+        monthlyBurnRate: '1000',
+        overallProgressPct: 12,
+        accuracyRatePct: 0,
+        totalFundedMoney: '0',
     },
 ];
 
@@ -521,29 +595,80 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
     '1': [
         {
             id: 'a1', userId: 'u1', name: 'Amine Ben Ali', email: 'amine.benali@mail.com',
-            startup: 'NeuroQuant Solutions', avatar: 'AB', status: 'Accepted', submittedAt: 'Feb 28, 2026',
+            startup: 'chose questioons for promotion', avatar: 'AB', status: 'Accepted', submittedAt: 'Feb 28, 2026',
+            followupStatus: 'none',
             answers: [
                 { question: 'Describe your innovation and how it uses quantum computing.', answer: 'We are building a hybrid quantum-neural network architecture that leverages quantum entanglement for molecular simulation. Our approach reduces drug discovery computation time by 100x.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'pitch_v2.pdf', type: 'file' },
                 { question: 'Link to your GitHub repository.', answer: 'https://github.com/neuroquant/quantum-nn', type: 'url' },
             ],
+            questionnaireAnswers: {
+                vision: "To become the global leader in quantum-driven pharmacology.",
+                validation: "3 pilot programs signed with major pharmaceutical labs in the region.",
+                technical: "Using proprietary noise-resilient quantum algorithms.",
+                team: "PhDs in Physics and Bio-informatics with decade-long experience.",
+                expectations: "Seeking mentorship for Series A prep and market entry."
+            }
         },
         {
             id: 'a4', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
-            startup: 'BioData TN', avatar: 'LH', status: 'Accepted', submittedAt: 'Feb 27, 2026',
+            startup: 'waiting for questions', avatar: 'LH', status: 'Accepted', submittedAt: 'Feb 27, 2026',
+            followupStatus: 'waiting_answers',
+            followupQuestions: [
+                'How exactly do you handle quantum noise in genomic sequencing?',
+                'What is your plan for scaling to regional hospitals?'
+            ],
             answers: [
                 { question: 'Describe your innovation and how it uses quantum computing.', answer: 'BioData TN applies quantum machine learning to genomic sequence analysis.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'genomicai_pitch.pdf', type: 'file' },
                 { question: 'Link to your GitHub repository.', answer: 'https://github.com/genomicai/quantum-genomics', type: 'url' },
             ],
+            questionnaireAnswers: {
+                vision: "Scaling genomic sequence analysis using distributed quantum nodes.",
+                validation: "Integrated with local hospitals for research trials.",
+                technical: "Built on Qiskit with custom error-correction layers.",
+                team: "Specialists in genomics and distributed systems.",
+                expectations: "Networking with healthcare tech investors."
+            }
         },
         {
             id: 'a6', userId: 'u6', name: 'Nadia Ferhat', email: 'nadia.f@mail.com',
-            startup: 'Fusha AI', avatar: 'NF', status: 'Accepted', submittedAt: 'Feb 26, 2026',
+            startup: 'decision of promotion', avatar: 'NF', status: 'Accepted', submittedAt: 'Feb 26, 2026',
+            followupStatus: 'answers_received',
+            followupQuestions: [
+                'Which specific Arabic dialects have the highest accuracy in your model?',
+                'How do you manage cross-dialectal tokenization?'
+            ],
+            followupAnswers: [
+                'Maghrebi and Gulf dialects have 94% accuracy. Levantine is at 89%.',
+                'We use a custom phoneme-based tokenization that clusters similar sounds across dialects.'
+            ],
             answers: [
                 { question: 'Describe your innovation and how it uses quantum computing.', answer: 'Fusha AI explores quantum natural language processing for Arabic dialects.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'langbridge_deck.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Revolutionizing NLP for under-represented languages.",
+                validation: "Used by 2,000 students in prototype phase.",
+                technical: "Hybrid classical-quantum transformer models.",
+                team: "Experts in Arabic linguistics and ML engineering.",
+                expectations: "Exploring cloud quantum computing resources."
+            }
+        },
+        {
+            id: 'a10', userId: 'u10', name: 'Fatma Baccar', email: 'fatma.b@mail.com',
+            startup: 'pre accepted', avatar: 'FB', status: 'Pending', submittedAt: 'Mar 10, 2026',
+            answers: [
+                { question: 'Describe your innovation and how it uses quantum computing.', answer: 'EcoTrack uses quantum sensors for hyper-accurate pollution monitoring.', type: 'text' },
+                { question: 'Upload your pitch deck.', answer: 'ecotrack_deck.pdf', type: 'file' },
+            ],
+            questionnaireAnswers: {
+                vision: "Carbon-neutral industrial zones through real-time IoT and quantum analytics.",
+                validation: "Letter of Intent from 2 industrial zone regulators.",
+                technical: "Custom IoT mesh with quantum-resistant encryption.",
+                team: "Environmental scientists and IoT engineers.",
+                expectations: "Accelerating toward public-private partnerships."
+            }
         },
     ],
     '2': [
@@ -554,6 +679,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your experience with machine learning?', answer: '5 years of experience in computer vision and deep learning.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'sara_cv.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Global standard for AI-driven industrial safety monitoring.",
+                validation: "Verified 20% reduction in safety incidents at pilot sites.",
+                technical: "Real-time edge processing with sub-50ms latency.",
+                team: "Founders from top robotics and CV research labs.",
+                expectations: "Scale to regional industrial complexes."
+            }
         },
         {
             id: 'a4b', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
@@ -562,6 +694,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your experience with machine learning?', answer: 'PhD-level expertise in bioinformatics and AI.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'lina_cv.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "AI-first approach to genomic personalized medicine.",
+                validation: "Partnered with 2 regional hospitals.",
+                technical: "High-throughput processing pipelines.",
+                team: "Multi-disciplinary team of researchers.",
+                expectations: "Clinical trial funding."
+            }
         },
         {
             id: 'a6b', userId: 'u6', name: 'Nadia Ferhat', email: 'nadia.f@mail.com',
@@ -570,6 +709,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your experience with machine learning?', answer: 'NLP specialist with 4 years experience.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'nadia_cv.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Connecting the Arab world through AI-powered dialect translation.",
+                validation: "Growing organic user base in 3 countries.",
+                technical: "Custom phoneme-to-text transformer architecture.",
+                team: "Native speakers with deep ML backgrounds.",
+                expectations: "API partnership with governmental agencies."
+            }
         },
         {
             id: 'a5b', userId: 'u5', name: 'Karim Bouzid', email: 'karim.b@mail.com',
@@ -578,6 +724,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your experience with machine learning?', answer: 'Applied ML for drone path optimization.', type: 'text' },
                 { question: 'Upload your CV or resume.', answer: 'karim_cv.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Self-sustaining autonomous drone fleets for smart farming.",
+                validation: "Successful testing across 50 hectares of land.",
+                technical: "Proprietary low-power obstacle avoidance systems.",
+                team: "Duo of hardware and software enthusiasts.",
+                expectations: "Expanding sensor capabilities via AI integration."
+            }
         },
     ],
     '3': [
@@ -588,6 +741,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'Describe your robotics project.', answer: 'Real-time object detection system for industrial safety environments.', type: 'text' },
                 { question: 'Upload a video demo or presentation.', answer: 'visionai_demo.mp4', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Industrial safety automation through vision.",
+                validation: "Trialled in heavy-machinery factories.",
+                technical: "Integrated with legacy factory systems.",
+                team: "Robotics specialists with software focus.",
+                expectations: "Series Seed funding round."
+            }
         },
         {
             id: 'a5c', userId: 'u5', name: 'Karim Bouzid', email: 'karim.b@mail.com',
@@ -596,6 +756,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'Describe your robotics project.', answer: 'Autonomous drone fleet for precision agriculture.', type: 'text' },
                 { question: 'Upload a video demo or presentation.', answer: 'robofleet_demo.mp4', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Autonomous agriculture across the continent.",
+                validation: "Signed letters of intent from local cooperatives.",
+                technical: "Customized UAV flight controller logic.",
+                team: "Engineers with agricultural backgrounds.",
+                expectations: "Hardware development partnership."
+            }
         },
     ],
     '4': [
@@ -606,6 +773,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'Describe your experience with blockchain technologies.', answer: 'Blockchain security expert with 3+ years in smart contract auditing.', type: 'text' },
                 { question: 'Upload your pitch deck.', answer: 'chainsecure_pitch.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "The standard for trust in decentralized finance.",
+                validation: "47 successful audits completed for top protocols.",
+                technical: "Proprietary AI-powered static analysis tools.",
+                team: "Security-first engineering mindset.",
+                expectations: "Corporate security partnerships."
+            }
         },
     ],
     '5': [
@@ -616,6 +790,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your background in biotech or life sciences?', answer: 'Building hybrid quantum-neural networks for drug discovery.', type: 'text' },
                 { question: 'Upload your research proposal.', answer: 'neuroquant_proposal.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Quantum-accelerated drug discovery.",
+                validation: "Research validated by 2 medical boards.",
+                technical: "Cross-platform quantum code execution.",
+                team: "Scientists and software developers.",
+                expectations: "Bio-tech incubator mentorship."
+            }
         },
         {
             id: 'a4e', userId: 'u4', name: 'Lina Hadj', email: 'lina.hadj@mail.com',
@@ -624,6 +805,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your background in biotech or life sciences?', answer: 'PhD-level bioinformatics researcher with 12 publications.', type: 'text' },
                 { question: 'Upload your research proposal.', answer: 'genomicai_proposal.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Standardize genomic data for therapy selection.",
+                validation: "Database of 10,000+ localized variants.",
+                technical: "Compliant and secure genomic storage.",
+                team: "Top researchers from national institutes.",
+                expectations: "Strategic medical partnerships."
+            }
         },
         {
             id: 'a7e', userId: 'u7', name: 'Omar Tazi', email: 'omar.tazi@mail.com',
@@ -632,6 +820,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'What is your background in biotech or life sciences?', answer: 'Nanotechnology researcher designing biosensors.', type: 'text' },
                 { question: 'Upload your research proposal.', answer: 'nanosense_proposal.pdf', type: 'file' },
             ],
+            questionnaireAnswers: {
+                vision: "Pervasive low-cost environmental health monitoring.",
+                validation: "Functional prototype tested in local waterways.",
+                technical: "Nano-material sensor synthesis.",
+                team: "Chemical and electrical engineers.",
+                expectations: "Manufacturing scale-up expertise."
+            }
         },
     ],
     '6': [
@@ -642,6 +837,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
                 { question: 'Describe your cybersecurity skills and certifications.', answer: 'Expert in smart contract security and DeFi protocol design.', type: 'text' },
                 { question: 'Link to your CTF profile or writeups.', answer: 'https://ctftime.org/youcefkrim', type: 'url' },
             ],
+            questionnaireAnswers: {
+                vision: "Cyber-resilient financial infrastructure.",
+                validation: "Leader in regional CTF rankings.",
+                technical: "Specialized in sub-system exploit detection.",
+                team: "Award-winning security researchers.",
+                expectations: "Elite cybersecurity ecosystem access."
+            }
         },
         {
             id: 'a8f', userId: 'u8', name: 'Amira Slimani', email: 'amira.s@mail.com',
@@ -649,6 +851,13 @@ export const applicantsByEvent: Record<string, Applicant[]> = {
             answers: [
                 { question: 'Describe your cybersecurity skills and certifications.', answer: 'Data scientist with focus on AI-powered threat detection.', type: 'text' },
             ],
+            questionnaireAnswers: {
+                vision: "Predictive threat intelligence for local businesses.",
+                validation: "Initial models with 95% accuracy on mock datasets.",
+                technical: "Behavioral anomaly detection via AI.",
+                team: "Data scientist with domain knowledge.",
+                expectations: "Dataset partnership for fine-tuning."
+            }
         },
     ],
 };

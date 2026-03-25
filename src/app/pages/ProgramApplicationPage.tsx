@@ -103,9 +103,26 @@ Initially targeting FinTech and HealthTech sectors with 500+ potential enterpris
       return;
     }
 
-    toast.success('Your program application was sent successfully.');
-    toast.message('A confirmation email has been sent to your inbox with your application details.');
-    navigate('/dashboard');
+    const applicationId = `QAI-${Date.now().toString(36).toUpperCase()}`;
+
+    // Save initial application data
+    localStorage.setItem(`application-${program.id}`, JSON.stringify({
+      ...formData,
+      logo: null, // file object can't be serialized
+      pitchDeck: null,
+      applicationId,
+      eventId: program.id,
+      eventName: program.title,
+      status: 'Pending',
+      submittedDate: new Date().toISOString(),
+    }));
+
+    toast.success('Initial application saved! Redirecting to deep-dive questions...');
+
+    // Redirect to questionnaire
+    setTimeout(() => {
+      navigate(`/apply/program/${program.id}/questions`);
+    }, 1500);
   };
 
   return (

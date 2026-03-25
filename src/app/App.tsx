@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
+import { OTPPage } from './pages/OTPPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { EventApplicationPage } from './pages/EventApplicationPage';
 import { ProgramApplicationPage } from './pages/ProgramApplicationPage';
@@ -12,6 +13,7 @@ import { EditEventPage } from './pages/EditEventPage';
 import { InviteUserPage } from './pages/InviteUserPage';
 import { EventsPage } from './pages/EventsPage';
 import { StartupDetailPage } from './pages/StartupDetailPage';
+import { QuestionnairePage } from './pages/QuestionnairePage';
 import { InviteTeammatePage } from './pages/InviteTeammatePage';
 import { RequireAuth } from './components/RequireAuth';
 import { ThemeProvider } from './components/ThemeProvider';
@@ -26,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/otp" element={<OTPPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route
@@ -53,6 +56,14 @@ function App() {
             }
           />
           <Route path="/dashboard" element={<UserDashboard />} />
+          <Route
+            path="/apply/:type/:id/questions"
+            element={
+              <RequireAuth>
+                <QuestionnairePage />
+              </RequireAuth>
+            }
+          />
           <Route path="/startup/:id" element={<StartupDetailPage />} />
           <Route path="/startup/:id/invite" element={<InviteTeammatePage />} />
           <Route path="/admin" element={<AdminDashboard />} />

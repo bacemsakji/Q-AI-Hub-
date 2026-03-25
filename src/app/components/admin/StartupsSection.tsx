@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, Filter, X, Users, DollarSign, TrendingUp, Calendar, CheckCircle, Clock, ChevronRight, Video } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Filter, X, Users, DollarSign, TrendingUp, Calendar, CheckCircle, Clock, ChevronRight, Video, Save, Percent, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { startups as allStartups, type Startup } from '../../data/adminData';
 import { Button } from '../Button';
@@ -35,8 +35,57 @@ function MilestoneIcon({ status }: { status: string }) {
     return <div className="h-4 w-4 rounded-full border-2 border-border" />;
 }
 
-function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: () => void }) {
+function StartupDetailPanel({ startup: initialStartup, onClose }: { startup: Startup; onClose: () => void }) {
+    const [startup, setStartup] = useState<Startup>(initialStartup);
     const [pitchDate, setPitchDate] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+
+    const [editedMetrics, setEditedMetrics] = useState({
+        monthlyRevenue: initialStartup.monthlyRevenue || '0',
+        growthRatePct: initialStartup.growthRatePct || 0,
+        monthlyBurnRate: initialStartup.monthlyBurnRate || '0',
+        overallProgressPct: initialStartup.overallProgressPct || initialStartup.progress || 0,
+        accuracyRatePct: initialStartup.accuracyRatePct || 0,
+        totalFundedMoney: initialStartup.totalFundedMoney || initialStartup.funding.replace(/[^0-9]/g, '') || '0',
+    });
+
+    useEffect(() => {
+        setStartup(initialStartup);
+        setEditedMetrics({
+            monthlyRevenue: initialStartup.monthlyRevenue || '0',
+            growthRatePct: initialStartup.growthRatePct || 0,
+            monthlyBurnRate: initialStartup.monthlyBurnRate || '0',
+            overallProgressPct: initialStartup.overallProgressPct || initialStartup.progress || 0,
+            accuracyRatePct: initialStartup.accuracyRatePct || 0,
+            totalFundedMoney: initialStartup.totalFundedMoney || initialStartup.funding.replace(/[^0-9]/g, '') || '0',
+        });
+    }, [initialStartup]);
+
+    const handleSaveMetrics = () => {
+        setIsSaving(true);
+        // Simulate API call
+        setTimeout(() => {
+            const updatedStartup = {
+                ...startup,
+                ...editedMetrics,
+                progress: editedMetrics.overallProgressPct,
+                funding: `$${(parseInt(editedMetrics.totalFundedMoney) / 1000).toFixed(0)}K`,
+                metrics: [
+                    { label: 'Revenue', value: `$${(parseInt(editedMetrics.monthlyRevenue) / 1000).toFixed(1)}K/mo` },
+                    { label: 'Growth', value: `+${editedMetrics.growthRatePct}%` },
+                    { label: 'Burn Rate', value: `$${(parseInt(editedMetrics.monthlyBurnRate) / 1000).toFixed(1)}K/mo` },
+                    { label: 'Accuracy', value: `${editedMetrics.accuracyRatePct}%` },
+                ]
+            };
+            setStartup(updatedStartup);
+            setIsSaving(false);
+            toast.success('Metrics updated successfully');
+        }, 800);
+    };
+
+    const handleMetricChange = (field: keyof typeof editedMetrics, value: string | number) => {
+        setEditedMetrics(prev => ({ ...prev, [field]: value }));
+    };
 
     return (
         <motion.div
@@ -85,8 +134,93 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
                 </div>
 
                 <div className="border-b border-border p-6">
-                    <h5 className="mb-3 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Key Metrics</h5>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center justify-between mb-4">
+                        <h5 className="text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Key Metrics</h5>
+                        <Button 
+                            onClick={handleSaveMetrics} 
+                            disabled={isSaving}
+                            className="!h-7 !px-3 !text-[10px] bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20"
+                        >
+                            {isSaving ? <Clock className="h-3 w-3 animate-spin mr-1" /> : <Save className="h-3 w-3 mr-1" />}
+                            Save Metrics
+                        </Button>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <DollarSign className="h-3 w-3 text-emerald-500" /> Monthly Revenue ($)
+                            </label>
+                            <input 
+                                type="number" 
+                                value={editedMetrics.monthlyRevenue}
+                                onChange={(e) => handleMetricChange('monthlyRevenue', e.target.value)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <TrendingUp className="h-3 w-3 text-blue-500" /> Growth Rate (%)
+                            </label>
+                            <input 
+                                type="number" 
+                                value={editedMetrics.growthRatePct}
+                                onChange={(e) => handleMetricChange('growthRatePct', parseInt(e.target.value) || 0)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <Activity className="h-3 w-3 text-orange-500" /> Monthly Burn ($)
+                            </label>
+                            <input 
+                                type="number" 
+                                value={editedMetrics.monthlyBurnRate}
+                                onChange={(e) => handleMetricChange('monthlyBurnRate', e.target.value)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <Percent className="h-3 w-3 text-purple-500" /> Overall Progress (%)
+                            </label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="100"
+                                value={editedMetrics.overallProgressPct}
+                                onChange={(e) => handleMetricChange('overallProgressPct', parseInt(e.target.value) || 0)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <CheckCircle className="h-3 w-3 text-cyan-500" /> Accuracy Rate (%)
+                            </label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="100"
+                                step="0.1"
+                                value={editedMetrics.accuracyRatePct}
+                                onChange={(e) => handleMetricChange('accuracyRatePct', parseFloat(e.target.value) || 0)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                                <DollarSign className="h-3 w-3 text-emerald-500" /> Total Funded ($)
+                            </label>
+                            <input 
+                                type="number" 
+                                value={editedMetrics.totalFundedMoney}
+                                onChange={(e) => handleMetricChange('totalFundedMoney', e.target.value)}
+                                className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm font-bold text-foreground focus:border-primary/40 outline-none transition-all"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3">
                         {startup.metrics.map((m, i) => (
                             <motion.div key={m.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 + i * 0.06 }}
                                 className="rounded-xl bg-card/60 p-3 border border-border/50 hover:border-primary/20 transition-all">
@@ -140,62 +274,72 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
                             <div key={s.l} className="rounded-xl bg-muted p-3 text-center border border-border"><p className="text-base font-bold" style={{ color: s.c }}>{s.v}</p><p className="text-[10px] text-muted-foreground">{s.l}</p></div>
                         ))}
                     </div>
-
-                    {startup.status === 'Pending' && (
                         <div className="space-y-4">
-                            <div className="bg-[#00E5FF]/10 border border-[#00E5FF]/20 rounded-xl p-4">
-                                <h5 className="text-xs font-bold text-cyan-600 dark:text-[#00E5FF] uppercase tracking-wider mb-2 flex items-center gap-2">
-                                    <Calendar className="h-3.5 w-3.5" /> Pitch Scheduling
-                                </h5>
-                                {startup.pitchDate ? (
-                                    <p className="text-sm text-foreground">Scheduled for: <span className="font-bold">{startup.pitchDate}</span></p>
-                                ) : (
-                                    <p className="text-sm text-muted-foreground mb-3">No pitch date scheduled yet.</p>
-                                )}
-                                <div className="flex gap-2">
-                                    <DateTimePicker
-                                        date={pitchDate ? new Date(pitchDate) : undefined}
-                                        setDate={(d) => {
-                                            if (!d) {
-                                                setPitchDate('');
-                                                return;
-                                            }
-                                            // Format to YYYY-MM-DDTHH:mm in local time
-                                            const year = d.getFullYear();
-                                            const month = String(d.getMonth() + 1).padStart(2, '0');
-                                            const day = String(d.getDate()).padStart(2, '0');
-                                            const hours = String(d.getHours()).padStart(2, '0');
-                                            const minutes = String(d.getMinutes()).padStart(2, '0');
-                                            setPitchDate(`${year}-${month}-${day}T${hours}:${minutes}`);
-                                        }}
-                                        className="flex-1"
-                                    />
-                                    <Button
-                                        disabled={!pitchDate}
-                                        className="!px-3 !py-2 !h-9 !text-xs"
-                                    >
-                                        Schedule
-                                    </Button>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-3 mt-4">
-                                <Button 
-                                    className="!py-3 !text-sm"
-                                    onClick={() => toast.success('Startup Approved')}
+                        <div className="bg-[#00E5FF]/10 border border-[#00E5FF]/20 rounded-xl p-4 mb-6">
+                            <h5 className="text-xs font-bold text-cyan-600 dark:text-[#00E5FF] uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <Calendar className="h-3.5 w-3.5" /> Pitch Scheduling
+                            </h5>
+                            {startup.pitchDate ? (
+                                <p className="text-sm text-foreground mb-3">Scheduled for: <span className="font-bold">{new Date(startup.pitchDate).toLocaleString()}</span></p>
+                            ) : (
+                                <p className="text-sm text-muted-foreground mb-3">No pitch date scheduled yet.</p>
+                            )}
+                            <div className="flex gap-2">
+                                <DateTimePicker
+                                    date={pitchDate ? new Date(pitchDate) : (startup.pitchDate ? new Date(startup.pitchDate) : undefined)}
+                                    setDate={(d) => {
+                                        if (!d) {
+                                            setPitchDate('');
+                                            return;
+                                        }
+                                        setPitchDate(d.toISOString());
+                                    }}
+                                    className="flex-1"
+                                />
+                                <Button
+                                    disabled={!pitchDate}
+                                    onClick={() => {
+                                        const updatedStartup = { ...startup, pitchDate };
+                                        setStartup(updatedStartup);
+                                        
+                                        // Persist to localStorage
+                                        const key = `application-${startup.id}`;
+                                        const existing = JSON.parse(localStorage.getItem(key) || '{}');
+                                        localStorage.setItem(key, JSON.stringify({ ...existing, pitchDate }));
+                                        
+                                        toast.success('Pitch scheduled successfully');
+                                    }}
+                                    className="!px-3 !py-2 !h-9 !text-xs"
                                 >
-                                    <CheckCircle className="h-4 w-4" /> Approve
-                                </Button>
-                                <Button 
-                                    variant="ghost"
-                                    className="!py-3 !text-sm border border-border bg-card/50 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
-                                    onClick={() => toast.error('Startup Declined')}
-                                >
-                                    <X className="h-4 w-4" /> Decline
+                                    Schedule
                                 </Button>
                             </div>
                         </div>
-                    )}
+
+                    <div className="grid grid-cols-2 gap-3 mt-4">
+                        <Button 
+                            className="!py-3 !text-sm"
+                            onClick={() => {
+                                const updatedStartup = { ...startup, status: 'Active' as const };
+                                setStartup(updatedStartup);
+                                toast.success('Startup Approved');
+                            }}
+                        >
+                            <CheckCircle className="h-4 w-4" /> Approve
+                        </Button>
+                        <Button 
+                            variant="ghost"
+                            className="!py-3 !text-sm border border-border bg-card/50 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
+                            onClick={() => {
+                                const updatedStartup = { ...startup, status: 'Rejected' as const };
+                                setStartup(updatedStartup);
+                                toast.error('Startup Declined');
+                            }}
+                        >
+                            <X className="h-4 w-4" /> Decline
+                        </Button>
+                    </div>
+                </div>
                 </div>
             </div>
         </motion.div>
@@ -205,13 +349,12 @@ function StartupDetailPanel({ startup, onClose }: { startup: Startup; onClose: (
 export function StartupsSection() {
     const [search, setSearch] = useState('');
     const [stageFilter, setStageFilter] = useState('All');
-    const [tab, setTab] = useState<'Portfolio' | 'Applications'>('Portfolio');
     const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
 
     const filtered = allStartups.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(search.toLowerCase()) || s.industry.toLowerCase().includes(search.toLowerCase());
         const matchStage = stageFilter === 'All' || s.stage === stageFilter;
-        const matchTab = tab === 'Portfolio' ? s.status !== 'Pending' : s.status === 'Pending';
+        const matchTab = s.status !== 'Pending';
         return matchSearch && matchStage && matchTab;
     });
 
@@ -225,25 +368,6 @@ export function StartupsSection() {
                 <div>
                     <h2 className="text-2xl font-bold text-foreground">Startup Portfolio</h2>
                     <p className="mt-1 text-sm text-muted-foreground">Track and manage incubated startups</p>
-                </div>
-                <div className="flex items-center gap-1 rounded-xl bg-foreground/10 p-1 border border-border/20 shadow-sm">
-                    <button
-                        onClick={() => setTab('Portfolio')}
-                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${tab === 'Portfolio' ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20' : 'text-muted-foreground hover:text-foreground'}`}
-                    >
-                        Portfolio
-                    </button>
-                    <button
-                        onClick={() => setTab('Applications')}
-                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all relative ${tab === 'Applications' ? 'bg-[#00E5FF] text-[#0A0E1A] shadow-lg shadow-[#00E5FF]/20' : 'text-muted-foreground hover:text-foreground'}`}
-                    >
-                        New Applications
-                        {allStartups.filter(s => s.status === 'Pending').length > 0 && (
-                            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#00E5FF] text-[10px] font-bold text-[#0A0E1A] ring-2 ring-background shadow-[0_0_8px_rgba(0,229,255,0.4)]">
-                                {allStartups.filter(s => s.status === 'Pending').length}
-                            </span>
-                        )}
-                    </button>
                 </div>
             </motion.div>
 

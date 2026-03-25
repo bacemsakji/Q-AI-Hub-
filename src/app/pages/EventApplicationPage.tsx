@@ -117,26 +117,26 @@ export function EventApplicationPage() {
 
     const applicationId = `QAI-${Date.now().toString(36).toUpperCase()}`;
 
-    // Show confetti effect and success state
-    setIsSubmitted(true);
-    setApplicationCode(applicationId);
+    // Save initial application data
+    localStorage.setItem(`application-${event.id}`, JSON.stringify({
+      ...formData,
+      pitchVideo: null, // file object can't be serialized
+      pitchVideoUrl: formData.pitchVideoUrl,
+      pitchDeck: null,
+      logo: null,
+      applicationId,
+      eventId: event.id,
+      eventName: event.title,
+      status: 'Pending',
+      submittedDate: new Date().toISOString(),
+    }));
 
-    toast.success('Your application was sent successfully. A confirmation email has been sent to your inbox.');
+    toast.success('Application submitted! Let\'s dive deeper into your startup.');
 
+    // Redirect to questionnaire
     setTimeout(() => {
-      localStorage.setItem(`application-${event.id}`, JSON.stringify({
-        ...formData,
-        pitchVideo: null, // file object can't be serialized
-        pitchVideoUrl: formData.pitchVideoUrl,
-        pitchDeck: null,
-        logo: null,
-        applicationId,
-        eventId: event.id,
-        eventName: event.title,
-        status: 'Pending',
-        submittedDate: new Date().toISOString(),
-      }));
-    }, 1000);
+      navigate(`/apply/event/${event.id}/questions`);
+    }, 1500);
   };
 
   const sectors = ['HealthTech', 'FinTech', 'EdTech', 'GreenTech', 'DeepTech'];

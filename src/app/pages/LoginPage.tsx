@@ -36,10 +36,10 @@ export function LoginPage() {
 
     if (returnUrl && eventName) {
       toast.success(`Welcome back! Resuming your application for ${eventName}`);
-      navigate(returnUrl);
+      navigate('/otp', { state: { email, returnUrl, eventName } });
     } else {
       toast.success('Welcome back!');
-      navigate('/dashboard');
+      navigate('/otp', { state: { email } });
     }
   };
 

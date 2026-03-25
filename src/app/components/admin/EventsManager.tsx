@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Plus, MapPin, CalendarDays, Users, ArrowRight, Filter, X, ArrowLeft, Eye, Clock, FileText, Download, ExternalLink, Sparkles } from 'lucide-react';
+import { Search, Plus, MapPin, CalendarDays, Users, ArrowRight, Filter, X, ArrowLeft, Eye, Clock, FileText, Download, ExternalLink, Sparkles, Brain, Target, Star, CheckCircle2, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { adminEvents as initialEvents, applicantsByEvent, type AdminEvent, type Applicant } from '../../data/adminData';
+import { adminEvents as initialEvents, applicantsByEvent, questionSuggestions, type AdminEvent, type Applicant } from '../../data/adminData';
 import { Button } from '../Button';
+import { DateTimePicker } from '../ui/datetime-picker';
+import { toast } from 'sonner';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.1 } } };
 const cardItem = { hidden: { opacity: 0, y: 24, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } } };
@@ -17,63 +19,334 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function ApplicantPanel({ applicant, onClose }: { applicant: Applicant; onClose: () => void }) {
+    const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
+    const [customQuestion, setCustomQuestion] = useState('');
+    const [followupStatus, setFollowupStatus] = useState(applicant.followupStatus || 'none');
+    const [pitchDate, setPitchDate] = useState<Date | undefined>(applicant.pitchDate ? new Date(applicant.pitchDate) : undefined);
+
+    const [expectations, setExpectations] = useState(applicant.questionnaireAnswers?.expectations || '');
+
+    const saveToLocalStorage = (updates: any) => {
+        const key = `application-${applicant.id}`;
+        const existing = JSON.parse(localStorage.getItem(key) || '{}');
+        const updated = { ...existing, ...updates };
+        localStorage.setItem(key, JSON.stringify(updated));
+    };
+
+    const questionnaireQuestions = [
+        { id: 'vision', title: 'Vision & Impact', icon: <Brain size={18} className="text-purple-500" /> },
+        { id: 'validation', title: 'Market Validation', icon: <Target size={18} className="text-cyan-500" /> },
+        { id: 'technical', title: 'Technical Depth', icon: <Sparkles size={18} className="text-amber-500" /> },
+        { id: 'team', title: 'Team Strength', icon: <Users size={18} className="text-emerald-500" /> },
+        { id: 'expectations', title: 'Q-AI Hub Goals', icon: <Star size={18} className="text-blue-500" /> }
+    ];
+
     return (
         <motion.div
-            initial={{ x: 480, opacity: 0 }}
+            initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 480, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-[480px] flex-col border-l border-border bg-background/95 backdrop-blur-xl shadow-2xl"
+            exit={{ x: '100%', opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 250, damping: 30 }}
+            className="fixed inset-y-0 right-0 z-50 flex w-[900px] flex-col border-l border-border bg-[#0A0E1A]/95 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)]"
         >
-            <div className="flex items-center justify-between border-b border-border px-6 py-4">
-                <h3 className="text-base font-bold text-foreground">Application Detail</h3>
-                <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-all"><X className="h-4 w-4" /></button>
-            </div>
-            <div className="flex-1 overflow-y-auto">
-                <div className="border-b border-border bg-gradient-to-br from-[#00E5FF]/[0.04] to-transparent p-6">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#7B2FFF]/20 text-lg font-bold text-cyan-600 dark:text-[#00E5FF] ring-2 ring-[#00E5FF]/20">{applicant.avatar}</div>
-                        <div className="flex-1">
-                            <h4 className="text-lg font-bold text-foreground">{applicant.name}</h4>
-                            <p className="text-sm text-muted-foreground">{applicant.email}</p>
-                            <div className="mt-1 flex items-center gap-2">
-                                <span className="text-xs font-medium text-cyan-600 dark:text-[#00E5FF]">{applicant.startup}</span>
-                                <StatusBadge status={applicant.status} />
-                            </div>
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-border/50 px-8 py-6 bg-card/30">
+                <div className="flex items-center gap-5">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00E5FF] to-[#7B2FFF] text-2xl font-bold text-[#0A0E1A] shadow-lg shadow-cyan-500/20 ring-1 ring-white/20">
+                        {applicant.avatar || applicant.startup[0]}
+                    </div>
+                    <div>
+                        <h3 className="text-2xl font-bold text-white tracking-tight">{applicant.startup}</h3>
+                        <div className="flex items-center gap-3 mt-1">
+                            <span className="text-sm font-medium text-cyan-400">Founder: {applicant.name}</span>
+                            <div className="w-1 h-1 rounded-full bg-border" />
+                            <StatusBadge status={applicant.status} />
                         </div>
                     </div>
-                    <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-3.5 w-3.5" />Submitted on {applicant.submittedAt}</div>
                 </div>
-                <div className="p-6">
-                    <h5 className="mb-4 text-xs font-bold tracking-[0.15em] text-muted-foreground uppercase">Application Answers</h5>
-                    <div className="flex flex-col gap-5">
-                        {applicant.answers.map((qa, i) => (
-                            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="flex flex-col gap-2">
-                                <p className="text-sm font-semibold text-foreground">
-                                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#00E5FF]/20 text-[10px] font-bold text-cyan-600 dark:text-[#00E5FF]">{i + 1}</span>
-                                    {qa.question}
+                <button 
+                    onClick={onClose} 
+                    className="flex h-10 w-10 items-center justify-center rounded-xl text-muted-foreground hover:bg-white/5 hover:text-white transition-all border border-border/50"
+                >
+                    <X className="h-5 w-5" />
+                </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                <div className="grid grid-cols-12 gap-8">
+                    {/* Main Content Column */}
+                    <div className="col-span-8 space-y-8">
+                        
+                        {/* Vision & Topic Card (Replicating Startup Page) */}
+                        <section className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 shadow-sm">
+                            <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
+                                <Brain size={18} className="text-purple-400" />
+                                Project Vision & Topic
+                            </h4>
+                            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                                <p>
+                                    Our project, <span className="text-white font-semibold">{applicant.startup}</span>, leverages advanced technological frameworks to solve critical bottlenecks in the current market.
                                 </p>
-                                {qa.type === 'text' && <div className="rounded-xl bg-foreground/5 p-4 text-sm leading-relaxed text-foreground/70 border border-border">{qa.answer}</div>}
-                                {qa.type === 'file' && (
-                                    <div className="flex items-center gap-3 rounded-xl border border-border bg-muted p-3 hover:bg-foreground/5 transition-colors cursor-pointer">
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#00E5FF]/10"><FileText className="h-5 w-5 text-cyan-600 dark:text-[#00E5FF]" /></div>
-                                        <span className="flex-1 text-sm font-medium text-foreground">{qa.answer}</span><Download className="h-4 w-4 text-muted-foreground/80" />
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/5 italic">
+                                    "{applicant.answers.find(a => a.question === 'Pitch')?.answer || 'No project description provided yet.'}"
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Deep-Dive Questionnaire Section */}
+                        {applicant.questionnaireAnswers && (
+                            <section className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 shadow-sm">
+                                <h4 className="text-sm font-bold text-cyan-400 mb-6 flex items-center gap-2 uppercase tracking-wider">
+                                    <Sparkles size={18} />
+                                    Deep-Dive Evaluation
+                                </h4>
+                                <div className="grid grid-cols-1 gap-6">
+                                    {questionnaireQuestions.map((q) => applicant.questionnaireAnswers![q.id] && (
+                                        <div key={q.id} className="group">
+                                            <div className="flex items-center gap-2 mb-2 text-white font-semibold text-sm">
+                                                {q.icon}
+                                                {q.title}
+                                            </div>
+                                            <div className="rounded-xl bg-white/5 p-4 text-sm leading-relaxed text-muted-foreground border border-white/5 group-hover:bg-white/[0.07] transition-colors">
+                                                {applicant.questionnaireAnswers![q.id]}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Milestones Card */}
+                        <section className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 shadow-sm">
+                            <h4 className="text-sm font-bold text-white mb-6 flex items-center gap-2 uppercase tracking-wider">
+                                <Target size={18} className="text-emerald-400" />
+                                Development Milestones
+                            </h4>
+                            <div className="space-y-3">
+                                {!applicant.milestones || applicant.milestones.length === 0 ? (
+                                    <div className="text-center py-6 border border-dashed border-white/10 rounded-xl">
+                                        <p className="text-xs text-muted-foreground italic">No milestones set for this application phase.</p>
+                                    </div>
+                                ) : (
+                                    applicant.milestones.map((m: any) => (
+                                        <div key={m.id} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
+                                            <div className="flex items-center gap-4">
+                                                <div className={`p-2 rounded-lg ${m.completed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                                    {m.completed ? <CheckCircle2 size={16} /> : <Target size={16} />}
+                                                </div>
+                                                <div>
+                                                    <p className={`text-sm font-medium ${m.completed ? 'text-muted-foreground line-through decoration-emerald-500/30' : 'text-white'}`}>
+                                                        {m.task}
+                                                    </p>
+                                                    <span className="text-[10px] text-muted-foreground mt-0.5 block">{m.date}</span>
+                                                </div>
+                                            </div>
+                                            <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md ${m.completed ? 'text-emerald-400 bg-emerald-500/10' : 'text-blue-400 bg-blue-500/10'}`}>
+                                                {m.completed ? 'Done' : 'Pending'}
+                                            </span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </section>
+
+                        {/* Progression Workflow (Idea -> Pre-Seed) */}
+                        {applicant.status === 'Accepted' && (
+                            <section className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 shadow-sm">
+                                <h4 className="text-sm font-bold text-[#FFB800] mb-6 flex items-center gap-2 uppercase tracking-wider">
+                                    <TrendingUp size={18} />
+                                    Idea Progression Workflow
+                                </h4>
+
+                                {followupStatus === 'none' && (
+                                    <div className="space-y-6">
+                                        <p className="text-sm text-muted-foreground">This startup is in the <b>Idea</b> stage. Send follow-up questions to evaluate their potential for <b>Pre-Seed</b> promotion.</p>
+                                        
+                                        <div>
+                                            <label className="text-xs text-muted-foreground mb-2 block uppercase tracking-widest font-bold">Pick Suggested Questions</label>
+                                            <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto p-2 bg-white/5 rounded-xl border border-white/5">
+                                                {['Provide more technical details on your architecture.', 'How do you plan to monetize this in the first year?', 'What is your current team composition and hiring plan?', 'Describe your competitive advantage in the local market.'].map(q => (
+                                                    <button 
+                                                        key={q}
+                                                        onClick={() => setSelectedQuestions(prev => prev.includes(q) ? prev.filter(x => x !== q) : [...prev, q])}
+                                                        className={`text-left p-3 rounded-lg text-xs transition-all border ${selectedQuestions.includes(q) ? 'bg-cyan-500/20 border-cyan-500/50 text-white' : 'hover:bg-white/5 border-transparent text-muted-foreground'}`}
+                                                    >
+                                                        {q}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-xs text-muted-foreground block uppercase tracking-widest font-bold">Add Custom Question</label>
+                                            <div className="flex gap-2">
+                                                <input 
+                                                    type="text" 
+                                                    value={customQuestion}
+                                                    onChange={(e) => setCustomQuestion(e.target.value)}
+                                                    placeholder="Type your own question..."
+                                                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white outline-none focus:border-cyan-500/50 transition-all shadow-inner"
+                                                />
+                                                <Button 
+                                                    variant="outline"
+                                                    onClick={() => {
+                                                        if (customQuestion.trim()) {
+                                                            setSelectedQuestions(prev => [...prev, customQuestion]);
+                                                            setCustomQuestion('');
+                                                        }
+                                                    }}
+                                                    className="!px-3"
+                                                >
+                                                    Add
+                                                </Button>
+                                            </div>
+                                        </div>
+
+                                        {selectedQuestions.length > 0 && (
+                                            <div className="pt-4 border-t border-white/5">
+                                                <p className="text-xs text-muted-foreground mb-3 font-semibold uppercase tracking-widest">Questions to Send ({selectedQuestions.length})</p>
+                                                <ul className="space-y-2 mb-6">
+                                                    {selectedQuestions.map((q, i) => (
+                                                        <li key={i} className="flex items-start gap-2 text-xs text-white bg-white/5 p-2 rounded-lg border border-white/5">
+                                                            <div className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400 shrink-0" />
+                                                            {q}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                                <Button 
+                                                    fullWidth 
+                                                    onClick={() => {
+                                                        const newStatus = 'waiting_answers';
+                                                        setFollowupStatus(newStatus);
+                                                        saveToLocalStorage({ 
+                                                            followupStatus: newStatus,
+                                                            followupQuestions: selectedQuestions 
+                                                        });
+                                                        toast.success('Questions sent to startup!');
+                                                    }}
+                                                    className="shadow-lg shadow-cyan-500/20"
+                                                >
+                                                    Send Questions
+                                                </Button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
-                                {qa.type === 'url' && (
-                                    <a href={qa.answer} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl border border-[#00E5FF]/20 bg-[#00E5FF]/[0.04] px-4 py-3 text-sm font-medium text-cyan-600 dark:text-[#00E5FF] hover:bg-[#00E5FF]/[0.08] transition-all">
-                                        <ExternalLink className="h-3.5 w-3.5" />{qa.answer}
-                                    </a>
+
+                                {followupStatus === 'waiting_answers' && (
+                                    <div className="text-center py-10 space-y-4">
+                                        <div className="relative inline-block">
+                                            <Clock size={48} className="text-cyan-400/30 animate-pulse" />
+                                            <div className="absolute inset-0 bg-cyan-400/10 blur-2xl rounded-full" />
+                                        </div>
+                                        <p className="text-lg font-medium text-white tracking-tight">Waiting for Founder's response...</p>
+                                        <p className="text-sm text-muted-foreground max-w-xs mx-auto">The startup founder has been notified. You will see their answers here once submitted.</p>
+                                        <div className="pt-4">
+                                            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-cyan-400 bg-cyan-400/10 px-4 py-1.5 rounded-full border border-cyan-400/20">Questions Sent</span>
+                                        </div>
+                                    </div>
                                 )}
-                            </motion.div>
-                        ))}
+
+                                {followupStatus === 'answers_received' && (
+                                    <div className="space-y-8">
+                                        <div className="space-y-6">
+                                            {applicant.followupQuestions?.map((q, i) => (
+                                                <div key={i} className="space-y-3 p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+                                                    <p className="text-sm font-bold text-white flex gap-2">
+                                                        <span className="text-cyan-400 tracking-tighter">Q:</span>
+                                                        {q}
+                                                    </p>
+                                                    <p className="text-sm text-muted-foreground pl-6 border-l border-white/10 ml-1 py-1 italic leading-relaxed">
+                                                        "{applicant.followupAnswers?.[i] || 'No answer provided.'}"
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="pt-8 border-t border-white/10">
+                                            <div className="flex gap-4">
+                                                <Button 
+                                                    fullWidth 
+                                                    onClick={() => {
+                                                        saveToLocalStorage({ stage: 'Pre-Seed', status: 'Accepted' });
+                                                        toast.success('Startup promoted to Pre-Seed!');
+                                                        onClose();
+                                                    }}
+                                                    className="h-12 bg-gradient-to-r from-emerald-500 to-cyan-500 shadow-lg shadow-emerald-500/20"
+                                                >
+                                                    <TrendingUp className="mr-2 h-4 w-4" />
+                                                    Promote to Pre-Seed
+                                                </Button>
+                                                <Button 
+                                                    fullWidth 
+                                                    variant="outline"
+                                                    onClick={() => {
+                                                        toast.warning('Promotion ignored for now.');
+                                                        onClose();
+                                                    }}
+                                                    className="h-12 border-white/10 text-white hover:bg-white/5"
+                                                >
+                                                    Ignore Promotion
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </section>
+                        )}
                     </div>
-                    {/* AI Insight */}
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-                        className="mt-6 rounded-xl border border-[#00E5FF]/10 bg-gradient-to-r from-[#00E5FF]/[0.04] to-[#7B2FFF]/[0.04] p-4">
-                        <div className="flex items-center gap-1.5 mb-2"><Sparkles className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]" /><p className="text-xs font-bold tracking-wide text-cyan-600 dark:text-[#00E5FF]">AI INSIGHT</p></div>
-                        <p className="text-sm leading-relaxed text-foreground/70">Strong technical foundation with clear innovation metrics. Recommend further evaluation of market viability.</p>
-                    </motion.div>
+
+                    {/* Sidebar Column */}
+                    <div className="col-span-4 space-y-6">
+                        {/* Status & Actions Sidebar Card */}
+                        <section className="bg-card/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sticky top-0 shadow-xl">
+                            <h4 className="text-xs font-bold text-cyan-400 mb-6 flex items-center gap-2 uppercase tracking-widest">
+                                <Clock size={16} />
+                                Submission Details
+                            </h4>
+                            
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-muted-foreground">Submission Date</span>
+                                    <span className="text-white font-medium">{applicant.submittedAt}</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-muted-foreground">Contact</span>
+                                    <span className="text-white font-medium truncate ml-2">{applicant.email}</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-muted-foreground">Project Sector</span>
+                                    <span className="text-white font-medium">{applicant.answers.find(a => a.question === 'Sector')?.answer || 'N/A'}</span>
+                                </div>
+                                <div className="pt-4 border-t border-white/5 space-y-3">
+                                    <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">Schedule Pitch</span>
+                                    <DateTimePicker 
+                                        date={pitchDate} 
+                                        setDate={(d) => {
+                                            setPitchDate(d);
+                                            saveToLocalStorage({ pitchDate: d?.toISOString() });
+                                            toast.success(`Pitch scheduled for ${d?.toLocaleString()}`);
+                                        }}
+                                        className="!bg-white/5 !border-white/10 !h-10 !text-xs"
+                                    />
+                                    {pitchDate && (
+                                        <p className="text-[10px] text-muted-foreground text-center">Founder has been notified of the pitch date.</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {applicant.status !== 'Accepted' && (
+                                <div className="mt-8 flex flex-col gap-3">
+                                    <Button fullWidth className="shadow-lg shadow-cyan-500/20">
+                                        Accept Startup
+                                    </Button>
+                                    <Button fullWidth variant="outline" className="border-white/10 text-white hover:bg-white/5">
+                                        Request Revision
+                                    </Button>
+                                </div>
+                            )}
+                        </section>
+                    </div>
                 </div>
             </div>
         </motion.div>
@@ -83,8 +356,52 @@ function ApplicantPanel({ applicant, onClose }: { applicant: Applicant; onClose:
 function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void }) {
     const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
     const [searchApplicant, setSearchApplicant] = useState('');
-    const eventApplicants = applicantsByEvent[event.id] || [];
-    const filtered = eventApplicants.filter(a => a.name.toLowerCase().includes(searchApplicant.toLowerCase()) || a.startup.toLowerCase().includes(searchApplicant.toLowerCase()));
+    
+    // Merge mock data with real applications from localStorage
+    const [allApplicants, setAllApplicants] = useState<Applicant[]>([]);
+
+    useState(() => {
+        const mockApplicants = applicantsByEvent[event.id] || [];
+        const realApplications: Applicant[] = [];
+        
+        // Scan localStorage for applications related to this event
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key?.startsWith('application-')) {
+                try {
+                    const data = JSON.parse(localStorage.getItem(key) || '{}');
+                    // Check if it's the right event or program
+                    if (data.eventId?.toString() === event.id.toString()) {
+                        realApplications.push({
+                            id: data.applicationId || `real-${i}`,
+                            userId: 'real-user',
+                            name: localStorage.getItem('userName') || 'Founder',
+                            email: localStorage.getItem('userEmail') || 'founder@example.com',
+                            startup: data.projectName || data.startupName || 'Unnamed Startup',
+                            avatar: (data.projectName || data.startupName || 'U')[0].toUpperCase(),
+                            status: data.status || 'Pending',
+                            submittedAt: data.submittedDate ? new Date(data.submittedDate).toLocaleDateString() : 'Recent',
+                            answers: [
+                                { question: 'Project Tagline', answer: data.tagline || 'N/A', type: 'text' },
+                                { question: 'Sector', answer: data.sector || 'N/A', type: 'text' },
+                                { question: 'Pitch', answer: data.pitchOriginal || data.description || 'N/A', type: 'text' },
+                                { question: 'GitHub', answer: data.githubUrl || 'N/A', type: 'url' },
+                            ],
+                            questionnaireAnswers: data.questionnaireAnswers,
+                            milestones: data.milestones || []
+                        });
+                    }
+                } catch (e) {
+                    console.error('Error parsing application data', e);
+                }
+            }
+        }
+
+        // Filter out mock duplicates if real ones exist
+        setAllApplicants([...realApplications, ...mockApplicants]);
+    });
+
+    const filtered = allApplicants.filter(a => a.name.toLowerCase().includes(searchApplicant.toLowerCase()) || a.startup.toLowerCase().includes(searchApplicant.toLowerCase()));
 
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
@@ -97,7 +414,7 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
                         <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                             <span className="flex items-center gap-1.5"><CalendarDays className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.date}</span>
                             <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.location}</span>
-                            <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{event.applicants} Applicants</span>
+                            <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-cyan-600 dark:text-[#00E5FF]/60" />{allApplicants.length} Applicants</span>
                         </div>
                     </div>
                 </div>
@@ -118,26 +435,38 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
             {/* Applicants Table */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
                 <div className="mb-4 flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">Viewing <span className="font-semibold text-foreground">{eventApplicants.length}</span> applications</p>
+                    <p className="text-sm text-muted-foreground">Viewing <span className="font-semibold text-foreground">{allApplicants.length}</span> startups participating</p>
                     <div className="relative"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <input type="text" placeholder="Search applicants..." value={searchApplicant} onChange={e => setSearchApplicant(e.target.value)}
+                        <input type="text" placeholder="Search startups or founders..." value={searchApplicant} onChange={e => setSearchApplicant(e.target.value)}
                             className="h-9 w-64 rounded-lg border border-border bg-card pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#00E5FF]/40 focus:ring-1 focus:ring-[#00E5FF]/20 transition-all" />
                     </div>
                 </div>
-                {eventApplicants.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-border p-12 text-center"><Users className="mx-auto h-10 w-10 text-muted-foreground/40" /><p className="mt-3 text-sm text-muted-foreground">No applicants yet</p></div>
+                {allApplicants.length === 0 ? (
+                    <div className="rounded-2xl border border-dashed border-border p-12 text-center"><Users className="mx-auto h-10 w-10 text-muted-foreground/40" /><p className="mt-3 text-sm text-muted-foreground">No applications yet</p></div>
                 ) : (
                     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                         <table className="w-full">
                             <thead><tr className="border-b border-border bg-muted">
-                                {['Applicant', 'Startup', 'Submitted', 'Status', 'Actions'].map(h => <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">{h}</th>)}
+                                {['Startup', 'Founder/Lead', 'Submitted', 'Status', 'Actions'].map(h => <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">{h}</th>)}
                             </tr></thead>
                             <tbody>
                                 {filtered.map((a, i) => (
                                     <motion.tr key={a.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}
                                         className="border-b border-border hover:bg-muted transition-colors">
-                                        <td className="px-5 py-3.5"><div className="flex items-center gap-3"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#00E5FF]/10 text-xs font-bold text-cyan-600 dark:text-[#00E5FF]">{a.avatar}</div><div><p className="text-sm font-medium text-foreground">{a.name}</p><p className="text-xs text-muted-foreground">{a.email}</p></div></div></td>
-                                        <td className="px-5 py-3.5 text-sm text-foreground/70">{a.startup}</td>
+                                        <td className="px-5 py-3.5">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF]/10 to-[#7B2FFF]/10 text-xs font-bold text-cyan-600 dark:text-[#00E5FF] border border-[#00E5FF]/10">
+                                                    {a.avatar || a.startup[0]}
+                                                </div>
+                                                <div className="font-semibold text-foreground text-sm">{a.startup}</div>
+                                            </div>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            <div>
+                                                <p className="text-sm font-medium text-foreground/80">{a.name}</p>
+                                                <p className="text-[10px] text-muted-foreground">{a.email}</p>
+                                            </div>
+                                        </td>
                                         <td className="px-5 py-3.5 text-sm text-muted-foreground">{a.submittedAt}</td>
                                         <td className="px-5 py-3.5"><StatusBadge status={a.status} /></td>
                                         <td className="px-5 py-3.5 text-right">
@@ -147,7 +476,7 @@ function EventDetail({ event, onBack }: { event: AdminEvent; onBack: () => void 
                                                 className="!px-3 !py-1.5 !text-xs"
                                             >
                                                 <Eye className="h-3.5 w-3.5" />
-                                                View
+                                                Review
                                             </Button>
                                         </td>
                                     </motion.tr>
